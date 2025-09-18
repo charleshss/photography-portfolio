@@ -60,7 +60,7 @@ export default function Home() {
               >
                 <Image
                   src={`https://images.unsplash.com/photo-${i === 1
-                    ? '1540979388-81f853ce1697'
+                    ? '1743431168296-5269fffaa214'
                     : i === 2
                       ? '1564349683136-77e08dba1ef7'
                       : '1441974231531-c6227db76b6e'
