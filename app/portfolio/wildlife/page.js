@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default function Wildlife() {
-    // Get all wildlife images from centralized data
+    // Get all wildlife images from centralised data
     const wildlifeImages = getImagesByCategory('wildlife');
     const stats = getPortfolioStats();
 
@@ -72,7 +72,7 @@ export default function Wildlife() {
                             Wildlife Photography
                         </h1>
                         <p className="mx-auto max-w-2xl text-lg text-gray-300 md:text-xl">
-                            Capturing the raw beauty, personality, and behavior of wildlife in their natural habitats.
+                            Capturing the raw beauty, personality, and behaviour of wildlife in their natural habitats.
                             Each image tells a story of survival, adaptation, and the delicate balance of nature.
                         </p>
                     </div>
@@ -86,7 +86,7 @@ export default function Wildlife() {
                     <p className="text-lg text-gray-600">
                         &#34;Wildlife photography is about patience, respect, and understanding. I believe in
                         capturing animals as they truly are - wild, free, and magnificent. Every shot is
-                        taken with the utmost respect for the animal&#39;s space and natural behavior,
+                        taken with the utmost respect for the animal&#39;s space and natural behaviour,
                         often requiring hours of waiting for the perfect moment.&#34;
                     </p>
                 </div>
@@ -184,7 +184,7 @@ export default function Wildlife() {
                             Equipment & Techniques
                         </h2>
                         <p className="mx-auto max-w-2xl text-lg text-gray-600">
-                            Wildlife photography demands specialized equipment and techniques to capture
+                            Wildlife photography demands specialised equipment and techniques to capture
                             animals safely and respectfully from a distance.
                         </p>
                     </div>
@@ -201,13 +201,13 @@ export default function Wildlife() {
                             <h3 className="mb-3 text-xl font-semibold">Camouflage & Hides</h3>
                             <p className="text-gray-600">
                                 Portable hides and camouflage techniques help me blend into the environment
-                                and observe natural behavior.
+                                and observe natural behaviour.
                             </p>
                         </div>
                         <div className="rounded-lg bg-gray-50 p-6">
                             <h3 className="mb-3 text-xl font-semibold">Field Research</h3>
                             <p className="text-gray-600">
-                                Extensive research on animal behavior, migration patterns, and seasonal
+                                Extensive research on animal behaviour, migration patterns, and seasonal
                                 changes ensures successful photography sessions.
                             </p>
                         </div>
@@ -215,7 +215,7 @@ export default function Wildlife() {
                             <h3 className="mb-3 text-xl font-semibold">High-Speed Shooting</h3>
                             <p className="text-gray-600">
                                 Advanced camera systems capable of 20+ fps to capture split-second
-                                moments and behaviors.
+                                moments and behaviours.
                             </p>
                         </div>
                         <div className="rounded-lg bg-gray-50 p-6">
@@ -259,7 +259,7 @@ export default function Wildlife() {
                             <h3 className="mb-3 text-xl font-semibold">Conservation Support</h3>
                             <p className="text-gray-600">
                                 A portion of all wildlife photography proceeds supports local
-                                conservation organizations and wildlife protection efforts.
+                                conservation organisations and wildlife protection efforts.
                             </p>
                         </div>
                     </div>
@@ -273,7 +273,7 @@ export default function Wildlife() {
                         Wildlife Photography Expeditions
                     </h2>
                     <p className="mb-8 text-lg text-gray-300">
-                        Join me on wildlife photography expeditions or commission specialized
+                        Join me on wildlife photography expeditions or commission specialised
                         wildlife documentation for research or conservation projects.
                     </p>
                     <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">

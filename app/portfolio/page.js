@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default function Portfolio() {
-    // Get images by category from centralized data
+    // Get images by category from centralised data
     const landscapeImages = getImagesByCategory('landscape').slice(0, 4);
     const wildlifeImages = getImagesByCategory('wildlife').slice(0, 4);
     const stats = getPortfolioStats();
@@ -62,7 +62,7 @@ export default function Portfolio() {
             {/* Wildlife Photography Section */}
             <Gallery
                 title="Wildlife Photography"
-                description="Intimate portraits of wildlife in their natural habitats, showcasing the personality and behavior of nature's most fascinating creatures."
+                description="Intimate portraits of wildlife in their natural habitats, showcasing the personality and behaviour of nature's most fascinating creatures."
                 images={wildlifeImages}
                 viewAllLink="/portfolio/wildlife"
                 viewAllText="View All Wildlife"

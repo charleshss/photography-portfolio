@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default function Landscapes() {
-    // Get all landscape images from centralized data
+    // Get all landscape images from centralised data
     const landscapeImages = getImagesByCategory('landscape');
     const stats = getPortfolioStats();
 
@@ -27,7 +27,7 @@ export default function Landscapes() {
         countries: [...new Set(landscapeLocations.map(loc => loc.split(', ').pop()))].length,
         featuredCount: landscapeImages.filter(img => img.featured).length
     };
-
+    // Render full landscape collection view
     return (
         <main className="min-h-screen bg-white">
             {/* Hero Section */}
@@ -132,12 +132,12 @@ export default function Landscapes() {
                             <p className="text-gray-600">Full-frame mirrorless cameras for maximum detail and dynamic range</p>
                         </div>
                         <div className="rounded-lg bg-gray-50 p-6">
-                            <h3 className="mb-2 font-semibold">Specialized Lenses</h3>
+                            <h3 className="mb-2 font-semibold">Specialised Lenses</h3>
                             <p className="text-gray-600">Wide-angle lenses to capture expansive vistas and intimate details</p>
                         </div>
                         <div className="rounded-lg bg-gray-50 p-6">
                             <h3 className="mb-2 font-semibold">Filters & Accessories</h3>
-                            <p className="text-gray-600">Polarizing and ND filters for enhanced colors and long exposures</p>
+                            <p className="text-gray-600">Polarising and ND filters for enhanced colours and long exposures</p>
                         </div>
                     </div>
                 </div>
