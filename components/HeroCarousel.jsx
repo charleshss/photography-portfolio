@@ -68,6 +68,3 @@ export default function HeroCarousel() {
         </Carousel>
     );
 }
-
-// Don't forget to import Link at the top!
-import Link from 'next/link';
