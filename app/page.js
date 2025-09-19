@@ -17,7 +17,7 @@ export default function Home() {
             Wild Landscapes • Intimate Wildlife
           </span>
           <h1 className="text-3xl font-bold sm:text-4xl md:text-5xl">
-            SamuelSS.Photography
+            SamuelSS. Photography
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-gray-600 sm:text-lg">
             Professional photographer based in Essex, England. Specialising in dramatic
