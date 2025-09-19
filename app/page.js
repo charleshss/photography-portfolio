@@ -1,52 +1,78 @@
+// app/page.js
+import HeroCarousel from '@/components/HeroCarousel';
+import Link from 'next/link';
+import Image from 'next/image';
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-white text-gray-900">
-      <section className="relative isolate overflow-hidden border-b">
-        <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 py-24 text-center sm:gap-8 sm:py-32">
-          <span className="text-sm uppercase tracking-[0.3em] text-gray-500">
+      {/* Hero Section with Carousel - Full viewport height */}
+      <section className="relative h-screen">
+        <HeroCarousel />
+      </section>
+
+      <section className="bg-white px-6 py-16">
+        <div className="mx-auto max-w-4xl text-center">
+          <span className="mb-4 block text-sm uppercase tracking-[0.3em] text-gray-400">
             Wild Landscapes • Intimate Wildlife
           </span>
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            Capturing the untamed beauty of the natural world
+          <h1 className="text-3xl font-bold sm:text-4xl md:text-5xl">
+            SamuelSS. Photography
           </h1>
-          <p className="mx-auto max-w-2xl text-base text-gray-600 sm:text-lg">
-            I am a photographer based in the Essex, England. I specialise in dramatic
-            landscapes and compelling wildlife portraits. Explore the portfolio to see
-            the stories nature reveals when we slow down and pay attention.
+          <p className="mx-auto mt-4 max-w-2xl text-base text-gray-600 sm:text-lg">
+            Professional photographer based in Essex, England. Specialising in dramatic
+            landscapes and compelling wildlife portraits.
           </p>
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <a
+          <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <Link
               href="/portfolio"
-              className="inline-flex items-center justify-center rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-700"
+              className="inline-flex items-center justify-center rounded-full bg-gray-900 px-8 py-3 text-sm font-semibold text-white transition hover:bg-gray-700"
             >
               View Portfolio
-            </a>
-            <a
+            </Link>
+            <Link
               href="/contact"
-              className="inline-flex items-center justify-center rounded-full border border-gray-300 px-6 py-3 text-sm font-semibold text-gray-900 transition hover:border-gray-900"
+              className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 px-8 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white"
             >
               Work Together
-            </a>
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 py-20">
-        <div className="grid gap-10 sm:grid-cols-3">
-          <article className="flex flex-col gap-2">
-            <h2 className="text-lg font-semibold">Landscapes</h2>
-            <p className="text-sm text-gray-600">
-              From rugged coastlines to snow-capped summits, each frame is crafted to
-              showcase the atmosphere, light, and mood of the moment.
+      {/* My Best Work Section */}
+      <section className="bg-white px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl font-bold md:text-4xl">My Best Work</h2>
+            <p className="mx-auto max-w-2xl text-gray-600">
+              A carefully curated selection of my favourite captures from years of
+              exploring the natural world
             </p>
-          </article>
-          <article className="flex flex-col gap-2">
-            <h2 className="text-lg font-semibold">Wildlife</h2>
-            <p className="text-sm text-gray-600">
-              Patience and respect guide every encounter, capturing authentic expressions
-              and behavior in the animals I photograph.
-            </p>
-          </article>
+          </div>
+
+          {/* Placeholder Grid */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-lg bg-gray-200"
+              >
+                <Image
+                  src={`https://images.unsplash.com/photo-${i === 1
+                    ? '1743431168296-5269fffaa214'
+                    : i === 2
+                      ? '1564349683136-77e08dba1ef7'
+                      : '1441974231531-c6227db76b6e'
+                    }?w=800&h=600&fit=crop`}
+                  alt={`Best work ${i}`}
+                  fill
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/20" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

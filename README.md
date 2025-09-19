@@ -114,7 +114,7 @@ npm run dev
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [shadcn/ui](https://ui.shadcn.com/)
-- Client: SamuelSS.Photography - Wildlife & Landscape Photography
+- Client: SamuelSS. Photography - Wildlife & Landscape Photography
 
 ## 👨‍💻 Developer
 
