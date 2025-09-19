@@ -1,6 +1,7 @@
 // app/portfolio/page.js
 import Link from 'next/link';
 import Gallery from '@/components/Gallery';
+import { getImagesByCategory, getPortfolioStats } from '@/lib/portfolio-data';
 
 export const metadata = {
     title: 'Portfolio - Sam\'s Photography',
@@ -8,73 +9,10 @@ export const metadata = {
 };
 
 export default function Portfolio() {
-    // Placeholder images for landscape photography
-    const landscapeImages = [
-        {
-            id: 1,
-            src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop',
-            alt: 'Mountain landscape at sunset',
-            title: 'Mountain Peaks',
-            location: 'Alps, Switzerland'
-        },
-        {
-            id: 2,
-            src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop',
-            alt: 'Forest landscape',
-            title: 'Forest Path',
-            location: 'Peak District, England'
-        },
-        {
-            id: 3,
-            src: 'https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800&h=600&fit=crop',
-            alt: 'Lake landscape',
-            title: 'Serene Lake',
-            location: 'Lake District, England'
-        },
-        {
-            id: 4,
-            src: 'https://images.unsplash.com/photo-1420593248178-d88870618ca0?w=800&h=600&fit=crop',
-            alt: 'Desert landscape',
-            title: 'Desert Dunes',
-            location: 'Sahara Desert, Morocco'
-        }
-    ];
-
-    // Placeholder images for wildlife photography
-    const wildlifeImages = [
-        {
-            id: 1,
-            src: 'https://images.unsplash.com/photo-1549366021-9f761d450615?w=800&h=600&fit=crop',
-            alt: 'Lion in natural habitat',
-            title: 'Majestic Lion',
-            species: 'African Lion',
-            location: 'Masai Mara, Kenya'
-        },
-        {
-            id: 2,
-            src: 'https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=800&h=600&fit=crop',
-            alt: 'Eagle in flight',
-            title: 'Soaring Eagle',
-            species: 'Golden Eagle',
-            location: 'Scottish Highlands'
-        },
-        {
-            id: 3,
-            src: 'https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=800&h=600&fit=crop',
-            alt: 'Fox in winter',
-            title: 'Arctic Fox',
-            species: 'Red Fox',
-            location: 'Yellowstone, USA'
-        },
-        {
-            id: 4,
-            src: 'https://images.unsplash.com/photo-1582539436847-485e5d43c2b6?w=800&h=600&fit=crop',
-            alt: 'Elephant family',
-            title: 'Elephant Family',
-            species: 'African Elephant',
-            location: 'Serengeti, Tanzania'
-        }
-    ];
+    // Get images by category from centralized data
+    const landscapeImages = getImagesByCategory('landscape').slice(0, 4);
+    const wildlifeImages = getImagesByCategory('wildlife').slice(0, 4);
+    const stats = getPortfolioStats();
 
     return (
         <main className="min-h-screen bg-white">
@@ -88,6 +26,26 @@ export default function Portfolio() {
                         Exploring the beauty of nature through wildlife and landscape photography.
                         Each image tells a story of the wild places and creatures that inspire me.
                     </p>
+
+                    {/* Dynamic Portfolio Stats */}
+                    <div className="mt-12 grid grid-cols-2 gap-8 md:grid-cols-4">
+                        <div>
+                            <h3 className="text-3xl font-bold text-white">{stats.landscapeCount}</h3>
+                            <p className="text-gray-300">Landscape Images</p>
+                        </div>
+                        <div>
+                            <h3 className="text-3xl font-bold text-white">{stats.wildlifeCount}</h3>
+                            <p className="text-gray-300">Wildlife Images</p>
+                        </div>
+                        <div>
+                            <h3 className="text-3xl font-bold text-white">{stats.locationCount}</h3>
+                            <p className="text-gray-300">Locations</p>
+                        </div>
+                        <div>
+                            <h3 className="text-3xl font-bold text-white">{stats.speciesCount}</h3>
+                            <p className="text-gray-300">Species</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 

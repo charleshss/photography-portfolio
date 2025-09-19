@@ -1,6 +1,7 @@
 // app/portfolio/wildlife/page.js
 import Link from 'next/link';
 import Gallery from '@/components/Gallery';
+import { getImagesByCategory, getImagesByLocation, getPortfolioStats } from '@/lib/portfolio-data';
 
 export const metadata = {
     title: 'Wildlife Photography - Sam\'s Photography',
@@ -8,81 +9,50 @@ export const metadata = {
 };
 
 export default function Wildlife() {
-    // Extended wildlife portfolio images
-    const wildlifeImages = [
-        {
-            id: 1,
-            src: 'https://images.unsplash.com/photo-1549366021-9f761d450615?w=800&h=600&fit=crop',
-            alt: 'Lion in natural habitat',
-            title: 'Majestic Lion',
-            species: 'African Lion',
-            location: 'Masai Mara, Kenya'
-        },
-        {
-            id: 2,
-            src: 'https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=800&h=600&fit=crop',
-            alt: 'Eagle in flight',
-            title: 'Soaring Eagle',
-            species: 'Golden Eagle',
-            location: 'Scottish Highlands'
-        },
-        {
-            id: 3,
-            src: 'https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=800&h=600&fit=crop',
-            alt: 'Fox in winter',
-            title: 'Arctic Fox',
-            species: 'Red Fox',
-            location: 'Yellowstone, USA'
-        },
-        {
-            id: 4,
-            src: 'https://images.unsplash.com/photo-1582539436847-485e5d43c2b6?w=800&h=600&fit=crop',
-            alt: 'Elephant family',
-            title: 'Elephant Family',
-            species: 'African Elephant',
-            location: 'Serengeti, Tanzania'
-        },
-        {
-            id: 5,
-            src: 'https://images.unsplash.com/photo-1571835782488-c21e3d7cebe0?w=800&h=600&fit=crop',
-            alt: 'Brown bear',
-            title: 'Forest Guardian',
-            species: 'Brown Bear',
-            location: 'Alaska, USA'
-        },
-        {
-            id: 6,
-            src: 'https://images.unsplash.com/photo-1608664209-b562999e4f0d?w=800&h=600&fit=crop',
-            alt: 'Owl portrait',
-            title: 'Silent Hunter',
-            species: 'Great Horned Owl',
-            location: 'British Columbia, Canada'
-        },
-        {
-            id: 7,
-            src: 'https://images.unsplash.com/photo-1597550158261-6e5d2c4efa87?w=800&h=600&fit=crop',
-            alt: 'Deer in forest',
-            title: 'Forest Wanderer',
-            species: 'White-tailed Deer',
-            location: 'New Forest, England'
-        },
-        {
-            id: 8,
-            src: 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=800&h=600&fit=crop',
-            alt: 'Penguin colony',
-            title: 'Antarctic Gathering',
-            species: 'Emperor Penguin',
-            location: 'Antarctica'
-        },
-        {
-            id: 9,
-            src: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop',
-            alt: 'Wolf pack',
-            title: 'Pack Leader',
-            species: 'Gray Wolf',
-            location: 'Yellowstone, USA'
-        }
-    ];
+    // Get all wildlife images from centralized data
+    const wildlifeImages = getImagesByCategory('wildlife');
+    const stats = getPortfolioStats();
+
+    // Get unique species and locations for wildlife photos
+    const wildlifeSpecies = [...new Set(
+        wildlifeImages
+            .filter(img => img.species)
+            .map(img => img.species)
+    )];
+
+    const wildlifeLocations = [...new Set(
+        wildlifeImages
+            .filter(img => img.location)
+            .map(img => img.location)
+    )];
+
+    // Calculate wildlife-specific statistics
+    const wildlifeStats = {
+        totalImages: wildlifeImages.length,
+        species: wildlifeSpecies.length,
+        locations: wildlifeLocations.length,
+        countries: [...new Set(wildlifeLocations.map(loc => loc.split(', ').pop()))].length,
+        featuredCount: wildlifeImages.filter(img => img.featured).length
+    };
+
+    // Group species by type for display
+    const speciesCategories = {
+        'Big Cats': wildlifeSpecies.filter(species =>
+            species.toLowerCase().includes('lion') ||
+            species.toLowerCase().includes('tiger') ||
+            species.toLowerCase().includes('leopard')
+        ),
+        'Birds of Prey': wildlifeSpecies.filter(species =>
+            species.toLowerCase().includes('eagle') ||
+            species.toLowerCase().includes('hawk') ||
+            species.toLowerCase().includes('owl')
+        ),
+        'Large Mammals': wildlifeSpecies.filter(species =>
+            species.toLowerCase().includes('elephant') ||
+            species.toLowerCase().includes('bear') ||
+            species.toLowerCase().includes('wolf')
+        )
+    };
 
     return (
         <main className="min-h-screen bg-white">
@@ -127,20 +97,20 @@ export default function Wildlife() {
                 <div className="mx-auto max-w-7xl">
                     <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
                         <div>
-                            <h3 className="text-3xl font-bold text-gray-900">150+</h3>
+                            <h3 className="text-3xl font-bold text-gray-900">{wildlifeStats.totalImages}</h3>
+                            <p className="text-gray-600">Wildlife Images</p>
+                        </div>
+                        <div>
+                            <h3 className="text-3xl font-bold text-gray-900">{wildlifeStats.species}</h3>
                             <p className="text-gray-600">Species Photographed</p>
                         </div>
                         <div>
-                            <h3 className="text-3xl font-bold text-gray-900">15</h3>
+                            <h3 className="text-3xl font-bold text-gray-900">{wildlifeStats.countries}</h3>
                             <p className="text-gray-600">Countries Explored</p>
                         </div>
                         <div>
-                            <h3 className="text-3xl font-bold text-gray-900">500+</h3>
-                            <p className="text-gray-600">Hours in the Field</p>
-                        </div>
-                        <div>
-                            <h3 className="text-3xl font-bold text-gray-900">8 Years</h3>
-                            <p className="text-gray-600">Experience</p>
+                            <h3 className="text-3xl font-bold text-gray-900">{wildlifeStats.featuredCount}</h3>
+                            <p className="text-gray-600">Featured Images</p>
                         </div>
                     </div>
                 </div>
@@ -156,8 +126,58 @@ export default function Wildlife() {
                 masonry={true}
             />
 
+            {/* Species Showcase Section */}
+            {wildlifeSpecies.length > 0 && (
+                <section className="bg-gray-50 px-6 py-20">
+                    <div className="mx-auto max-w-7xl">
+                        <div className="mb-12 text-center">
+                            <h2 className="mb-6 text-3xl font-bold md:text-4xl">
+                                Species Documented
+                            </h2>
+                            <p className="mx-auto max-w-2xl text-lg text-gray-600">
+                                From apex predators to gentle giants, each species represents a unique photography challenge and conservation story
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                            {Object.entries(speciesCategories).map(([category, species]) => (
+                                species.length > 0 && (
+                                    <div key={category} className="rounded-lg bg-white p-6 shadow-sm">
+                                        <h3 className="mb-4 text-xl font-semibold">{category}</h3>
+                                        <ul className="space-y-2">
+                                            {species.slice(0, 4).map((speciesName, index) => (
+                                                <li key={index} className="text-gray-600">
+                                                    {speciesName.split('(')[0].trim()}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        {species.length > 4 && (
+                                            <p className="mt-2 text-sm text-gray-500">
+                                                +{species.length - 4} more species
+                                            </p>
+                                        )}
+                                    </div>
+                                )
+                            ))}
+                        </div>
+
+                        {/* All Species List */}
+                        <div className="mt-12">
+                            <h3 className="mb-6 text-center text-2xl font-bold">All Species Photographed</h3>
+                            <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
+                                {wildlifeSpecies.map((species, index) => (
+                                    <div key={index} className="rounded bg-white p-3 text-center shadow-sm">
+                                        <span className="text-sm text-gray-700">{species}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {/* Equipment & Techniques Section */}
-            <section className="bg-gray-50 px-6 py-20">
+            <section className="px-6 py-20">
                 <div className="mx-auto max-w-7xl">
                     <div className="mb-12 text-center">
                         <h2 className="mb-6 text-3xl font-bold md:text-4xl">
@@ -170,25 +190,46 @@ export default function Wildlife() {
                     </div>
 
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                        <div className="rounded-lg bg-white p-6 shadow-sm">
+                        <div className="rounded-lg bg-gray-50 p-6">
                             <h3 className="mb-3 text-xl font-semibold">Telephoto Lenses</h3>
                             <p className="text-gray-600">
                                 400-800mm lenses allow me to capture intimate portraits while maintaining
                                 a respectful distance from wildlife subjects.
                             </p>
                         </div>
-                        <div className="rounded-lg bg-white p-6 shadow-sm">
+                        <div className="rounded-lg bg-gray-50 p-6">
                             <h3 className="mb-3 text-xl font-semibold">Camouflage & Hides</h3>
                             <p className="text-gray-600">
                                 Portable hides and camouflage techniques help me blend into the environment
                                 and observe natural behavior.
                             </p>
                         </div>
-                        <div className="rounded-lg bg-white p-6 shadow-sm">
+                        <div className="rounded-lg bg-gray-50 p-6">
                             <h3 className="mb-3 text-xl font-semibold">Field Research</h3>
                             <p className="text-gray-600">
                                 Extensive research on animal behavior, migration patterns, and seasonal
                                 changes ensures successful photography sessions.
+                            </p>
+                        </div>
+                        <div className="rounded-lg bg-gray-50 p-6">
+                            <h3 className="mb-3 text-xl font-semibold">High-Speed Shooting</h3>
+                            <p className="text-gray-600">
+                                Advanced camera systems capable of 20+ fps to capture split-second
+                                moments and behaviors.
+                            </p>
+                        </div>
+                        <div className="rounded-lg bg-gray-50 p-6">
+                            <h3 className="mb-3 text-xl font-semibold">Weather Protection</h3>
+                            <p className="text-gray-600">
+                                Weatherproofing gear ensures equipment protection during harsh conditions
+                                when wildlife is most active.
+                            </p>
+                        </div>
+                        <div className="rounded-lg bg-gray-50 p-6">
+                            <h3 className="mb-3 text-xl font-semibold">Tracking Technology</h3>
+                            <p className="text-gray-600">
+                                GPS and wildlife tracking tools help locate and monitor animal movements
+                                for optimal photography opportunities.
                             </p>
                         </div>
                     </div>
@@ -196,7 +237,7 @@ export default function Wildlife() {
             </section>
 
             {/* Conservation Message */}
-            <section className="px-6 py-20">
+            <section className="bg-gray-50 px-6 py-20">
                 <div className="mx-auto max-w-4xl text-center">
                     <h2 className="mb-6 text-3xl font-bold md:text-4xl">
                         Photography for Conservation
@@ -207,14 +248,14 @@ export default function Wildlife() {
                         appreciate and protect the incredible wildlife that shares our planet.
                     </p>
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                        <div className="rounded-lg border-2 border-gray-200 p-6">
+                        <div className="rounded-lg border-2 border-gray-200 bg-white p-6">
                             <h3 className="mb-3 text-xl font-semibold">Ethical Practices</h3>
                             <p className="text-gray-600">
                                 All wildlife photography follows strict ethical guidelines, ensuring
                                 animal welfare is always the top priority.
                             </p>
                         </div>
-                        <div className="rounded-lg border-2 border-gray-200 p-6">
+                        <div className="rounded-lg border-2 border-gray-200 bg-white p-6">
                             <h3 className="mb-3 text-xl font-semibold">Conservation Support</h3>
                             <p className="text-gray-600">
                                 A portion of all wildlife photography proceeds supports local

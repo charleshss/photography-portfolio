@@ -1,42 +1,78 @@
 // components/ImageCard.jsx
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function ImageCard({
     image,
+    masonry = false,
     showLocation = false,
     showSpecies = false,
-    aspectRatio = "aspect-[4/3]",
-    onClick
+    aspectRatio = 'aspect-[4/3]',
+    onClick,
 }) {
-    return (
+    const CardInner = (
         <div
-            className={`group relative ${aspectRatio} cursor-pointer overflow-hidden rounded-lg bg-gray-200`}
+            className={[
+                'group relative overflow-hidden rounded-lg bg-gray-200',
+                masonry ? '' : aspectRatio,
+            ].join(' ')}
             onClick={onClick}
         >
-            <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/20" />
+            {/* Image */}
+            {masonry ? (
+                <img
+                    src={image.src}
+                    alt={image.alt || ''}
+                    className="w-full h-auto object-cover"
+                    loading="lazy"
+                />
+            ) : (
+                <Image
+                    src={image.src}
+                    alt={image.alt || ''}
+                    fill
+                    sizes="(min-width:1280px) 25vw, (min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                    priority={false}
+                    placeholder={image.blurDataURL ? 'blur' : 'empty'}
+                    blurDataURL={image.blurDataURL}
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+            )}
 
-            {/* Overlay content */}
-            <div className="absolute bottom-4 left-4 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <h3 className="mb-1 font-semibold">{image.title}</h3>
+            {/* Hover veil */}
+            <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
 
-                {/* Show species for wildlife images */}
-                {showSpecies && image.species && (
-                    <p className="text-sm text-gray-200">{image.species}</p>
-                )}
+            {/* Overlay content (bottom-left) - ONLY VISIBLE ON HOVER */}
+            {(image.title || (showSpecies && image.species) || (showLocation && image.location)) && (
+                <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="inline-block rounded-md bg-black/60 px-3 py-2 text-left text-white backdrop-blur-sm">
+                        {image.title && (
+                            <h3 className="text-sm font-semibold leading-tight">
+                                {image.title}
+                            </h3>
+                        )}
 
-                {/* Show location for both types */}
-                {showLocation && image.location && (
-                    <p className={`text-xs text-gray-300 ${showSpecies ? 'mt-1' : 'text-sm'}`}>
-                        {image.location}
-                    </p>
-                )}
-            </div>
+                        {/* Wildlife species */}
+                        {showSpecies && image.species && (
+                            <p className="mt-0.5 text-xs text-gray-200">{image.species}</p>
+                        )}
+
+                        {/* Location */}
+                        {showLocation && image.location && (
+                            <p className="mt-0.5 text-xs text-gray-300">{image.location}</p>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
+    );
+
+    // Clickable card if href provided
+    return image.href ? (
+        <Link href={image.href} aria-label={image.title || image.alt || 'View image'}>
+            {CardInner}
+        </Link>
+    ) : (
+        CardInner
     );
 }

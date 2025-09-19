@@ -2,77 +2,97 @@
 import Link from 'next/link';
 import ImageCard from './ImageCard';
 
+/**
+ * Props:
+ * - title, description: section heading
+ * - images: [{ id, src, alt, title?, subtitle?, species?, location?, href?, blurDataURL? }]
+ * - viewAllLink, viewAllText
+ * - showLocation, showSpecies
+ * - gridCols: e.g. "md:grid-cols-2 lg:grid-cols-4" (used for non-masonry)
+ * - masonry: true => CSS columns masonry
+ * - backgroundColor: Tailwind bg-* class
+ */
 export default function Gallery({
     title,
     description,
     images,
     viewAllLink,
-    viewAllText = "View All",
+    viewAllText = 'View All',
     showLocation = false,
     showSpecies = false,
-    gridCols = "md:grid-cols-2 lg:grid-cols-4",
+    gridCols = 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
     masonry = false,
-    backgroundColor = "bg-white"
+    backgroundColor = 'bg-white',
 }) {
     return (
         <section className={`${backgroundColor} px-6 py-20`}>
             <div className="mx-auto max-w-7xl">
                 {/* Header */}
-                <div className="mb-12 flex items-center justify-between">
+                <div className="mb-12 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
                     <div>
-                        <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-                            {title}
-                        </h2>
-                        <p className="max-w-2xl text-gray-600">
-                            {description}
-                        </p>
+                        {title && (
+                            <h2 className="mb-3 text-3xl font-bold md:text-4xl">
+                                {title}
+                            </h2>
+                        )}
+                        {description && (
+                            <p className="max-w-2xl text-gray-600">
+                                {description}
+                            </p>
+                        )}
                     </div>
+
                     {viewAllLink && (
                         <Link
                             href={viewAllLink}
-                            className="hidden md:inline-flex items-center rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-700"
+                            className="inline-flex items-center rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-700"
                         >
                             {viewAllText}
                         </Link>
                     )}
                 </div>
 
-                {/* Gallery Grid */}
+                {/* Gallery */}
                 {masonry ? (
-                    // Masonry layout for detailed portfolio pages
+                    /**
+                     * Masonry: use CSS columns. Children must:
+                     * - be display: block,
+                     * - use break-inside-avoid to prevent splitting,
+                     * - have natural height (no fixed aspect box).
+                     */
                     <div className="columns-1 gap-6 md:columns-2 lg:columns-3">
-                        {images.map((image, index) => (
-                            <div key={image.id} className="mb-6">
+                        {images.map((image) => (
+                            <div key={image.id} className="mb-6 break-inside-avoid">
                                 <ImageCard
                                     image={image}
+                                    masonry
                                     showLocation={showLocation}
                                     showSpecies={showSpecies}
-                                    aspectRatio={
-                                        index % 3 === 0 ? 'aspect-[4/5]' :
-                                            index % 3 === 1 ? 'aspect-[4/3]' :
-                                                'aspect-square'
-                                    }
                                 />
                             </div>
                         ))}
                     </div>
                 ) : (
-                    // Regular grid layout for preview sections
+                    /**
+                     * Uniform grid for previews / homepage.
+                     * Tiles share an aspect ratio and use next/image fill (fast, stable).
+                     */
                     <div className={`grid grid-cols-1 gap-6 ${gridCols}`}>
-                        {images.map((image) => (
+                        {images.map((image, idx) => (
                             <ImageCard
-                                key={image.id}
+                                key={image.id ?? idx}
                                 image={image}
                                 showLocation={showLocation}
                                 showSpecies={showSpecies}
+                                aspectRatio="aspect-[4/3]"
                             />
                         ))}
                     </div>
                 )}
 
-                {/* Mobile View All Button */}
-                {viewAllLink && (
-                    <div className="mt-8 text-center md:hidden">
+                {/* Mobile View All (if you hid it above) */}
+                {!masonry && viewAllLink && (
+                    <div className="mt-10 text-center sm:hidden">
                         <Link
                             href={viewAllLink}
                             className="inline-flex items-center rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-700"
