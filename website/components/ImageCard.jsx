@@ -1,6 +1,7 @@
 // components/ImageCard.jsx
 import Image from 'next/image';
 import Link from 'next/link';
+import { urlFor } from '@/lib/sanity';
 
 export default function ImageCard({
     image,
@@ -10,6 +11,13 @@ export default function ImageCard({
     aspectRatio = 'aspect-[4/3]',
     onClick,
 }) {
+    // Handle both Sanity images and direct URLs
+    const imageUrl = image.image
+        ? urlFor(image.image).width(masonry ? 600 : 800).height(masonry ? 400 : 600).quality(80).url()
+        : image.src;
+
+    const altText = image.image?.alt || image.alt || image.title || '';
+
     const CardInner = (
         <div
             className={[
@@ -21,15 +29,15 @@ export default function ImageCard({
             {/* Image */}
             {masonry ? (
                 <img
-                    src={image.src}
-                    alt={image.alt || ''}
+                    src={imageUrl}
+                    alt={altText}
                     className="w-full h-auto object-cover"
                     loading="lazy"
                 />
             ) : (
                 <Image
-                    src={image.src}
-                    alt={image.alt || ''}
+                    src={imageUrl}
+                    alt={altText}
                     fill
                     sizes="(min-width:1280px) 25vw, (min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
                     priority={false}
@@ -69,7 +77,7 @@ export default function ImageCard({
 
     // Clickable card if href provided
     return image.href ? (
-        <Link href={image.href} aria-label={image.title || image.alt || 'View image'}>
+        <Link href={image.href} aria-label={image.title || altText || 'View image'}>
             {CardInner}
         </Link>
     ) : (

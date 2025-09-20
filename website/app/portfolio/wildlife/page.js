@@ -1,17 +1,17 @@
 // app/portfolio/wildlife/page.js
 import Link from 'next/link';
 import Gallery from '@/components/Gallery';
-import { getImagesByCategory, getImagesByLocation, getPortfolioStats } from '@/lib/portfolio-data';
+import { getImagesByCategory, getImagesByLocation, getPortfolioStats } from '@/lib/sanity';
 
 export const metadata = {
     title: 'Wildlife Photography - Sam\'s Photography',
     description: 'Wildlife photography portfolio capturing animals in their natural habitats',
 };
 
-export default function Wildlife() {
-    // Get all wildlife images from centralised data
-    const wildlifeImages = getImagesByCategory('wildlife');
-    const stats = getPortfolioStats();
+export default async function Wildlife() {
+    // Get all wildlife images from Sanity (now async)
+    const wildlifeImages = await getImagesByCategory('wildlife') || [];
+    const stats = await getPortfolioStats() || {};
 
     // Get unique species and locations for wildlife photos
     const wildlifeSpecies = [...new Set(
@@ -175,96 +175,6 @@ export default function Wildlife() {
                     </div>
                 </section>
             )}
-
-            {/* Equipment & Techniques Section */}
-            <section className="px-6 py-20">
-                <div className="mx-auto max-w-7xl">
-                    <div className="mb-12 text-center">
-                        <h2 className="mb-6 text-3xl font-bold md:text-4xl">
-                            Equipment & Techniques
-                        </h2>
-                        <p className="mx-auto max-w-2xl text-lg text-gray-600">
-                            Wildlife photography demands specialised equipment and techniques to capture
-                            animals safely and respectfully from a distance.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                        <div className="rounded-lg bg-gray-50 p-6">
-                            <h3 className="mb-3 text-xl font-semibold">Telephoto Lenses</h3>
-                            <p className="text-gray-600">
-                                400-800mm lenses allow me to capture intimate portraits while maintaining
-                                a respectful distance from wildlife subjects.
-                            </p>
-                        </div>
-                        <div className="rounded-lg bg-gray-50 p-6">
-                            <h3 className="mb-3 text-xl font-semibold">Camouflage & Hides</h3>
-                            <p className="text-gray-600">
-                                Portable hides and camouflage techniques help me blend into the environment
-                                and observe natural behaviour.
-                            </p>
-                        </div>
-                        <div className="rounded-lg bg-gray-50 p-6">
-                            <h3 className="mb-3 text-xl font-semibold">Field Research</h3>
-                            <p className="text-gray-600">
-                                Extensive research on animal behaviour, migration patterns, and seasonal
-                                changes ensures successful photography sessions.
-                            </p>
-                        </div>
-                        <div className="rounded-lg bg-gray-50 p-6">
-                            <h3 className="mb-3 text-xl font-semibold">High-Speed Shooting</h3>
-                            <p className="text-gray-600">
-                                Advanced camera systems capable of 20+ fps to capture split-second
-                                moments and behaviours.
-                            </p>
-                        </div>
-                        <div className="rounded-lg bg-gray-50 p-6">
-                            <h3 className="mb-3 text-xl font-semibold">Weather Protection</h3>
-                            <p className="text-gray-600">
-                                Weatherproofing gear ensures equipment protection during harsh conditions
-                                when wildlife is most active.
-                            </p>
-                        </div>
-                        <div className="rounded-lg bg-gray-50 p-6">
-                            <h3 className="mb-3 text-xl font-semibold">Tracking Technology</h3>
-                            <p className="text-gray-600">
-                                GPS and wildlife tracking tools help locate and monitor animal movements
-                                for optimal photography opportunities.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Conservation Message */}
-            <section className="bg-gray-50 px-6 py-20">
-                <div className="mx-auto max-w-4xl text-center">
-                    <h2 className="mb-6 text-3xl font-bold md:text-4xl">
-                        Photography for Conservation
-                    </h2>
-                    <p className="mb-8 text-lg text-gray-600">
-                        Beyond capturing beautiful images, wildlife photography plays a crucial role in
-                        conservation awareness. Through these photographs, I hope to inspire others to
-                        appreciate and protect the incredible wildlife that shares our planet.
-                    </p>
-                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                        <div className="rounded-lg border-2 border-gray-200 bg-white p-6">
-                            <h3 className="mb-3 text-xl font-semibold">Ethical Practices</h3>
-                            <p className="text-gray-600">
-                                All wildlife photography follows strict ethical guidelines, ensuring
-                                animal welfare is always the top priority.
-                            </p>
-                        </div>
-                        <div className="rounded-lg border-2 border-gray-200 bg-white p-6">
-                            <h3 className="mb-3 text-xl font-semibold">Conservation Support</h3>
-                            <p className="text-gray-600">
-                                A portion of all wildlife photography proceeds supports local
-                                conservation organisations and wildlife protection efforts.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             {/* Call to Action */}
             <section className="bg-gray-900 px-6 py-20 text-white">

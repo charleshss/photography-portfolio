@@ -1,18 +1,18 @@
 // app/portfolio/page.js
 import Link from 'next/link';
 import Gallery from '@/components/Gallery';
-import { getImagesByCategory, getPortfolioStats } from '@/lib/portfolio-data';
+import { getImagesByCategory, getPortfolioStats } from '@/lib/sanity';
 
 export const metadata = {
     title: 'Portfolio - Sam\'s Photography',
     description: 'Wildlife and landscape photography portfolio by SamuelSS',
 };
 
-export default function Portfolio() {
-    // Get images by category from centralised data
-    const landscapeImages = getImagesByCategory('landscape').slice(0, 4);
-    const wildlifeImages = getImagesByCategory('wildlife').slice(0, 4);
-    const stats = getPortfolioStats();
+export default async function Portfolio() {
+    // Get images by category from Sanity (now async)
+    const landscapeImages = (await getImagesByCategory('landscape')).slice(0, 4);
+    const wildlifeImages = (await getImagesByCategory('wildlife')).slice(0, 4);
+    const stats = await getPortfolioStats();
 
     return (
         <main className="min-h-screen bg-white">

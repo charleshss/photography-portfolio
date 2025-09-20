@@ -1,17 +1,17 @@
 // app/portfolio/landscapes/page.js
 import Link from 'next/link';
 import Gallery from '@/components/Gallery';
-import { getImagesByCategory, getImagesByLocation, getPortfolioStats } from '@/lib/portfolio-data';
+import { getImagesByCategory, getImagesByLocation, getPortfolioStats } from '@/lib/sanity';
 
 export const metadata = {
     title: 'Landscape Photography - Sam\'s Photography',
     description: 'Landscape photography portfolio showcasing natural beauty and dramatic scenery',
 };
 
-export default function Landscapes() {
-    // Get all landscape images from centralised data
-    const landscapeImages = getImagesByCategory('landscape');
-    const stats = getPortfolioStats();
+export default async function Landscapes() {
+    // Get all landscape images from Sanity (now async)
+    const landscapeImages = await getImagesByCategory('landscape') || [];
+    const stats = await getPortfolioStats() || {};
 
     // Get unique locations for landscape photos
     const landscapeLocations = [...new Set(
@@ -27,7 +27,7 @@ export default function Landscapes() {
         countries: [...new Set(landscapeLocations.map(loc => loc.split(', ').pop()))].length,
         featuredCount: landscapeImages.filter(img => img.featured).length
     };
-    // Render full landscape collection view
+
     return (
         <main className="min-h-screen bg-white">
             {/* Hero Section */}
@@ -101,12 +101,11 @@ export default function Landscapes() {
 
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                             {landscapeLocations.slice(0, 6).map((location, index) => {
-                                const locationImages = getImagesByLocation(location.split(', ')[0]);
                                 return (
                                     <div key={index} className="rounded-lg bg-white p-6 shadow-sm">
                                         <h3 className="mb-2 font-semibold text-lg">{location}</h3>
                                         <p className="text-gray-600">
-                                            {locationImages.length} image{locationImages.length !== 1 ? 's' : ''} captured
+                                            Location captured
                                         </p>
                                     </div>
                                 );
