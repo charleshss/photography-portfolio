@@ -1,3 +1,5 @@
+'use client';
+
 // components/ImageCard.jsx
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,12 +13,29 @@ export default function ImageCard({
     aspectRatio = 'aspect-[4/3]',
     onClick,
 }) {
-    // Handle both Sanity images and direct URLs
-    const imageUrl = image.image
-        ? urlFor(image.image).width(masonry ? 600 : 800).height(masonry ? 400 : 600).quality(80).url()
-        : image.src;
+    // Defensive check for image prop
+    if (!image) {
+        console.warn('ImageCard: No image prop provided');
+        return null;
+    }
 
-    const altText = image.image?.alt || image.alt || image.title || '';
+    // Handle both Sanity images and direct URLs with error handling
+    let imageUrl;
+    try {
+        if (image.image) {
+            imageUrl = urlFor(image.image).width(masonry ? 600 : 800).height(masonry ? 400 : 600).quality(80).url();
+        } else if (image.src) {
+            imageUrl = image.src;
+        } else {
+            console.warn('ImageCard: No valid image source found', image);
+            return null;
+        }
+    } catch (error) {
+        console.error('ImageCard: Error generating image URL', error);
+        return null;
+    }
+
+    const altText = image.image?.alt || image.alt || image.title || 'Image';
 
     const CardInner = (
         <div
@@ -33,6 +52,10 @@ export default function ImageCard({
                     alt={altText}
                     className="w-full h-auto object-cover"
                     loading="lazy"
+                    onError={(e) => {
+                        console.error('ImageCard: Masonry image failed to load:', imageUrl);
+                        e.target.style.display = 'none';
+                    }}
                 />
             ) : (
                 <Image
@@ -44,6 +67,9 @@ export default function ImageCard({
                     placeholder={image.blurDataURL ? 'blur' : 'empty'}
                     blurDataURL={image.blurDataURL}
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    onError={(e) => {
+                        console.error('ImageCard: Next.js image failed to load:', imageUrl);
+                    }}
                 />
             )}
 

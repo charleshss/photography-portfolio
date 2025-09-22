@@ -1,24 +1,42 @@
 // website/app/page.js
 import HeroCarousel from '@/components/HeroCarousel';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import FeaturedImageCard from '@/components/FeaturedImageCard';
 import Link from 'next/link';
-import Image from 'next/image';
-import { getFeaturedImages, urlFor } from '@/lib/sanity'; // Changed from portfolio-data
+import { getFeaturedImages } from '@/lib/sanity'; // Changed from portfolio-data
 
 export default async function Home() {
-  // Fetch featured images from Sanity
+  // Fetch featured images from Sanity with comprehensive error handling
   let featuredImages = [];
   try {
-    featuredImages = await getFeaturedImages();
-    console.log('Featured images fetched:', featuredImages.length);
+    const images = await getFeaturedImages();
+
+    // Ensure we have valid data
+    if (Array.isArray(images)) {
+      featuredImages = images.filter(img =>
+        img &&
+        img._id &&
+        img.image &&
+        img.title
+      );
+      console.log('Featured images fetched and filtered:', featuredImages.length);
+    } else {
+      console.warn('getFeaturedImages returned non-array:', images);
+      featuredImages = [];
+    }
   } catch (error) {
     console.error('Error fetching featured images:', error);
+    // Set empty array to prevent undefined errors in rendering
+    featuredImages = [];
   }
 
   return (
     <main className="min-h-screen bg-white text-gray-900">
       {/* Hero Section with Carousel - Full viewport height */}
       <section className="relative h-screen">
-        <HeroCarousel />
+        <ErrorBoundary>
+          <HeroCarousel />
+        </ErrorBoundary>
       </section>
 
       <section className="bg-white px-6 py-16">
@@ -65,28 +83,7 @@ export default async function Home() {
           {featuredImages.length > 0 ? (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {featuredImages.map((image) => (
-                <Link
-                  key={image._id}
-                  href={`/portfolio/${image.category}`}
-                  className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-lg bg-gray-200"
-                >
-                  <Image
-                    src={urlFor(image.image).width(800).height(600).quality(85).url()}
-                    alt={image.image?.alt || image.title}
-                    fill
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/20" />
-                  <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <div className="inline-block rounded-md bg-black/60 px-3 py-2 text-left text-white backdrop-blur-sm">
-                      <h3 className="text-sm font-semibold leading-tight">{image.title}</h3>
-                      {image.location && (
-                        <p className="mt-0.5 text-xs text-gray-300">{image.location}</p>
-                      )}
-                    </div>
-                  </div>
-                </Link>
+                <FeaturedImageCard key={image._id} image={image} />
               ))}
             </div>
           ) : (
