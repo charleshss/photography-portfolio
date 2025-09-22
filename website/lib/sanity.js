@@ -14,32 +14,7 @@ export const client = createClient({
 const builder = imageUrlBuilder(client)
 
 export function urlFor(source) {
-    if (!source) {
-        console.warn('urlFor called with empty source');
-        return null;
-    }
     return builder.image(source)
-}
-
-// Helper function to create fetch with timeout and abort controller
-function createSafeQuery(query, params = {}) {
-    const controller = new AbortController();
-
-    // Set up timeout
-    const timeoutId = setTimeout(() => {
-        controller.abort();
-    }, 25000); // 25 seconds, slightly less than requestTimeout
-
-    const promise = client.fetch(query, params, {
-        signal: controller.signal
-    }).finally(() => {
-        clearTimeout(timeoutId);
-    });
-
-    // Attach abort method for external cleanup
-    promise.abort = () => controller.abort();
-
-    return promise;
 }
 
 // Fetch functions that replace your old static data
@@ -64,7 +39,7 @@ export async function getAllPhotos() {
 }
 
 export async function getHeroImages() {
-    return createSafeQuery(`
+    return client.fetch(`
     *[_type == "photo" && heroCarousel == true] | order(_createdAt desc) {
       _id,
       title,
@@ -77,7 +52,7 @@ export async function getHeroImages() {
 }
 
 export async function getFeaturedImages() {
-    return createSafeQuery(`
+    return client.fetch(`
     *[_type == "photo" && featured == true] | order(_createdAt desc) [0...3] {
       _id,
       title,
