@@ -146,7 +146,7 @@ export default async function Wildlife() {
                                         <h3 className="mb-4 text-xl font-semibold">{category}</h3>
                                         <ul className="space-y-2">
                                             {species.slice(0, 4).map((speciesName, index) => (
-                                                <li key={index} className="text-gray-600">
+                                                <li key={`${category}-${speciesName}-${index}`} className="text-gray-600">
                                                     {speciesName.split('(')[0].trim()}
                                                 </li>
                                             ))}
@@ -166,7 +166,7 @@ export default async function Wildlife() {
                             <h3 className="mb-6 text-center text-2xl font-bold">All Species Photographed</h3>
                             <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
                                 {wildlifeSpecies.map((species, index) => (
-                                    <div key={index} className="rounded bg-white p-3 text-center shadow-sm">
+                                    <div key={`species-${species}-${index}`} className="rounded bg-white p-3 text-center shadow-sm">
                                         <span className="text-sm text-gray-700">{species}</span>
                                     </div>
                                 ))}

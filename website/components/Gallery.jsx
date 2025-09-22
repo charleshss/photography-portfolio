@@ -61,8 +61,8 @@ export default function Gallery({
                      * - have natural height (no fixed aspect box).
                      */
                     <div className="columns-1 gap-6 md:columns-2 lg:columns-3">
-                        {images.map((image) => (
-                            <div key={image.id} className="mb-6 break-inside-avoid">
+                        {images.map((image, idx) => (
+                            <div key={image._id || image.id || idx} className="mb-6 break-inside-avoid">
                                 <ImageCard
                                     image={image}
                                     masonry
@@ -80,7 +80,7 @@ export default function Gallery({
                     <div className={`grid grid-cols-1 gap-6 ${gridCols}`}>
                         {images.map((image, idx) => (
                             <ImageCard
-                                key={image.id ?? idx}
+                                key={image._id || image.id || idx}
                                 image={image}
                                 showLocation={showLocation}
                                 showSpecies={showSpecies}
