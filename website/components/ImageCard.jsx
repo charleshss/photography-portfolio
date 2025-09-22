@@ -1,7 +1,12 @@
+'use client';
+
 // components/ImageCard.jsx
 import Image from 'next/image';
 import Link from 'next/link';
+import { Expand } from 'lucide-react';
+import { useState } from 'react';
 import { urlFor } from '@/lib/sanity';
+import ImageModal from './ImageModal';
 
 export default function ImageCard({
     image,
@@ -11,6 +16,8 @@ export default function ImageCard({
     aspectRatio = 'aspect-[4/3]',
     onClick,
 }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     // Basic defensive check
     if (!image) {
         return null;
@@ -21,7 +28,18 @@ export default function ImageCard({
         ? urlFor(image.image).width(masonry ? 600 : 800).height(masonry ? 400 : 600).quality(80).url()
         : image.src;
 
+    // High-res image URL for modal - preserve original aspect ratio
+    const highResImageUrl = image.image
+        ? urlFor(image.image).width(2048).quality(95).url() // Only specify width, let height scale naturally
+        : image.src;
+
     const altText = image.image?.alt || image.alt || image.title || '';
+
+    const handleExpandClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsModalOpen(true);
+    };
 
     const CardInner = (
         <div
@@ -55,6 +73,15 @@ export default function ImageCard({
             {/* Hover veil */}
             <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
 
+            {/* Expand button */}
+            <button
+                onClick={handleExpandClick}
+                className="absolute top-3 right-3 p-2 rounded-full bg-black/50 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:bg-black/70 z-10"
+                aria-label="View full size image"
+            >
+                <Expand size={18} />
+            </button>
+
             {/* Overlay content (bottom-left) - ONLY VISIBLE ON HOVER */}
             {(image.title || (showSpecies && image.species) || (showLocation && image.location)) && (
                 <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -81,11 +108,24 @@ export default function ImageCard({
     );
 
     // Clickable card if href provided
-    return image.href ? (
-        <Link href={image.href} aria-label={image.title || altText || 'View image'}>
-            {CardInner}
-        </Link>
-    ) : (
-        CardInner
+    return (
+        <>
+            {image.href ? (
+                <Link href={image.href} aria-label={image.title || altText || 'View image'}>
+                    {CardInner}
+                </Link>
+            ) : (
+                CardInner
+            )}
+
+            {/* Image Modal */}
+            <ImageModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                imageUrl={highResImageUrl}
+                altText={altText}
+                title={image.title}
+            />
+        </>
     );
 }
