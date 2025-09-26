@@ -2,6 +2,34 @@
 import Link from 'next/link';
 import ImageCard from './ImageCard';
 
+// Helper function to generate contextual photo URLs
+function getPhotoUrl(image, context) {
+    const slug = image.slug.current;
+
+    switch (context) {
+        case 'wildlife':
+            return `/portfolio/wildlife/photo/${slug}`;
+        case 'landscapes':
+            return `/portfolio/landscapes/photo/${slug}`;
+        case 'home':
+        case 'featured':
+            // For home page featured images, use generic photo URL
+            return `/photo/${slug}`;
+        case 'portfolio':
+            // For main portfolio page, use portfolio-specific URL that returns to portfolio
+            return `/portfolio/photo/${slug}`;
+        default:
+            // For other contexts, try to use category-specific URLs
+            if (image.category === 'wildlife') {
+                return `/portfolio/wildlife/photo/${slug}`;
+            } else if (image.category === 'landscape') {
+                return `/portfolio/landscapes/photo/${slug}`;
+            }
+            // Fallback to generic photo URL
+            return `/photo/${slug}`;
+    }
+}
+
 /**
  * Props:
  * - title, description: section heading
@@ -23,6 +51,7 @@ export default function Gallery({
     gridCols = 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
     masonry = false,
     backgroundColor = 'bg-white',
+    context = 'portfolio', // 'wildlife', 'landscapes', 'home', or 'portfolio'
 }) {
     return (
         <section className={`${backgroundColor} px-6 py-20`}>
@@ -64,7 +93,10 @@ export default function Gallery({
                         {images.map((image, idx) => (
                             <div key={image._id || image.id || idx} className="mb-6 break-inside-avoid">
                                 <ImageCard
-                                    image={image}
+                                    image={{
+                                        ...image,
+                                        href: image.slug?.current ? getPhotoUrl(image, context) : image.href
+                                    }}
                                     masonry
                                     showLocation={showLocation}
                                     showSpecies={showSpecies}
@@ -81,7 +113,10 @@ export default function Gallery({
                         {images.map((image, idx) => (
                             <ImageCard
                                 key={image._id || image.id || idx}
-                                image={image}
+                                image={{
+                                    ...image,
+                                    href: image.slug?.current ? getPhotoUrl(image, context) : image.href
+                                }}
                                 showLocation={showLocation}
                                 showSpecies={showSpecies}
                                 aspectRatio="aspect-[4/3]"

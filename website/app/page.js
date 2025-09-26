@@ -9,7 +9,7 @@ export default async function Home() {
   let featuredImages = [];
   try {
     featuredImages = await getFeaturedImages();
-    console.log('Featured images fetched:', featuredImages.length);
+    // Featured images fetched successfully
   } catch (error) {
     console.error('Error fetching featured images:', error);
   }
@@ -69,7 +69,7 @@ export default async function Home() {
                   key={image._id}
                   image={{
                     ...image,
-                    href: `/portfolio/${image.category}`
+                    href: image.slug?.current ? `/photo/${image.slug.current}` : `/portfolio/${image.category}`
                   }}
                   aspectRatio="aspect-[4/3]"
                   showLocation={true}

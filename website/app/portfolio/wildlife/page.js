@@ -16,43 +16,116 @@ export default async function Wildlife() {
     // Get unique species and locations for wildlife photos
     const wildlifeSpecies = [...new Set(
         wildlifeImages
-            .filter(img => img.species)
-            .map(img => img.species)
+            .filter(img => img.species && img.species.length > 0)
+            .flatMap(img => img.species.map(s => s.name))
     )];
 
     const wildlifeLocations = [...new Set(
         wildlifeImages
-            .filter(img => img.location)
-            .map(img => img.location)
+            .filter(img => img.locationData?.locationName)
+            .map(img => img.locationData.locationName)
     )];
 
     // Calculate wildlife-specific statistics
+    // Map locations to countries - you may need to customize this mapping based on your location format
+    const getCountryFromLocation = (location) => {
+        const lower = location.toLowerCase();
+        if (lower.includes('whistler') || lower.includes('jasper')) return 'Canada';
+        if (lower.includes('scotland')) return 'Scotland/UK';
+        if (lower.includes('belgium') || lower.includes('zoo') && lower.includes('belg')) return 'Belgium';
+        // Add more mappings as needed
+        return location.split(', ').pop(); // fallback to last part of location string
+    };
+
     const wildlifeStats = {
         totalImages: wildlifeImages.length,
         species: wildlifeSpecies.length,
         locations: wildlifeLocations.length,
-        countries: [...new Set(wildlifeLocations.map(loc => loc.split(', ').pop()))].length,
+        countries: [...new Set(wildlifeLocations.map(loc => getCountryFromLocation(loc)))].length,
         featuredCount: wildlifeImages.filter(img => img.featured).length
     };
 
-    // Group species by type for display
-    const speciesCategories = {
-        'Big Cats': wildlifeSpecies.filter(species =>
-            species.toLowerCase().includes('lion') ||
-            species.toLowerCase().includes('tiger') ||
-            species.toLowerCase().includes('leopard')
-        ),
-        'Birds of Prey': wildlifeSpecies.filter(species =>
-            species.toLowerCase().includes('eagle') ||
-            species.toLowerCase().includes('hawk') ||
-            species.toLowerCase().includes('owl')
-        ),
-        'Large Mammals': wildlifeSpecies.filter(species =>
-            species.toLowerCase().includes('elephant') ||
-            species.toLowerCase().includes('bear') ||
-            species.toLowerCase().includes('wolf')
-        )
+    // Get all species with their categories from the images
+    const allSpeciesWithCategories = wildlifeImages
+        .filter(img => img.species && img.species.length > 0)
+        .flatMap(img => img.species)
+        .filter((species, index, arr) =>
+            arr.findIndex(s => s.name === species.name) === index // Remove duplicates by name
+        );
+
+    // Group species by category (dynamically from Sanity data)
+    const categoryMap = {
+        // Mammals
+        'big-cats': 'Big Cats',
+        'bears': 'Bears',
+        'canids': 'Canids',
+        'large-herbivores': 'Large Herbivores',
+        'small-mammals': 'Small Mammals',
+        'primates': 'Primates',
+        'marine-mammals': 'Marine Mammals',
+        'hoofed-animals': 'Hoofed Animals',
+        'marsupials': 'Marsupials',
+        'bats': 'Bats',
+        'rodents': 'Rodents',
+
+        // Birds
+        'birds-of-prey': 'Birds of Prey',
+        'waterfowl': 'Waterfowl',
+        'shorebirds': 'Shorebirds',
+        'songbirds': 'Songbirds',
+        'corvids': 'Corvids',
+        'game-birds': 'Game Birds',
+        'seabirds': 'Seabirds',
+        'hummingbirds': 'Hummingbirds',
+        'woodpeckers': 'Woodpeckers',
+        'parrots': 'Parrots & Cockatoos',
+        'owls': 'Owls',
+        'flightless-birds': 'Flightless Birds',
+
+        // Reptiles & Amphibians
+        'snakes': 'Snakes',
+        'lizards': 'Lizards',
+        'turtles': 'Turtles & Tortoises',
+        'amphibians': 'Frogs & Toads',
+        'crocodilians': 'Crocodilians',
+        'salamanders': 'Salamanders & Newts',
+
+        // Aquatic Life
+        'freshwater-fish': 'Freshwater Fish',
+        'saltwater-fish': 'Saltwater Fish',
+        'sharks-rays': 'Sharks & Rays',
+        'marine-invertebrates': 'Marine Invertebrates',
+        'freshwater-invertebrates': 'Freshwater Invertebrates',
+
+        // Insects & Arthropods
+        'butterflies-moths': 'Butterflies & Moths',
+        'dragonflies': 'Dragonflies & Damselflies',
+        'bees-wasps': 'Bees & Wasps',
+        'beetles': 'Beetles',
+        'spiders': 'Spiders & Arachnids',
+        'insects-other': 'Other Insects',
+        'ants': 'Ants',
+
+        // Specialized Categories
+        'arctic-wildlife': 'Arctic Wildlife',
+        'desert-wildlife': 'Desert Wildlife',
+        'tropical-wildlife': 'Tropical Wildlife',
+        'nocturnal': 'Nocturnal Animals',
+        'endangered': 'Endangered Species',
+        'domestic': 'Domestic Animals',
+        'other': 'Other Wildlife'
     };
+
+    const speciesCategories = allSpeciesWithCategories.reduce((acc, species) => {
+        const categoryKey = species.category || 'other';
+        const categoryLabel = categoryMap[categoryKey] || 'Other';
+
+        if (!acc[categoryLabel]) {
+            acc[categoryLabel] = [];
+        }
+        acc[categoryLabel].push(species.name);
+        return acc;
+    }, {});
 
     return (
         <main className="min-h-screen bg-white">
@@ -105,12 +178,12 @@ export default async function Wildlife() {
                             <p className="text-gray-600">Species Photographed</p>
                         </div>
                         <div>
-                            <h3 className="text-3xl font-bold text-gray-900">{wildlifeStats.countries}</h3>
-                            <p className="text-gray-600">Countries Explored</p>
+                            <h3 className="text-3xl font-bold text-gray-900">{wildlifeStats.locations}</h3>
+                            <p className="text-gray-600">Locations</p>
                         </div>
                         <div>
-                            <h3 className="text-3xl font-bold text-gray-900">{wildlifeStats.featuredCount}</h3>
-                            <p className="text-gray-600">Featured Images</p>
+                            <h3 className="text-3xl font-bold text-gray-900">{wildlifeStats.countries}</h3>
+                            <p className="text-gray-600">Countries</p>
                         </div>
                     </div>
                 </div>
@@ -124,6 +197,7 @@ export default async function Wildlife() {
                 showLocation={true}
                 showSpecies={true}
                 masonry={true}
+                context="wildlife"
             />
 
             {/* Species Showcase Section */}

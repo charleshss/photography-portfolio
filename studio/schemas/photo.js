@@ -1,4 +1,7 @@
 // studio/schemas/photo.js
+import { UnifiedLocationInput } from '../components/UnifiedLocationInput'
+import { ExifDisplay } from '../components/ExifDisplay'
+
 export default {
     name: 'photo',
     title: 'Portfolio Photos',
@@ -33,25 +36,52 @@ export default {
                     name: 'alt',
                     title: 'Alt Text (for accessibility)',
                     type: 'string',
-                    description: 'Describe what is in the image for screen readers'
+                    description: 'Describe what is in the image for screen readers',
+                    validation: Rule => Rule.required()
                 }
             ],
             validation: Rule => Rule.required()
         },
 
-        // Location & Wildlife Info
+        // Unified Location Input
         {
-            name: 'location',
-            title: 'Location',
-            type: 'string',
-            description: 'Where was this photo taken? (e.g., "Yellowstone National Park, USA")'
+            name: 'locationData',
+            title: '📍 Location',
+            type: 'object',
+            description: 'Set location using map or search - automatically saves both coordinates and name',
+            fields: [
+                {
+                    name: 'coordinates',
+                    title: 'Coordinates',
+                    type: 'geopoint',
+                    description: 'Click to set location on map'
+                },
+                {
+                    name: 'locationName',
+                    title: 'Location Name',
+                    type: 'string'
+                }
+            ],
+            components: {
+                input: UnifiedLocationInput
+            },
+            validation: Rule => Rule.required()
         },
         {
             name: 'species',
             title: 'Species (Wildlife Only)',
-            type: 'string',
-            description: 'Scientific name if this is a wildlife photo (e.g., "Brown Bear (Ursus arctos)")',
-            hidden: ({ document }) => document?.category !== 'wildlife'
+            type: 'array',
+            of: [
+                {
+                    type: 'reference',
+                    to: [{ type: 'species' }],
+                    options: {
+                        disableNew: false
+                    }
+                }
+            ],
+            description: 'Select the species in this wildlife photo. You can select multiple if there are different animals.',
+            hidden: ({ document }) => document?.category !== 'wildlife',
         },
 
         // Categorization
@@ -85,12 +115,13 @@ export default {
             initialValue: false
         },
 
-        // Auto-populated Camera Data (from EXIF)
+        // Camera Data Storage (used internally by the EXIF display component)
         {
             name: 'cameraData',
-            title: 'Camera Information',
+            title: 'Camera Data Overrides',
             type: 'object',
-            description: 'Auto-populated from photo metadata, but can be edited',
+            description: 'Stores any manual corrections made to the automatically extracted EXIF data',
+            hidden: true, // Hide from the UI since it's managed by the ExifDisplay component
             fields: [
                 {
                     name: 'camera',
@@ -105,20 +136,60 @@ export default {
                 {
                     name: 'captureDate',
                     title: 'Date Taken',
-                    type: 'datetime'
+                    type: 'string'
                 },
                 {
                     name: 'settings',
                     title: 'Camera Settings',
                     type: 'object',
                     fields: [
-                        { name: 'aperture', title: 'Aperture', type: 'string' },
-                        { name: 'shutterSpeed', title: 'Shutter Speed', type: 'string' },
-                        { name: 'iso', title: 'ISO', type: 'number' },
-                        { name: 'focalLength', title: 'Focal Length', type: 'string' }
+                        {
+                            name: 'aperture',
+                            title: 'Aperture',
+                            type: 'string'
+                        },
+                        {
+                            name: 'shutterSpeed',
+                            title: 'Shutter Speed',
+                            type: 'string'
+                        },
+                        {
+                            name: 'iso',
+                            title: 'ISO',
+                            type: 'number'
+                        },
+                        {
+                            name: 'focalLength',
+                            title: 'Focal Length',
+                            type: 'string'
+                        }
                     ]
                 }
             ]
+        },
+
+        // EXIF Information Display (Custom Component)
+        {
+            name: 'exifInfo',
+            title: '📷 Camera Data from Image',
+            type: 'object',
+            description: 'Automatically extracted camera settings and metadata from your uploaded image',
+            options: {
+                collapsible: true,
+                collapsed: false
+            },
+            readOnly: true,
+            fields: [
+                {
+                    name: 'display',
+                    title: 'EXIF Data Display',
+                    type: 'string',
+                    readOnly: true
+                }
+            ],
+            components: {
+                input: ExifDisplay
+            }
         },
 
         // Organization
@@ -126,11 +197,19 @@ export default {
             name: 'tags',
             title: 'Tags',
             type: 'array',
-            of: [{ type: 'string' }],
+            of: [
+                {
+                    type: 'reference',
+                    to: [{ type: 'tag' }],
+                    options: {
+                        disableNew: false
+                    }
+                }
+            ],
             options: {
                 layout: 'tags'
             },
-            description: 'Add keywords like "golden-hour", "bear", "mountain", etc.'
+            description: 'Add keywords like "golden-hour", "sunrise", "action-shot", etc.'
         },
         {
             name: 'slug',
@@ -139,7 +218,8 @@ export default {
             options: {
                 source: 'title',
                 maxLength: 96
-            }
+            },
+            validation: Rule => Rule.required()
         }
     ],
 

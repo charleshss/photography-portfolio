@@ -57,6 +57,7 @@ export default async function Portfolio() {
                 viewAllLink="/portfolio/landscapes"
                 viewAllText="View All Landscapes"
                 showLocation={true}
+                context="portfolio"
             />
 
             {/* Wildlife Photography Section */}
@@ -69,6 +70,7 @@ export default async function Portfolio() {
                 showLocation={true}
                 showSpecies={true}
                 backgroundColor="bg-gray-50"
+                context="portfolio"
             />
 
             {/* Call to Action */}

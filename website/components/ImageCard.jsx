@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Expand } from 'lucide-react';
 import { useState } from 'react';
-import { urlFor } from '@/lib/sanity';
+import { urlFor, getLocationDisplay } from '@/lib/sanity';
 import ImageModal from './ImageModal';
 
 export default function ImageCard({
@@ -44,7 +44,7 @@ export default function ImageCard({
     const CardInner = (
         <div
             className={[
-                'group relative overflow-hidden rounded-lg bg-gray-200',
+                'group relative overflow-hidden rounded-lg bg-gray-200 cursor-pointer',
                 masonry ? '' : aspectRatio,
             ].join(' ')}
             onClick={onClick}
@@ -83,7 +83,7 @@ export default function ImageCard({
             </button>
 
             {/* Overlay content (bottom-left) - ONLY VISIBLE ON HOVER */}
-            {(image.title || (showSpecies && image.species) || (showLocation && image.location)) && (
+            {(image.title || (showSpecies && image.species) || (showLocation && getLocationDisplay(image))) && (
                 <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <div className="inline-block rounded-md bg-black/60 px-3 py-2 text-left text-white backdrop-blur-sm">
                         {image.title && (
@@ -94,12 +94,17 @@ export default function ImageCard({
 
                         {/* Wildlife species */}
                         {showSpecies && image.species && (
-                            <p className="mt-0.5 text-xs text-gray-200">{image.species}</p>
+                            <p className="mt-0.5 text-xs text-gray-200">
+                                {Array.isArray(image.species)
+                                    ? image.species.map(s => s.name).join(', ')
+                                    : image.species
+                                }
+                            </p>
                         )}
 
                         {/* Location */}
-                        {showLocation && image.location && (
-                            <p className="mt-0.5 text-xs text-gray-300">{image.location}</p>
+                        {showLocation && getLocationDisplay(image) && (
+                            <p className="mt-0.5 text-xs text-gray-300">{getLocationDisplay(image)}</p>
                         )}
                     </div>
                 </div>
@@ -118,7 +123,7 @@ export default function ImageCard({
                 CardInner
             )}
 
-            {/* Image Modal */}
+            {/* Image Modal - Still available via expand button */}
             <ImageModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

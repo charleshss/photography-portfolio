@@ -23,9 +23,7 @@ export default function HeroCarousel() {
     React.useEffect(() => {
         async function fetchHeroImages() {
             try {
-                console.log('Fetching hero images from Sanity...');
                 const images = await getHeroImages();
-                console.log('Hero images fetched:', images);
                 setHeroImages(images);
             } catch (error) {
                 console.error('Error fetching hero images:', error);

@@ -16,8 +16,8 @@ export default async function Landscapes() {
     // Get unique locations for landscape photos
     const landscapeLocations = [...new Set(
         landscapeImages
-            .filter(img => img.location)
-            .map(img => img.location)
+            .filter(img => img.locationData?.locationName)
+            .map(img => img.locationData.locationName)
     )];
 
     // Calculate landscape-specific statistics
@@ -84,6 +84,7 @@ export default async function Landscapes() {
                 images={landscapeImages}
                 showLocation={true}
                 masonry={true}
+                context="landscapes"
             />
 
             {/* Featured Locations Section */}
