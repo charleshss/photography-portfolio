@@ -1,0 +1,48 @@
+name: Deploy Sanity Studio
+
+on:
+  push:
+    branches: [main]
+    paths: ['studio/**']
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  deploy-sanity:
+    name: Deploy to Sanity Studio
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: studio/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd studio
+          npm ci
+
+      - name: Build Sanity Studio
+        run: |
+          cd studio
+          npm run build
+
+      - name: Deploy to Sanity Studio
+        run: |
+          cd studio
+          npx sanity deploy --non-interactive
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+          SANITY_STUDIO_PROJECT_ID: ${{ secrets.SANITY_STUDIO_PROJECT_ID }}
+          SANITY_STUDIO_GOOGLE_MAPS_API_KEY: ${{ secrets.SANITY_STUDIO_GOOGLE_MAPS_API_KEY }}
+
+      - name: Deployment summary
+        run: |
+          echo "🎉 Sanity Studio deployed successfully!"
+          echo "📍 Studio URL: https://sams-photography.sanity.studio/"
+          echo "⏰ Deployment time: $(date)"
