@@ -12,13 +12,13 @@ function urlFor(source) {
 // Portable Text components for rich text rendering
 const portableTextComponents = {
   block: {
-    h3: ({children}) => <h3 className="text-xl font-semibold text-gray-900 mb-3">{children}</h3>,
-    h4: ({children}) => <h4 className="text-lg font-medium text-gray-900 mb-2">{children}</h4>,
-    normal: ({children}) => <p className="text-gray-700 mb-4">{children}</p>,
+    h3: ({children}) => <h3 className="text-xl font-semibold text-gray-900 mb-3 break-words">{children}</h3>,
+    h4: ({children}) => <h4 className="text-lg font-medium text-gray-900 mb-2 break-words">{children}</h4>,
+    normal: ({children}) => <p className="text-gray-700 mb-4 break-words leading-relaxed">{children}</p>,
   },
   marks: {
-    strong: ({children}) => <strong className="font-semibold">{children}</strong>,
-    em: ({children}) => <em className="italic">{children}</em>,
+    strong: ({children}) => <strong className="font-semibold break-words">{children}</strong>,
+    em: ({children}) => <em className="italic break-words">{children}</em>,
   },
 }
 
@@ -109,19 +109,19 @@ export default async function About() {
           </div>
 
           {/* About Text */}
-          <div className="space-y-8 order-1 lg:order-2">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">My Journey with Nature</h2>
+          <div className="space-y-8 order-1 lg:order-2 min-w-0 overflow-hidden">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight break-words">My Journey with Nature</h2>
 
             {/* Introduction */}
             {aboutData.introduction && (
-              <div className="text-lg md:text-xl text-gray-600 leading-relaxed">
-                <p>{aboutData.introduction}</p>
+              <div className="text-lg md:text-xl text-gray-600 leading-relaxed break-words overflow-wrap-anywhere">
+                <p className="break-words">{aboutData.introduction}</p>
               </div>
             )}
 
             {/* Main Story */}
             {aboutData.story && (
-              <div className="prose prose-lg md:prose-xl text-gray-600 leading-relaxed max-w-none">
+              <div className="prose prose-lg md:prose-xl text-gray-600 leading-relaxed max-w-none break-words overflow-wrap-anywhere">
                 <PortableText
                   value={aboutData.story}
                   components={portableTextComponents}
