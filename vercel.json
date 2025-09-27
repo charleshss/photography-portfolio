@@ -2,13 +2,8 @@
   "version": 2,
   "buildCommand": "cd website && npm run build",
   "outputDirectory": "website/.next",
-  "installCommand": "cd website && npm install --include=optional",
+  "installCommand": "cd website && npm install",
   "framework": "nextjs",
-  "functions": {
-    "website/app/**": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "rewrites": [
     {
       "source": "/studio/(.*)",
