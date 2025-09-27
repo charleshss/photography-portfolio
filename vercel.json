@@ -1,9 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "cd website && npm run build",
-  "outputDirectory": "website/.next",
-  "installCommand": "cd website && npm install",
   "framework": "nextjs",
+  "rootDirectory": "website",
   "rewrites": [
     {
       "source": "/studio/(.*)",
