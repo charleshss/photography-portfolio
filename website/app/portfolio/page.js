@@ -27,19 +27,19 @@ export default async function Portfolio() {
                         Each image tells a story of the wild places and creatures that inspire me.
                     </p>
 
-                    {/* Dynamic Portfolio Stats */}
+                    {/* Unified Portfolio Stats */}
                     <div className="mt-12 grid grid-cols-2 gap-8 md:grid-cols-4">
                         <div>
-                            <h3 className="text-3xl font-bold text-white">{stats.landscapeCount}</h3>
-                            <p className="text-gray-300">Landscape Images</p>
-                        </div>
-                        <div>
-                            <h3 className="text-3xl font-bold text-white">{stats.wildlifeCount}</h3>
-                            <p className="text-gray-300">Wildlife Images</p>
+                            <h3 className="text-3xl font-bold text-white">{stats.totalImages}</h3>
+                            <p className="text-gray-300">Total Images</p>
                         </div>
                         <div>
                             <h3 className="text-3xl font-bold text-white">{stats.locationCount}</h3>
-                            <p className="text-gray-300">Locations</p>
+                            <p className="text-gray-300">Unique Locations</p>
+                        </div>
+                        <div>
+                            <h3 className="text-3xl font-bold text-white">{stats.countryCount}</h3>
+                            <p className="text-gray-300">Countries</p>
                         </div>
                         <div>
                             <h3 className="text-3xl font-bold text-white">{stats.speciesCount}</h3>
@@ -57,6 +57,7 @@ export default async function Portfolio() {
                 viewAllLink="/portfolio/landscapes"
                 viewAllText="View All Landscapes"
                 showLocation={true}
+                showCount={true}
                 context="portfolio"
             />
 
@@ -69,6 +70,7 @@ export default async function Portfolio() {
                 viewAllText="View All Wildlife"
                 showLocation={true}
                 showSpecies={true}
+                showCount={true}
                 backgroundColor="bg-gray-50"
                 context="portfolio"
             />

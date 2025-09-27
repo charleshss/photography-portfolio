@@ -17,7 +17,7 @@ export default function PhotoDetailPage({
     const [cameraDetailsExpanded, setCameraDetailsExpanded] = useState(false);
 
     useEffect(() => {
-        // Simple context-based navigation - prioritize the passed props since they're route-specific
+        // Simple context-based navigation - prioritise the passed props since they're route-specific
         if (context === 'wildlife') {
             setSmartBackUrl('/portfolio/wildlife');
             setSmartBackLabel('Back to Wildlife');

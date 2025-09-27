@@ -20,10 +20,26 @@ export default async function Landscapes() {
             .map(img => img.locationData.locationName)
     )];
 
-    // Calculate landscape-specific statistics
+    // Helper function to group locations by coordinates for accurate counting
+    const getUniqueCoordinateLocations = (images) => {
+        const coordinateLocations = images
+            .filter(img => img.locationData?.coordinates?.lat && img.locationData?.coordinates?.lng)
+            .map(img => {
+                // Round coordinates to ~100m precision for grouping nearby locations
+                const lat = Math.round(img.locationData.coordinates.lat * 1000) / 1000;
+                const lng = Math.round(img.locationData.coordinates.lng * 1000) / 1000;
+                return `${lat},${lng}`;
+            });
+
+        return [...new Set(coordinateLocations)];
+    };
+
+    const uniqueCoordinateLocations = getUniqueCoordinateLocations(landscapeImages);
+
+    // Calculate landscape-specific statistics with coordinate-based counting
     const landscapeStats = {
         totalImages: landscapeImages.length,
-        locations: landscapeLocations.length,
+        locations: uniqueCoordinateLocations.length > 0 ? uniqueCoordinateLocations.length : landscapeLocations.length,
         countries: [...new Set(landscapeLocations.map(loc => loc.split(', ').pop()))].length,
         featuredCount: landscapeImages.filter(img => img.featured).length
     };
@@ -63,7 +79,7 @@ export default async function Landscapes() {
                         </div>
                         <div>
                             <h3 className="text-3xl font-bold text-gray-900">{landscapeStats.locations}</h3>
-                            <p className="text-gray-600">Locations Captured</p>
+                            <p className="text-gray-600">Unique Locations</p>
                         </div>
                         <div>
                             <h3 className="text-3xl font-bold text-gray-900">{landscapeStats.countries}</h3>

@@ -68,7 +68,7 @@ export default {
           { title: '🐜 Ants', value: 'ants' },
           { title: '🦗 Other Insects', value: 'insects-other' },
 
-          // ──────────── SPECIALIZED CATEGORIES ────────────
+          // ──────────── SPECIALISED CATEGORIES ────────────
           { title: '🧊 Arctic Wildlife', value: 'arctic-wildlife' },
           { title: '🏜️ Desert Wildlife', value: 'desert-wildlife' },
           { title: '🌴 Tropical Wildlife', value: 'tropical-wildlife' },
@@ -141,7 +141,7 @@ export default {
         'ants': 'Ants',
         'insects-other': 'Other Insects',
 
-        // Specialized Categories
+        // Specialised Categories
         'arctic-wildlife': 'Arctic Wildlife',
         'desert-wildlife': 'Desert Wildlife',
         'tropical-wildlife': 'Tropical Wildlife',

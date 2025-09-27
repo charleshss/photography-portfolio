@@ -77,7 +77,6 @@ export default defineConfig({
     types: schemaTypes,
   },
 
-
   document: {
     actions: (prev, context) => {
       // Add the generate location name action to photo documents

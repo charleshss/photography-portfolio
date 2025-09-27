@@ -7,26 +7,35 @@ export default {
     title: 'Portfolio Photos',
     type: 'document',
     fields: [
-        // Basic Information
+        // Basic Information (Required Fields)
         {
             name: 'title',
-            title: 'Photo Title',
+            title: '📝 Photo Title *',
             type: 'string',
-            validation: Rule => Rule.required().min(3).max(100)
+            description: 'Give your photo a compelling title that captures its essence',
+            placeholder: 'e.g., "Golden Hour at Jasper Lake" or "Mountain Goat in Morning Light"',
+            validation: Rule => Rule.required()
+                .min(3).error('Title must be at least 3 characters')
+                .max(100).error('Title must be under 100 characters')
         },
         {
             name: 'description',
-            title: 'Description',
+            title: '📖 Photo Description *',
             type: 'text',
             rows: 4,
-            description: 'Tell the story behind this photo'
+            description: 'Tell the story behind this photo - where, when, what makes it special',
+            placeholder: 'Describe the moment, the location, the wildlife behavior, or the conditions that made this shot unique...',
+            validation: Rule => Rule.required()
+                .min(10).error('Please provide at least 10 characters describing your photo')
+                .max(500).error('Description should be under 500 characters')
         },
 
-        // Main Image with EXIF extraction
+        // Main Image with EXIF extraction (Required)
         {
             name: 'image',
-            title: 'Photo',
+            title: '📸 Upload Photo *',
             type: 'image',
+            description: 'Upload your high-quality photo. Camera settings will be automatically extracted.',
             options: {
                 hotspot: true,
                 metadata: ['exif', 'location', 'lqip', 'palette']
@@ -34,21 +43,24 @@ export default {
             fields: [
                 {
                     name: 'alt',
-                    title: 'Alt Text (for accessibility)',
+                    title: '♿ Alt Text (Accessibility) *',
                     type: 'string',
-                    description: 'Describe what is in the image for screen readers',
+                    description: 'Describe what is visible in the image for screen readers and SEO',
+                    placeholder: 'e.g., "A brown bear catching salmon in a rushing river"',
                     validation: Rule => Rule.required()
+                        .min(5).error('Alt text should be at least 5 characters')
+                        .max(125).error('Alt text should be under 125 characters for best SEO')
                 }
             ],
-            validation: Rule => Rule.required()
+            validation: Rule => Rule.required().error('Please upload a photo')
         },
 
-        // Unified Location Input
+        // Unified Location Input (Required)
         {
             name: 'locationData',
-            title: '📍 Location',
+            title: '📍 Photo Location *',
             type: 'object',
-            description: 'Set location using map or search - automatically saves both coordinates and name',
+            description: 'Where was this photo taken? Use the search or click on the map below.',
             fields: [
                 {
                     name: 'coordinates',
@@ -65,11 +77,29 @@ export default {
             components: {
                 input: UnifiedLocationInput
             },
-            validation: Rule => Rule.required()
+            validation: Rule => Rule.required().error('Please set the photo location using the map or search above')
         },
+
+        // Categorisation (Required) - Must come first so species field can conditionally show
+        {
+            name: 'category',
+            title: '🏷️ Photo Category *',
+            type: 'string',
+            description: 'What type of photography is this? This determines where it appears on your website.',
+            options: {
+                list: [
+                    { title: '🦅 Wildlife Photography', value: 'wildlife' },
+                    { title: '🏔️ Landscape Photography', value: 'landscape' }
+                ],
+                layout: 'radio'
+            },
+            validation: Rule => Rule.required().error('Please select whether this is wildlife or landscape photography')
+        },
+
+        // Species field - appears right after category selection for wildlife photos
         {
             name: 'species',
-            title: 'Species (Wildlife Only)',
+            title: '🦅 Species (Required for Wildlife Photos)',
             type: 'array',
             of: [
                 {
@@ -80,39 +110,52 @@ export default {
                     }
                 }
             ],
-            description: 'Select the species in this wildlife photo. You can select multiple if there are different animals.',
+            description: 'What wildlife species are featured in this photo? You can select multiple animals.',
+            placeholder: 'Select or create species...',
             hidden: ({ document }) => document?.category !== 'wildlife',
+            validation: Rule => Rule.custom((species, context) => {
+                // Only require species if category is wildlife
+                if (context.document?.category === 'wildlife') {
+                    if (!species || species.length === 0) {
+                        return 'Please specify what wildlife species are in this photo'
+                    }
+                }
+                return true
+            })
         },
 
-        // Categorization
-        {
-            name: 'category',
-            title: 'Photo Category',
-            type: 'string',
-            options: {
-                list: [
-                    { title: 'Wildlife Photography', value: 'wildlife' },
-                    { title: 'Landscape Photography', value: 'landscape' }
-                ],
-                layout: 'radio'
-            },
-            validation: Rule => Rule.required()
-        },
-
-        // Portfolio Placement Controls
+        // Portfolio Placement Controls (Optional but Important)
         {
             name: 'heroCarousel',
-            title: 'Include in Hero Carousel',
+            title: '🎠 Homepage Hero Carousel',
             type: 'boolean',
-            description: 'Show this photo in the homepage hero slideshow',
+            description: 'Show this photo in the rotating slideshow on your homepage? (Select your very best shots)',
             initialValue: false
         },
         {
             name: 'featured',
-            title: 'Featured in "Best Work"',
+            title: '⭐ Featured in "Best Work"',
             type: 'boolean',
-            description: 'Include in the featured "Best Work" section (recommend max 3 total)',
-            initialValue: false
+            description: 'Highlight this photo in your featured portfolio section? (Maximum 3 photos allowed)',
+            initialValue: false,
+            validation: Rule => Rule.custom(async (featured, context) => {
+                if (!featured) return true // If not featured, no validation needed
+
+                const { getClient } = context
+                const client = getClient({ apiVersion: '2024-01-01' })
+
+                // Count current featured photos (excluding this document)
+                const query = `count(*[_type == "photo" && featured == true && _id != $currentId])`
+                const currentFeaturedCount = await client.fetch(query, {
+                    currentId: context.document._id || 'new'
+                })
+
+                if (currentFeaturedCount >= 3) {
+                    return 'Maximum 3 photos can be featured in "Best Work". Please unfeature another photo first.'
+                }
+
+                return true
+            })
         },
 
         // Camera Data Storage (used internally by the EXIF display component)
@@ -192,10 +235,10 @@ export default {
             }
         },
 
-        // Organization
+        // Organisation (Optional but Helpful)
         {
             name: 'tags',
-            title: 'Tags',
+            title: '🏷️ Tags (Optional)',
             type: 'array',
             of: [
                 {
@@ -209,17 +252,19 @@ export default {
             options: {
                 layout: 'tags'
             },
-            description: 'Add keywords like "golden-hour", "sunrise", "action-shot", etc.'
+            description: 'Add descriptive keywords to help organise and find your photos. Examples: "golden-hour", "sunrise", "action-shot", "macro", "telephoto",
+            placeholder: 'Add tags to categorise this photo...'
         },
         {
             name: 'slug',
-            title: 'URL Slug',
+            title: '🔗 URL Slug *',
             type: 'slug',
+            description: 'This creates the web address for your photo. Click "Generate" to create it from your title.',
             options: {
                 source: 'title',
                 maxLength: 96
             },
-            validation: Rule => Rule.required()
+            validation: Rule => Rule.required().error('Please generate a URL slug by clicking the "Generate" button')
         }
     ],
 

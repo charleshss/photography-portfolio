@@ -100,10 +100,20 @@ export default function HeroCarousel() {
                                     )}
                                 </div>
                             </div>
-                            <div className="pointer-events-none absolute inset-x-0 bottom-4 flex justify-center">
-                                <span className="rounded-full bg-black/40 px-3 py-1 text-xs text-white backdrop-blur-sm">
-                                    Slide {current} of {heroImages.length}
-                                </span>
+                            {/* Modern Pagination Dots */}
+                            <div className="absolute inset-x-0 bottom-6 flex justify-center space-x-2">
+                                {heroImages.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => api?.scrollTo(index)}
+                                        className={`transition-all duration-300 ease-out hover:scale-110 ${
+                                            index === current - 1
+                                                ? 'h-2.5 w-8 bg-white shadow-lg' // Active dot - larger and bright
+                                                : 'h-2 w-2 bg-white/50 hover:bg-white/70' // Inactive dots - smaller and translucent
+                                        } rounded-full backdrop-blur-sm`}
+                                        aria-label={`Go to slide ${index + 1}`}
+                                    />
+                                ))}
                             </div>
                         </div>
                     </CarouselItem>

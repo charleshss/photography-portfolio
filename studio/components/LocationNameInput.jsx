@@ -105,7 +105,7 @@ export function LocationNameInput(props) {
 
       geocoder.geocode({ location: latlng }, (results, status) => {
         if (status === 'OK' && results && results.length > 0) {
-          // Smart selection - prioritize parks and natural areas
+          // Smart selection - prioritise parks and natural areas
           let bestResult = results[0]
 
           // First look for parks or natural features

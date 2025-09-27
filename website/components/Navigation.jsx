@@ -7,7 +7,6 @@ import { useState } from 'react';
 
 export default function Navigation() {
     const [logoError, setLogoError] = useState(false);
-    const [fallbackError, setFallbackError] = useState(false);
 
     return (
         <nav className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md">
@@ -16,26 +15,17 @@ export default function Navigation() {
                     <Link href="/" className="flex items-center group">
                         {!logoError ? (
                             <Image
-                                src="/logo.svg"
-                                alt="SamuelSS Photography Logo"
-                                width={200}
-                                height={48}
-                                className="h-12 w-auto max-w-[200px] transition-transform duration-200 group-hover:scale-105"
-                                priority
-                                onError={() => setLogoError(true)}
-                            />
-                        ) : !fallbackError ? (
-                            <Image
                                 src="/logo.png"
                                 alt="SamuelSS Photography Logo"
                                 width={200}
                                 height={48}
-                                className="h-12 w-auto max-w-[200px] transition-transform duration-200 group-hover:scale-105"
+                                className="h-12 transition-transform duration-200 group-hover:scale-105"
+                                style={{ width: 'auto', height: '3rem' }}
                                 priority
-                                onError={() => setFallbackError(true)}
+                                onError={() => setLogoError(true)}
                             />
                         ) : (
-                            /* Text fallback when both logo files fail */
+                            /* Text fallback when logo fails to load */
                             <span className="text-xl font-bold text-gray-900 transition-colors group-hover:text-gray-700">
                                 SamuelSS. Photography
                             </span>

@@ -258,13 +258,55 @@ export async function getPortfolioStats() {
     "featuredCount": count(*[_type == "photo" && featured == true]),
     "heroCount": count(*[_type == "photo" && heroCarousel == true]),
     "locations": array::unique(*[_type == "photo" && defined(locationData.locationName)].locationData.locationName),
-    "species": array::unique(*[_type == "photo" && defined(species)].species[]->.name)
+    "species": array::unique(*[_type == "photo" && defined(species)].species[]->.name),
+    "coordinateLocations": *[_type == "photo" && defined(locationData.coordinates.lat) && defined(locationData.coordinates.lng)].locationData.coordinates
   }`)
+
+  // Helper function to group coordinates by ~100m precision for unique location counting
+  const getUniqueCoordinateLocations = (coordinates) => {
+    if (!coordinates || coordinates.length === 0) return [];
+
+    const uniqueCoords = coordinates
+      .map(coord => {
+        const lat = Math.round(coord.lat * 1000) / 1000;
+        const lng = Math.round(coord.lng * 1000) / 1000;
+        return `${lat},${lng}`;
+      })
+      .filter((coord, index, arr) => arr.indexOf(coord) === index);
+
+    return uniqueCoords;
+  };
+
+  // Helper function to extract countries from location names
+  const getCountriesFromLocations = (locations) => {
+    if (!locations || locations.length === 0) return [];
+
+    return [...new Set(locations.map(location => {
+      const lower = location.toLowerCase();
+      // Custom country mapping for better accuracy
+      if (lower.includes('whistler') || lower.includes('jasper') || lower.includes('banff')) return 'Canada';
+      if (lower.includes('scotland') || lower.includes('uk')) return 'United Kingdom';
+      if (lower.includes('belgium')) return 'Belgium';
+      if (lower.includes('norway')) return 'Norway';
+      if (lower.includes('iceland')) return 'Iceland';
+      if (lower.includes('france')) return 'France';
+      if (lower.includes('switzerland')) return 'Switzerland';
+      if (lower.includes('italy')) return 'Italy';
+      if (lower.includes('germany')) return 'Germany';
+      if (lower.includes('austria')) return 'Austria';
+      // Fallback to last part of location string (often country or region)
+      return location.split(', ').pop();
+    }))];
+  };
+
+  const uniqueCoordinateLocations = getUniqueCoordinateLocations(stats.coordinateLocations);
+  const countries = getCountriesFromLocations(stats.locations);
 
   return {
     ...stats,
-    locationCount: stats.locations?.length || 0,
-    speciesCount: stats.species?.length || 0
+    locationCount: uniqueCoordinateLocations.length > 0 ? uniqueCoordinateLocations.length : (stats.locations?.length || 0),
+    speciesCount: stats.species?.length || 0,
+    countryCount: countries.length
   }
 }
 

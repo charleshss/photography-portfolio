@@ -67,7 +67,6 @@ export default function LocationMap({ coordinates, locationName }) {
                         });
 
                     } catch (advancedMarkerError) {
-                        console.log('AdvancedMarkerElement not available, falling back to regular Marker');
                         // Fallback to regular marker
                         marker = new window.google.maps.Marker({
                             position: mapCenter,
@@ -234,7 +233,6 @@ export default function LocationMap({ coordinates, locationName }) {
                 }
             } catch (error) {
                 // Ignore cleanup errors during Fast Refresh
-                console.debug('Map cleanup during component unmount:', error.message);
             }
         };
     }, [coordinates, locationName, isMounted]);

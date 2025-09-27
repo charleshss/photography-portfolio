@@ -36,6 +36,7 @@ function getPhotoUrl(image, context) {
  * - images: [{ id, src, alt, title?, subtitle?, species?, location?, href?, blurDataURL? }]
  * - viewAllLink, viewAllText
  * - showLocation, showSpecies
+ * - showCount: show image count in title
  * - gridCols: e.g. "md:grid-cols-2 lg:grid-cols-4" (used for non-masonry)
  * - masonry: true => CSS columns masonry
  * - backgroundColor: Tailwind bg-* class
@@ -48,6 +49,7 @@ export default function Gallery({
     viewAllText = 'View All',
     showLocation = false,
     showSpecies = false,
+    showCount = false,
     gridCols = 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
     masonry = false,
     backgroundColor = 'bg-white',
@@ -62,6 +64,9 @@ export default function Gallery({
                         {title && (
                             <h2 className="mb-3 text-3xl font-bold md:text-4xl">
                                 {title}
+                                {showCount && (
+                                    <span className="ml-3 text-2xl font-normal text-gray-500">({images.length})</span>
+                                )}
                             </h2>
                         )}
                         {description && (

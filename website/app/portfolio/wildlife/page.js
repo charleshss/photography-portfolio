@@ -26,8 +26,21 @@ export default async function Wildlife() {
             .map(img => img.locationData.locationName)
     )];
 
-    // Calculate wildlife-specific statistics
-    // Map locations to countries - you may need to customize this mapping based on your location format
+    // Helper function to group locations by coordinates for accurate counting
+    const getUniqueCoordinateLocations = (images) => {
+        const coordinateLocations = images
+            .filter(img => img.locationData?.coordinates?.lat && img.locationData?.coordinates?.lng)
+            .map(img => {
+                // Round coordinates to ~100m precision for grouping nearby locations
+                const lat = Math.round(img.locationData.coordinates.lat * 1000) / 1000;
+                const lng = Math.round(img.locationData.coordinates.lng * 1000) / 1000;
+                return `${lat},${lng}`;
+            });
+
+        return [...new Set(coordinateLocations)];
+    };
+
+    // Calculate wildlife-specific statistics with coordinate-based counting
     const getCountryFromLocation = (location) => {
         const lower = location.toLowerCase();
         if (lower.includes('whistler') || lower.includes('jasper')) return 'Canada';
@@ -37,10 +50,12 @@ export default async function Wildlife() {
         return location.split(', ').pop(); // fallback to last part of location string
     };
 
+    const uniqueCoordinateLocations = getUniqueCoordinateLocations(wildlifeImages);
+
     const wildlifeStats = {
         totalImages: wildlifeImages.length,
         species: wildlifeSpecies.length,
-        locations: wildlifeLocations.length,
+        locations: uniqueCoordinateLocations.length > 0 ? uniqueCoordinateLocations.length : wildlifeLocations.length,
         countries: [...new Set(wildlifeLocations.map(loc => getCountryFromLocation(loc)))].length,
         featuredCount: wildlifeImages.filter(img => img.featured).length
     };
@@ -179,7 +194,7 @@ export default async function Wildlife() {
                         </div>
                         <div>
                             <h3 className="text-3xl font-bold text-gray-900">{wildlifeStats.locations}</h3>
-                            <p className="text-gray-600">Locations</p>
+                            <p className="text-gray-600">Unique Locations</p>
                         </div>
                         <div>
                             <h3 className="text-3xl font-bold text-gray-900">{wildlifeStats.countries}</h3>

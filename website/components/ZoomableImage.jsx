@@ -96,12 +96,11 @@ export default function ZoomableImage({ image, alt, title }) {
         }
     };
 
-    // Add optimized event listeners for better performance
+    // Add optimised event listeners for better performance
     useEffect(() => {
         const container = containerRef.current;
         if (container) {
-            const wheelHandler = handleWheel;
-            container.addEventListener('wheel', wheelHandler, { passive: false });
+            container.addEventListener('wheel', handleWheel, { passive: false });
 
             // Add global mouse move and mouse up for better drag performance
             const globalMouseMove = (e) => {
@@ -121,7 +120,7 @@ export default function ZoomableImage({ image, alt, title }) {
 
             return () => {
                 if (container) {
-                    container.removeEventListener('wheel', wheelHandler);
+                    container.removeEventListener('wheel', handleWheel);
                 }
                 document.removeEventListener('mousemove', globalMouseMove);
                 document.removeEventListener('mouseup', globalMouseUp);
