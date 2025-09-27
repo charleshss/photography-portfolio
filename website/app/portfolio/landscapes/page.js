@@ -1,33 +1,49 @@
 // app/portfolio/landscapes/page.js
 import Link from 'next/link';
 import Gallery from '@/components/Gallery';
-import { getImagesByCategory, getImagesByLocation, getPortfolioStats } from '@/lib/portfolio-data';
+import { getImagesByCategory, getImagesByLocation, getPortfolioStats } from '@/lib/sanity';
 
 export const metadata = {
     title: 'Landscape Photography - Sam\'s Photography',
     description: 'Landscape photography portfolio showcasing natural beauty and dramatic scenery',
 };
 
-export default function Landscapes() {
-    // Get all landscape images from centralised data
-    const landscapeImages = getImagesByCategory('landscape');
-    const stats = getPortfolioStats();
+export default async function Landscapes() {
+    // Get all landscape images from Sanity (now async)
+    const landscapeImages = await getImagesByCategory('landscape') || [];
+    const stats = await getPortfolioStats() || {};
 
     // Get unique locations for landscape photos
     const landscapeLocations = [...new Set(
         landscapeImages
-            .filter(img => img.location)
-            .map(img => img.location)
+            .filter(img => img.locationData?.locationName)
+            .map(img => img.locationData.locationName)
     )];
 
-    // Calculate landscape-specific statistics
+    // Helper function to group locations by coordinates for accurate counting
+    const getUniqueCoordinateLocations = (images) => {
+        const coordinateLocations = images
+            .filter(img => img.locationData?.coordinates?.lat && img.locationData?.coordinates?.lng)
+            .map(img => {
+                // Round coordinates to ~100m precision for grouping nearby locations
+                const lat = Math.round(img.locationData.coordinates.lat * 1000) / 1000;
+                const lng = Math.round(img.locationData.coordinates.lng * 1000) / 1000;
+                return `${lat},${lng}`;
+            });
+
+        return [...new Set(coordinateLocations)];
+    };
+
+    const uniqueCoordinateLocations = getUniqueCoordinateLocations(landscapeImages);
+
+    // Calculate landscape-specific statistics with coordinate-based counting
     const landscapeStats = {
         totalImages: landscapeImages.length,
-        locations: landscapeLocations.length,
+        locations: uniqueCoordinateLocations.length > 0 ? uniqueCoordinateLocations.length : landscapeLocations.length,
         countries: [...new Set(landscapeLocations.map(loc => loc.split(', ').pop()))].length,
         featuredCount: landscapeImages.filter(img => img.featured).length
     };
-    // Render full landscape collection view
+
     return (
         <main className="min-h-screen bg-white">
             {/* Hero Section */}
@@ -63,7 +79,7 @@ export default function Landscapes() {
                         </div>
                         <div>
                             <h3 className="text-3xl font-bold text-gray-900">{landscapeStats.locations}</h3>
-                            <p className="text-gray-600">Locations Captured</p>
+                            <p className="text-gray-600">Unique Locations</p>
                         </div>
                         <div>
                             <h3 className="text-3xl font-bold text-gray-900">{landscapeStats.countries}</h3>
@@ -84,6 +100,7 @@ export default function Landscapes() {
                 images={landscapeImages}
                 showLocation={true}
                 masonry={true}
+                context="landscapes"
             />
 
             {/* Featured Locations Section */}
@@ -101,12 +118,11 @@ export default function Landscapes() {
 
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                             {landscapeLocations.slice(0, 6).map((location, index) => {
-                                const locationImages = getImagesByLocation(location.split(', ')[0]);
                                 return (
                                     <div key={index} className="rounded-lg bg-white p-6 shadow-sm">
                                         <h3 className="mb-2 font-semibold text-lg">{location}</h3>
                                         <p className="text-gray-600">
-                                            {locationImages.length} image{locationImages.length !== 1 ? 's' : ''} captured
+                                            Location captured
                                         </p>
                                     </div>
                                 );

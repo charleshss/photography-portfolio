@@ -1,5 +1,33 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Dependencies
+website/node_modules/
+studio/node_modules/
+node_modules/
+
+# Next.js build outputs
+website/.next/
+website/out/
+
+# Environment variables
+.env
+.env.local
+.env.production
+website/.env
+website/.env.local
+website/.env.production
+studio/.env
+studio/.env.local
+studio/.env.production
+
+# Sanity
+.sanity
+
+# Build outputs
+website/build/
+studio/dist/
+
+
 # dependencies
 /node_modules
 /.pnp
@@ -39,3 +67,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude Code
+CLAUDE.md
+.claude/
+claude-*

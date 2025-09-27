@@ -1,9 +1,19 @@
-// app/page.js
+// website/app/page.js
 import HeroCarousel from '@/components/HeroCarousel';
+import ImageCard from '@/components/ImageCard';
 import Link from 'next/link';
-import Image from 'next/image';
+import { getFeaturedImages } from '@/lib/sanity';
 
-export default function Home() {
+export default async function Home() {
+  // Fetch featured images from Sanity
+  let featuredImages = [];
+  try {
+    featuredImages = await getFeaturedImages();
+    // Featured images fetched successfully
+  } catch (error) {
+    console.error('Error fetching featured images:', error);
+  }
+
   return (
     <main className="min-h-screen bg-white text-gray-900">
       {/* Hero Section with Carousel - Full viewport height */}
@@ -40,7 +50,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* My Best Work Section */}
+      {/* My Best Work Section - Now uses Sanity data */}
       <section className="bg-white px-6 py-20">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
@@ -51,27 +61,39 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Placeholder Grid */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-lg bg-gray-200"
-              >
-                <Image
-                  src={`https://images.unsplash.com/photo-${i === 1
-                    ? '1743431168296-5269fffaa214'
-                    : i === 2
-                      ? '1564349683136-77e08dba1ef7'
-                      : '1441974231531-c6227db76b6e'
-                    }?w=800&h=600&fit=crop`}
-                  alt={`Best work ${i}`}
-                  fill
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          {/* Featured Images Grid - Updated to use Sanity */}
+          {featuredImages.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {featuredImages.map((image) => (
+                <ImageCard
+                  key={image._id}
+                  image={{
+                    ...image,
+                    href: image.slug?.current ? `/photo/${image.slug.current}` : `/portfolio/${image.category}`
+                  }}
+                  aspectRatio="aspect-[4/3]"
+                  showLocation={true}
                 />
-                <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/20" />
-              </div>
-            ))}
+              ))}
+            </div>
+          ) : (
+            // Fallback when no featured images exist
+            <div className="text-center py-12">
+              <div className="text-gray-500 mb-4">No featured images yet</div>
+              <p className="text-sm text-gray-400">
+                Upload some photos in Sanity Studio and mark them as &#34;Featured&#34; to see them here
+              </p>
+            </div>
+          )}
+
+          {/* View All Button */}
+          <div className="mt-10 text-center">
+            <Link
+              href="/portfolio"
+              className="inline-flex items-center rounded-full bg-gray-900 px-8 py-3 text-sm font-semibold text-white transition hover:bg-gray-700"
+            >
+              View Full Portfolio
+            </Link>
           </div>
         </div>
       </section>
@@ -79,11 +101,11 @@ export default function Home() {
       <section className="bg-gray-50">
         <div className="mx-auto flex max-w-4xl flex-col gap-6 px-6 py-20 text-center">
           <h2 className="text-3xl font-semibold sm:text-4xl">
-            Let’s plan your next visual story
+            Let&#39;s plan your next visual story
           </h2>
           <p className="text-base text-gray-600 sm:text-lg">
             Whether you want to explore nature and search for wildlife together.
-            I’d love to collaborate.
+            I&#39;d love to collaborate.
           </p>
           <a
             href="/contact"
