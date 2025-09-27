@@ -1,5 +1,0 @@
-{
-  "buildCommand": "npm run build --prefix website",
-  "outputDirectory": "website/.next",
-  "installCommand": "npm install --prefix website"
-}
