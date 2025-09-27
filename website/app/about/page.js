@@ -215,7 +215,7 @@ export default async function About() {
               {aboutData.callToAction.ctaTitle || "Let's Connect"}
             </h3>
             {aboutData.callToAction.ctaText && (
-              <p className="text-green-100 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
+              <p className="text-green-100 mb-8 max-w-2xl mx-auto text-lg leading-relaxed break-words">
                 {aboutData.callToAction.ctaText}
               </p>
             )}
