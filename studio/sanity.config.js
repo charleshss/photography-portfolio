@@ -59,6 +59,14 @@ export default defineConfig({
                   .title('Landscape Photography')
                   .filter('_type == "photo" && category == "landscape"')
                   .apiVersion('2024-01-01')
+              ),
+            S.divider(),
+            S.listItem()
+              .title('📝 About Page')
+              .child(
+                S.document()
+                  .schemaType('aboutPage')
+                  .documentId('aboutPage')
               )
           ])
     }),
