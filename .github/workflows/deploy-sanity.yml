@@ -3,7 +3,9 @@ name: Deploy Sanity Studio
 on:
   push:
     branches: [main]
-    paths: ['studio/**']
+    paths:
+      - 'studio/**'
+      - '.github/workflows/deploy-sanity.yml'
   workflow_dispatch: # Allow manual triggering
 
 jobs:
