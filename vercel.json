@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "buildCommand": "cd website && npm run build",
+  "outputDirectory": "website/.next",
+  "installCommand": "cd website && npm install --include=optional",
+  "framework": "nextjs",
+  "functions": {
+    "website/app/**": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/studio/(.*)",
+      "destination": "https://your-studio-name.sanity.studio/$1"
+    }
+  ]
+}

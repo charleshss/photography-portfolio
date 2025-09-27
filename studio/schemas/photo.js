@@ -252,7 +252,7 @@ export default {
             options: {
                 layout: 'tags'
             },
-            description: 'Add descriptive keywords to help organise and find your photos. Examples: "golden-hour", "sunrise", "action-shot", "macro", "telephoto",
+            description: 'Add descriptive keywords to help organise and find your photos. Examples: "golden-hour", "sunrise", "action-shot", "macro", "telephoto".',
             placeholder: 'Add tags to categorise this photo...'
         },
         {
