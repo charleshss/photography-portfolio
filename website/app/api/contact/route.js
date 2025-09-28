@@ -7,6 +7,33 @@ const resendKey =
         ? rawResendKey
         : null;
 
+const corsHeaders = {
+    'Access-Control-Allow-Origin':
+        process.env.NEXT_PUBLIC_SITE_URL || '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+};
+
+function jsonResponse(body, init = {}) {
+    return Response.json(body, {
+        ...init,
+        headers: {
+            ...corsHeaders,
+            ...(init.headers || {}),
+        },
+    });
+}
+
+export async function OPTIONS() {
+    return new Response(null, {
+        status: 204,
+        headers: {
+            ...corsHeaders,
+            'Access-Control-Max-Age': '86400',
+        },
+    });
+}
+
 async function getContactEmail() {
     try {
         const contactData = await client.fetch(
@@ -24,7 +51,7 @@ async function getContactEmail() {
 export async function POST(request) {
     if (!resendKey) {
         console.warn('RESEND_API_KEY is not configured. Skipping email send.');
-        return Response.json(
+        return jsonResponse(
             { error: 'Email service not configured. Please try again later.' },
             { status: 503 }
         );
@@ -32,19 +59,35 @@ export async function POST(request) {
 
     const resend = new Resend(resendKey);
 
+    let parsedBody;
     try {
-        const { name, email, message } = await request.json();
+        parsedBody = await request.json();
+    } catch (error) {
+        console.error('Invalid JSON payload received:', error);
+        return jsonResponse(
+            { error: 'Invalid request payload' },
+            { status: 400 }
+        );
+    }
+
+    try {
+        const { name, email, message } = parsedBody;
 
         // Validate required fields
         if (!name || !email || !message) {
-            return Response.json(
-                { error: 'All fields are required' },
-                { status: 400 }
-            );
+            return jsonResponse({ error: 'All fields are required' }, { status: 400 });
         }
 
         // Get the destination email from Sanity CMS
         const destinationEmail = await getContactEmail();
+
+        const sanitizedMessage = String(message)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/\n/g, '<br>');
 
         // Send email using Resend
         const data = await resend.emails.send({
@@ -65,7 +108,7 @@ export async function POST(request) {
           <div style="margin: 20px 0;">
             <h3 style="color: #374151;">Message:</h3>
             <div style="background-color: #ffffff; padding: 15px; border: 1px solid #d1d5db; border-radius: 6px;">
-              ${message.replace(/\n/g, '<br>')}
+              ${sanitizedMessage}
             </div>
           </div>
 
@@ -78,7 +121,7 @@ export async function POST(request) {
             replyTo: email, // This allows you to reply directly to the sender
         });
 
-        return Response.json({
+        return jsonResponse({
             success: true,
             message: 'Email sent successfully',
             emailId: data.id,
@@ -88,13 +131,13 @@ export async function POST(request) {
 
         // Return specific error messages based on the error type
         if (error.message?.includes('API key')) {
-            return Response.json(
+            return jsonResponse(
                 { error: 'Email service configuration error' },
                 { status: 500 }
             );
         }
 
-        return Response.json(
+        return jsonResponse(
             { error: 'Failed to send email. Please try again later.' },
             { status: 500 }
         );
