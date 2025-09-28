@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    outputFileTracingRoot: process.cwd(),
     images: {
         remotePatterns: [
             {
@@ -11,13 +10,6 @@ const nextConfig = {
             },
         ],
     },
-    // Fix for Vercel serverless function dependency issues
-    experimental: {
-        outputFileTracingIncludes: {
-            '/api/**/*': ['./node_modules/styled-jsx/**/*'],
-        },
-    },
-    serverExternalPackages: [],
 }
 
 export default nextConfig
