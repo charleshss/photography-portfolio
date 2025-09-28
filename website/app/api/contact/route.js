@@ -126,14 +126,21 @@ async function getContactEmail() {
 }
 
 export async function POST(request) {
-    // Enhanced debugging for deployment issues
-    console.log('POST request received to /api/contact');
-    console.log('Request method:', request.method);
-    console.log('Request URL:', request.url);
-    console.log('Request headers:', Object.fromEntries(request.headers.entries()));
+    try {
+        // Enhanced debugging for deployment issues
+        console.log('POST request received to /api/contact');
+        console.log('Request method:', request.method);
+        console.log('Request URL:', request.url);
+        console.log('Request headers:', Object.fromEntries(request.headers.entries()));
 
-    console.log('RESEND_API_KEY available:', !!process.env.RESEND_API_KEY);
-    console.log('Processed resendKey available:', !!resendKey);
+        console.log('RESEND_API_KEY available:', !!process.env.RESEND_API_KEY);
+        console.log('Raw RESEND_API_KEY:', process.env.RESEND_API_KEY);
+        console.log('Processed resendKey available:', !!resendKey);
+        console.log('Processed resendKey value:', resendKey);
+    } catch (debugError) {
+        console.error('Error in initial debugging:', debugError);
+        return jsonResponse({ error: 'Debug error: ' + debugError.message }, { status: 500 });
+    }
 
     if (!resendKey) {
         console.warn('RESEND_API_KEY is not configured properly. Raw key:', process.env.RESEND_API_KEY ? 'exists' : 'missing');
