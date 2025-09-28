@@ -33,13 +33,24 @@ export default function ContactForm() {
                 body: JSON.stringify(formData),
             });
 
-            const result = await response.json();
+            const rawBody = await response.text();
+            let parsedBody = null;
+
+            if (rawBody) {
+                try {
+                    parsedBody = JSON.parse(rawBody);
+                } catch (parseError) {
+                    console.error('Unexpected response payload:', rawBody);
+                }
+            }
 
             if (response.ok) {
                 setSubmitStatus('success');
                 setFormData({ name: '', email: '', message: '' });
             } else {
-                console.error('Form submission error:', result.error);
+                const errorMessage =
+                    parsedBody?.error || rawBody || 'Unknown error occurred';
+                console.error('Form submission error:', errorMessage);
                 setSubmitStatus('error');
             }
         } catch (error) {

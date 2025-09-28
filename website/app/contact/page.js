@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { client } from '@/lib/sanity';
 import imageUrlBuilder from '@sanity/image-url';
 import ContactForm from '../../components/ContactForm';
-import { Instagram, User, Info } from 'lucide-react';
+import { Instagram, User, Info, Mail } from 'lucide-react';
 
 const builder = imageUrlBuilder(client);
 
@@ -135,6 +135,28 @@ export default async function Contact() {
                                     </a>
                                     <p className="text-gray-600">
                                         See my latest work and send me a DM
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+                        {contactData.email && (
+                            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border border-blue-200 shadow-lg">
+                                <div className="text-center">
+                                    <div className="w-16 h-16 bg-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                        <Mail className="w-8 h-8 text-white" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                                        Prefer Email?
+                                    </h3>
+                                    <a
+                                        href={`mailto:${contactData.email}`}
+                                        className="inline-block text-blue-600 hover:text-blue-700 transition-colors text-xl font-semibold hover:underline mb-2"
+                                    >
+                                        {contactData.email}
+                                    </a>
+                                    <p className="text-gray-600">
+                                        Click to open your email client directly
+                                        with my address.
                                     </p>
                                 </div>
                             </div>
