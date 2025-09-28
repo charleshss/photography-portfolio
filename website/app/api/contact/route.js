@@ -121,6 +121,7 @@ export async function POST(request) {
     console.log('Request method:', request.method);
     console.log('Request URL:', request.url);
     console.log('Request headers:', Object.fromEntries(request.headers.entries()));
+
     console.log('RESEND_API_KEY available:', !!process.env.RESEND_API_KEY);
     console.log('Processed resendKey available:', !!resendKey);
 
