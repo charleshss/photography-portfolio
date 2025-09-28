@@ -11,6 +11,13 @@ const nextConfig = {
             },
         ],
     },
+    // Fix for Vercel serverless function dependency issues
+    experimental: {
+        outputFileTracingIncludes: {
+            '/api/**/*': ['./node_modules/styled-jsx/**/*'],
+        },
+    },
+    serverExternalPackages: [],
 }
 
 export default nextConfig
