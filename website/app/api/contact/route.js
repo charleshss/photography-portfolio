@@ -1,7 +1,11 @@
 import { Resend } from 'resend';
 import { client } from '@/lib/sanity';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const rawResendKey = process.env.RESEND_API_KEY;
+const resendKey =
+    rawResendKey && !rawResendKey.includes('<YOUR_RESEND_API_KEY>')
+        ? rawResendKey
+        : null;
 
 async function getContactEmail() {
     try {
@@ -18,6 +22,16 @@ async function getContactEmail() {
 }
 
 export async function POST(request) {
+    if (!resendKey) {
+        console.warn('RESEND_API_KEY is not configured. Skipping email send.');
+        return Response.json(
+            { error: 'Email service not configured. Please try again later.' },
+            { status: 503 }
+        );
+    }
+
+    const resend = new Resend(resendKey);
+
     try {
         const { name, email, message } = await request.json();
 
