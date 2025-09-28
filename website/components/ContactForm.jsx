@@ -55,6 +55,7 @@ export default function ContactForm() {
                     response.status,
                     errorMessage
                 );
+
                 setSubmitStatus('error');
             }
         } catch (error) {

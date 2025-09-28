@@ -110,6 +110,7 @@ export async function POST(request) {
     const resend = new Resend(resendKey);
 
     let parsedBody;
+  
     try {
         parsedBody = await request.json();
     } catch (error) {
