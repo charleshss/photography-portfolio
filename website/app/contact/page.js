@@ -139,7 +139,6 @@ export default async function Contact() {
                                 </div>
                             </div>
                         )}
-
                         {contactData.email && (
                             <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border border-blue-200 shadow-lg">
                                 <div className="text-center">
