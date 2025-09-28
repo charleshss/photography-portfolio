@@ -4,6 +4,7 @@ import { client } from '@/lib/sanity';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 const rawResendKey = process.env.RESEND_API_KEY;
 const resendKey =
@@ -75,7 +76,16 @@ export async function OPTIONS(request) {
 }
 
 export async function GET() {
-    return jsonResponse({ error: 'Method not allowed' }, { status: 405 });
+    console.log('GET request to /api/contact received');
+    return jsonResponse({
+        message: 'Contact API is working!',
+        method: 'GET',
+        timestamp: new Date().toISOString(),
+        env: {
+            hasResendKey: !!process.env.RESEND_API_KEY,
+            nodeEnv: process.env.NODE_ENV
+        }
+    }, { status: 200 });
 }
 
 export async function HEAD() {
