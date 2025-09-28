@@ -9,13 +9,14 @@ export async function generateMetadata({ params }) {
 
     if (!photo || photo.category !== 'wildlife') {
         return {
-            title: 'Wildlife Photo Not Found'
+            title: 'Wildlife Photo Not Found',
         };
     }
 
     return {
         title: `${photo.title} - Wildlife Photography - Sam's Photography`,
-        description: photo.description || `${photo.title} - Wildlife photography by Sam`,
+        description:
+            photo.description || `${photo.title} - Wildlife photography by Sam`,
         openGraph: {
             title: photo.title,
             description: photo.description,

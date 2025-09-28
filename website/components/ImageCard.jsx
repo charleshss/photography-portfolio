@@ -25,7 +25,11 @@ export default function ImageCard({
 
     // Handle both Sanity images and direct URLs
     const imageUrl = image.image
-        ? urlFor(image.image).width(masonry ? 600 : 800).height(masonry ? 400 : 600).quality(80).url()
+        ? urlFor(image.image)
+              .width(masonry ? 600 : 800)
+              .height(masonry ? 400 : 600)
+              .quality(80)
+              .url()
         : image.src;
 
     // High-res image URL for modal - preserve original aspect ratio
@@ -83,7 +87,9 @@ export default function ImageCard({
             </button>
 
             {/* Overlay content (bottom-left) - ONLY VISIBLE ON HOVER */}
-            {(image.title || (showSpecies && image.species) || (showLocation && getLocationDisplay(image))) && (
+            {(image.title ||
+                (showSpecies && image.species) ||
+                (showLocation && getLocationDisplay(image))) && (
                 <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <div className="inline-block rounded-md bg-black/60 px-3 py-2 text-left text-white backdrop-blur-sm">
                         {image.title && (
@@ -96,15 +102,18 @@ export default function ImageCard({
                         {showSpecies && image.species && (
                             <p className="mt-0.5 text-xs text-gray-200">
                                 {Array.isArray(image.species)
-                                    ? image.species.map(s => s.name).join(', ')
-                                    : image.species
-                                }
+                                    ? image.species
+                                          .map((s) => s.name)
+                                          .join(', ')
+                                    : image.species}
                             </p>
                         )}
 
                         {/* Location */}
                         {showLocation && getLocationDisplay(image) && (
-                            <p className="mt-0.5 text-xs text-gray-300">{getLocationDisplay(image)}</p>
+                            <p className="mt-0.5 text-xs text-gray-300">
+                                {getLocationDisplay(image)}
+                            </p>
                         )}
                     </div>
                 </div>
@@ -116,7 +125,10 @@ export default function ImageCard({
     return (
         <>
             {image.href ? (
-                <Link href={image.href} aria-label={image.title || altText || 'View image'}>
+                <Link
+                    href={image.href}
+                    aria-label={image.title || altText || 'View image'}
+                >
                     {CardInner}
                 </Link>
             ) : (

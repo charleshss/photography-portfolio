@@ -16,17 +16,19 @@ export default function LocationMap({ coordinates, locationName }) {
     }, []);
 
     useEffect(() => {
-        if (!coordinates || !coordinates.lat || !coordinates.lng || !isMounted) return;
+        if (!coordinates || !coordinates.lat || !coordinates.lng || !isMounted)
+            return;
 
         let mounted = true;
 
         const initializeMap = async () => {
-            if (!mapRef.current || !window.google || !mounted || !isMounted) return;
+            if (!mapRef.current || !window.google || !mounted || !isMounted)
+                return;
 
             try {
                 const mapCenter = {
                     lat: parseFloat(coordinates.lat),
-                    lng: parseFloat(coordinates.lng)
+                    lng: parseFloat(coordinates.lng),
                 };
 
                 if (!mounted || !isMounted) return;
@@ -41,7 +43,7 @@ export default function LocationMap({ coordinates, locationName }) {
                     scaleControl: true,
                     streetViewControl: false,
                     rotateControl: false,
-                    fullscreenControl: true
+                    fullscreenControl: true,
                 });
 
                 mapInstanceRef.current = map;
@@ -51,7 +53,10 @@ export default function LocationMap({ coordinates, locationName }) {
                 let marker;
 
                 // Try to use AdvancedMarkerElement if available (newer API)
-                if (window.google.maps.marker && window.google.maps.marker.AdvancedMarkerElement) {
+                if (
+                    window.google.maps.marker &&
+                    window.google.maps.marker.AdvancedMarkerElement
+                ) {
                     try {
                         // Create marker element
                         const markerElement = document.createElement('div');
@@ -59,13 +64,15 @@ export default function LocationMap({ coordinates, locationName }) {
                         markerElement.style.fontSize = '24px';
                         markerElement.style.cursor = 'pointer';
 
-                        marker = new window.google.maps.marker.AdvancedMarkerElement({
-                            map: map,
-                            position: mapCenter,
-                            content: markerElement,
-                            title: locationName || 'Photo Location'
-                        });
-
+                        marker =
+                            new window.google.maps.marker.AdvancedMarkerElement(
+                                {
+                                    map: map,
+                                    position: mapCenter,
+                                    content: markerElement,
+                                    title: locationName || 'Photo Location',
+                                }
+                            );
                     } catch (advancedMarkerError) {
                         // Fallback to regular marker
                         marker = new window.google.maps.Marker({
@@ -73,14 +80,16 @@ export default function LocationMap({ coordinates, locationName }) {
                             map: map,
                             title: locationName || 'Photo Location',
                             icon: {
-                                url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                                url:
+                                    'data:image/svg+xml;charset=UTF-8,' +
+                                    encodeURIComponent(`
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                                         <text x="16" y="24" font-family="Arial" font-size="24" text-anchor="middle" fill="#e53e3e">📍</text>
                                     </svg>
                                 `),
                                 scaledSize: new window.google.maps.Size(32, 32),
-                                anchor: new window.google.maps.Point(16, 32)
-                            }
+                                anchor: new window.google.maps.Point(16, 32),
+                            },
                         });
                     }
                 } else {
@@ -90,14 +99,16 @@ export default function LocationMap({ coordinates, locationName }) {
                         map: map,
                         title: locationName || 'Photo Location',
                         icon: {
-                            url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                            url:
+                                'data:image/svg+xml;charset=UTF-8,' +
+                                encodeURIComponent(`
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                                     <text x="16" y="24" font-family="Arial" font-size="24" text-anchor="middle" fill="#e53e3e">📍</text>
                                 </svg>
                             `),
                             scaledSize: new window.google.maps.Size(32, 32),
-                            anchor: new window.google.maps.Point(16, 32)
-                        }
+                            anchor: new window.google.maps.Point(16, 32),
+                        },
                     });
                 }
 
@@ -113,7 +124,7 @@ export default function LocationMap({ coordinates, locationName }) {
                                     ${coordinates.lat.toFixed(6)}, ${coordinates.lng.toFixed(6)}
                                 </div>
                             </div>
-                        `
+                        `,
                     });
 
                     marker.addListener('click', () => {
@@ -193,7 +204,9 @@ export default function LocationMap({ coordinates, locationName }) {
                 };
 
                 // Check if script already exists
-                const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
+                const existingScript = document.querySelector(
+                    'script[src*="maps.googleapis.com"]'
+                );
                 if (!existingScript && mounted && isMounted) {
                     document.head.appendChild(script);
                 } else if (existingScript) {
@@ -244,13 +257,16 @@ export default function LocationMap({ coordinates, locationName }) {
     if (mapError) {
         return (
             <div className="mt-3">
-                <div className="text-xs text-gray-500 mb-2">Location Coordinates</div>
+                <div className="text-xs text-gray-500 mb-2">
+                    Location Coordinates
+                </div>
                 <div className="p-4 bg-gray-50 rounded-lg text-center border border-gray-200">
                     <div className="text-sm text-gray-500 mb-2">
                         📍 Map unavailable
                     </div>
                     <div className="text-xs text-gray-600 font-mono">
-                        {coordinates.lat.toFixed(6)}, {coordinates.lng.toFixed(6)}
+                        {coordinates.lat.toFixed(6)},{' '}
+                        {coordinates.lng.toFixed(6)}
                     </div>
                     <div className="text-xs text-gray-400 mt-1">
                         Location coordinates only
@@ -270,7 +286,9 @@ export default function LocationMap({ coordinates, locationName }) {
             >
                 {!mapLoaded && (
                     <div className="w-full h-full flex items-center justify-center">
-                        <div className="text-sm text-gray-500">Loading map...</div>
+                        <div className="text-sm text-gray-500">
+                            Loading map...
+                        </div>
                     </div>
                 )}
             </div>

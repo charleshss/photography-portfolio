@@ -2,7 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, MapPin, Calendar, Camera, Tag, Info, Eye, ChevronDown } from 'lucide-react';
+import {
+    ArrowLeft,
+    MapPin,
+    Calendar,
+    Camera,
+    Tag,
+    Info,
+    Eye,
+    ChevronDown,
+} from 'lucide-react';
 import ZoomableImage from '@/components/ZoomableImage';
 import { getCameraData, getLocationDisplay } from '@/lib/sanity';
 
@@ -10,7 +19,7 @@ export default function PhotoDetailPage({
     photo,
     backUrl = '/portfolio',
     backLabel = 'Back to Portfolio',
-    context = 'portfolio'
+    context = 'portfolio',
 }) {
     const [smartBackUrl, setSmartBackUrl] = useState(backUrl);
     const [smartBackLabel, setSmartBackLabel] = useState(backLabel);
@@ -46,7 +55,8 @@ export default function PhotoDetailPage({
                         Photo Not Found
                     </h1>
                     <p className="text-gray-600 mb-8">
-                        The photo you're looking for doesn't exist or may have been moved.
+                        The photo you're looking for doesn't exist or may have
+                        been moved.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link
@@ -136,7 +146,11 @@ export default function PhotoDetailPage({
                                             </span>
                                             {species.category && (
                                                 <span className="text-sm text-blue-700 mt-1 block">
-                                                    {species.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                                                    {species.category
+                                                        .replace(/-/g, ' ')
+                                                        .replace(/\b\w/g, (l) =>
+                                                            l.toUpperCase()
+                                                        )}
                                                 </span>
                                             )}
                                         </div>
@@ -149,20 +163,31 @@ export default function PhotoDetailPage({
                         {(locationName || photo.locationData) && (
                             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
                                 <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 mb-4">
-                                    <MapPin size={20} className="text-green-600" />
+                                    <MapPin
+                                        size={20}
+                                        className="text-green-600"
+                                    />
                                     Location
                                 </h3>
                                 <div className="space-y-3">
                                     {locationName && (
                                         <div>
-                                            <div className="text-sm text-green-600 font-medium mb-1">Location</div>
-                                            <p className="text-gray-900 font-semibold">{locationName}</p>
+                                            <div className="text-sm text-green-600 font-medium mb-1">
+                                                Location
+                                            </div>
+                                            <p className="text-gray-900 font-semibold">
+                                                {locationName}
+                                            </p>
                                         </div>
                                     )}
                                     {photo.locationData?.country && (
                                         <div>
-                                            <div className="text-xs text-green-600 mb-1">Country</div>
-                                            <p className="text-gray-900 font-medium">{photo.locationData.country}</p>
+                                            <div className="text-xs text-green-600 mb-1">
+                                                Country
+                                            </div>
+                                            <p className="text-gray-900 font-medium">
+                                                {photo.locationData.country}
+                                            </p>
                                         </div>
                                     )}
                                 </div>
@@ -173,18 +198,23 @@ export default function PhotoDetailPage({
                         {photo.tags && photo.tags.length > 0 && (
                             <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl p-6 border border-purple-200">
                                 <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 mb-4">
-                                    <Tag size={20} className="text-purple-600" />
+                                    <Tag
+                                        size={20}
+                                        className="text-purple-600"
+                                    />
                                     Tags
                                 </h3>
                                 <div className="flex flex-wrap gap-2">
-                                    {photo.tags.slice(0, 4).map((tag, index) => (
-                                        <span
-                                            key={`${tag.name}-${index}`}
-                                            className="px-3 py-1 bg-white text-purple-700 text-sm rounded-full border border-purple-300 font-medium"
-                                        >
-                                            {tag.name}
-                                        </span>
-                                    ))}
+                                    {photo.tags
+                                        .slice(0, 4)
+                                        .map((tag, index) => (
+                                            <span
+                                                key={`${tag.name}-${index}`}
+                                                className="px-3 py-1 bg-white text-purple-700 text-sm rounded-full border border-purple-300 font-medium"
+                                            >
+                                                {tag.name}
+                                            </span>
+                                        ))}
                                     {photo.tags.length > 4 && (
                                         <span className="px-3 py-1 bg-purple-100 text-purple-600 text-sm rounded-full border border-purple-300">
                                             +{photo.tags.length - 4} more
@@ -200,11 +230,16 @@ export default function PhotoDetailPage({
                         <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200">
                             <button
                                 type="button"
-                                onClick={() => setCameraDetailsExpanded(prev => !prev)}
+                                onClick={() =>
+                                    setCameraDetailsExpanded((prev) => !prev)
+                                }
                                 className="flex w-full items-center justify-between text-left mb-6"
                             >
                                 <span className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                                    <Camera size={24} className="text-gray-700" />
+                                    <Camera
+                                        size={24}
+                                        className="text-gray-700"
+                                    />
                                     Camera & Technical Details
                                 </span>
                                 <ChevronDown
@@ -219,13 +254,18 @@ export default function PhotoDetailPage({
                                     {(cameraData.camera || cameraData.lens) && (
                                         <div className="bg-white rounded-xl p-6 shadow-sm">
                                             <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                                <Camera size={20} className="text-gray-600" />
+                                                <Camera
+                                                    size={20}
+                                                    className="text-gray-600"
+                                                />
                                                 Equipment
                                             </h4>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {cameraData.camera && (
                                                     <div className="bg-gray-50 rounded-lg p-4">
-                                                        <div className="text-sm text-gray-500 mb-1">Camera Body</div>
+                                                        <div className="text-sm text-gray-500 mb-1">
+                                                            Camera Body
+                                                        </div>
                                                         <div className="text-lg font-semibold text-gray-900">
                                                             {cameraData.camera}
                                                         </div>
@@ -233,7 +273,9 @@ export default function PhotoDetailPage({
                                                 )}
                                                 {cameraData.lens && (
                                                     <div className="bg-gray-50 rounded-lg p-4">
-                                                        <div className="text-sm text-gray-500 mb-1">Lens</div>
+                                                        <div className="text-sm text-gray-500 mb-1">
+                                                            Lens
+                                                        </div>
                                                         <div className="text-lg font-semibold text-gray-900">
                                                             {cameraData.lens}
                                                         </div>
@@ -244,34 +286,72 @@ export default function PhotoDetailPage({
                                     )}
 
                                     {/* Exposure Settings */}
-                                    {(cameraData.settings?.aperture || cameraData.settings?.shutterSpeed || cameraData.settings?.iso || cameraData.settings?.focalLength) && (
+                                    {(cameraData.settings?.aperture ||
+                                        cameraData.settings?.shutterSpeed ||
+                                        cameraData.settings?.iso ||
+                                        cameraData.settings?.focalLength) && (
                                         <div className="bg-white rounded-xl p-6 shadow-sm">
                                             <h4 className="text-lg font-semibold text-gray-900 mb-4">
                                                 Exposure Settings
                                             </h4>
                                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                                {cameraData.settings?.aperture && (
+                                                {cameraData.settings
+                                                    ?.aperture && (
                                                     <div className="text-center bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
-                                                        <div className="text-sm text-blue-600 mb-1 font-medium">Aperture</div>
-                                                        <div className="text-2xl font-bold text-gray-900">{cameraData.settings.aperture}</div>
+                                                        <div className="text-sm text-blue-600 mb-1 font-medium">
+                                                            Aperture
+                                                        </div>
+                                                        <div className="text-2xl font-bold text-gray-900">
+                                                            {
+                                                                cameraData
+                                                                    .settings
+                                                                    .aperture
+                                                            }
+                                                        </div>
                                                     </div>
                                                 )}
-                                                {cameraData.settings?.shutterSpeed && (
+                                                {cameraData.settings
+                                                    ?.shutterSpeed && (
                                                     <div className="text-center bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200">
-                                                        <div className="text-sm text-green-600 mb-1 font-medium">Shutter</div>
-                                                        <div className="text-2xl font-bold text-gray-900">{cameraData.settings.shutterSpeed}</div>
+                                                        <div className="text-sm text-green-600 mb-1 font-medium">
+                                                            Shutter
+                                                        </div>
+                                                        <div className="text-2xl font-bold text-gray-900">
+                                                            {
+                                                                cameraData
+                                                                    .settings
+                                                                    .shutterSpeed
+                                                            }
+                                                        </div>
                                                     </div>
                                                 )}
                                                 {cameraData.settings?.iso && (
                                                     <div className="text-center bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-4 border border-orange-200">
-                                                        <div className="text-sm text-orange-600 mb-1 font-medium">ISO</div>
-                                                        <div className="text-2xl font-bold text-gray-900">{cameraData.settings.iso}</div>
+                                                        <div className="text-sm text-orange-600 mb-1 font-medium">
+                                                            ISO
+                                                        </div>
+                                                        <div className="text-2xl font-bold text-gray-900">
+                                                            {
+                                                                cameraData
+                                                                    .settings
+                                                                    .iso
+                                                            }
+                                                        </div>
                                                     </div>
                                                 )}
-                                                {cameraData.settings?.focalLength && (
+                                                {cameraData.settings
+                                                    ?.focalLength && (
                                                     <div className="text-center bg-gradient-to-br from-purple-50 to-violet-50 rounded-lg p-4 border border-purple-200">
-                                                        <div className="text-sm text-purple-600 mb-1 font-medium">Focal Length</div>
-                                                        <div className="text-2xl font-bold text-gray-900">{cameraData.settings.focalLength}</div>
+                                                        <div className="text-sm text-purple-600 mb-1 font-medium">
+                                                            Focal Length
+                                                        </div>
+                                                        <div className="text-2xl font-bold text-gray-900">
+                                                            {
+                                                                cameraData
+                                                                    .settings
+                                                                    .focalLength
+                                                            }
+                                                        </div>
                                                     </div>
                                                 )}
                                             </div>
@@ -282,23 +362,38 @@ export default function PhotoDetailPage({
                                     {cameraData.captureDate && (
                                         <div className="bg-white rounded-xl p-6 shadow-sm">
                                             <div className="flex items-start gap-4">
-                                                <Calendar size={24} className="text-blue-600 mt-1" />
+                                                <Calendar
+                                                    size={24}
+                                                    className="text-blue-600 mt-1"
+                                                />
                                                 <div>
-                                                    <div className="text-lg font-semibold text-gray-900 mb-2">Captured</div>
+                                                    <div className="text-lg font-semibold text-gray-900 mb-2">
+                                                        Captured
+                                                    </div>
                                                     <div className="text-gray-600">
-                                                        {new Date(cameraData.captureDate).toLocaleDateString('en-US', {
-                                                            weekday: 'long',
-                                                            year: 'numeric',
-                                                            month: 'long',
-                                                            day: 'numeric'
-                                                        })}
+                                                        {new Date(
+                                                            cameraData.captureDate
+                                                        ).toLocaleDateString(
+                                                            'en-US',
+                                                            {
+                                                                weekday: 'long',
+                                                                year: 'numeric',
+                                                                month: 'long',
+                                                                day: 'numeric',
+                                                            }
+                                                        )}
                                                     </div>
                                                     <div className="text-gray-500 mt-1">
-                                                        {new Date(cameraData.captureDate).toLocaleTimeString('en-US', {
-                                                            hour: '2-digit',
-                                                            minute: '2-digit',
-                                                            hour12: true
-                                                        })}
+                                                        {new Date(
+                                                            cameraData.captureDate
+                                                        ).toLocaleTimeString(
+                                                            'en-US',
+                                                            {
+                                                                hour: '2-digit',
+                                                                minute: '2-digit',
+                                                                hour12: true,
+                                                            }
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>

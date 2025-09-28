@@ -34,6 +34,7 @@ function getPhotoUrl(image, context) {
  * Props:
  * - title, description: section heading
  * - images: [{ id, src, alt, title?, subtitle?, species?, location?, href?, blurDataURL? }]
+ * - totalCount: optional total number of items when `images` is a subset
  * - viewAllLink, viewAllText
  * - showLocation, showSpecies
  * - showCount: show image count in title
@@ -45,6 +46,7 @@ export default function Gallery({
     title,
     description,
     images,
+    totalCount,
     viewAllLink,
     viewAllText = 'View All',
     showLocation = false,
@@ -55,6 +57,9 @@ export default function Gallery({
     backgroundColor = 'bg-white',
     context = 'portfolio', // 'wildlife', 'landscapes', 'home', or 'portfolio'
 }) {
+    const resolvedCount =
+        typeof totalCount === 'number' ? totalCount : images?.length || 0;
+
     return (
         <section className={`${backgroundColor} px-6 py-20`}>
             <div className="mx-auto max-w-7xl">
@@ -65,7 +70,9 @@ export default function Gallery({
                             <h2 className="mb-3 text-3xl font-bold md:text-4xl">
                                 {title}
                                 {showCount && (
-                                    <span className="ml-3 text-2xl font-normal text-gray-500">({images.length})</span>
+                                    <span className="ml-3 text-2xl font-normal text-gray-500">
+                                        ({resolvedCount})
+                                    </span>
                                 )}
                             </h2>
                         )}
@@ -96,11 +103,16 @@ export default function Gallery({
                      */
                     <div className="columns-1 gap-6 md:columns-2 lg:columns-3">
                         {images.map((image, idx) => (
-                            <div key={image._id || image.id || idx} className="mb-6 break-inside-avoid">
+                            <div
+                                key={image._id || image.id || idx}
+                                className="mb-6 break-inside-avoid"
+                            >
                                 <ImageCard
                                     image={{
                                         ...image,
-                                        href: image.slug?.current ? getPhotoUrl(image, context) : image.href
+                                        href: image.slug?.current
+                                            ? getPhotoUrl(image, context)
+                                            : image.href,
                                     }}
                                     masonry
                                     showLocation={showLocation}
@@ -120,7 +132,9 @@ export default function Gallery({
                                 key={image._id || image.id || idx}
                                 image={{
                                     ...image,
-                                    href: image.slug?.current ? getPhotoUrl(image, context) : image.href
+                                    href: image.slug?.current
+                                        ? getPhotoUrl(image, context)
+                                        : image.href,
                                 }}
                                 showLocation={showLocation}
                                 showSpecies={showSpecies}
