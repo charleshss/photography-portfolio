@@ -59,7 +59,6 @@ function jsonResponse(body, init = {}) {
 }
 
 export async function OPTIONS(request) {
-    console.log('OPTIONS request received');
     const requestHeaders = request.headers.get('Access-Control-Request-Headers');
     const headers = buildCorsHeaders(
         requestHeaders
@@ -76,40 +75,16 @@ export async function OPTIONS(request) {
 }
 
 export async function GET() {
-    console.log('GET request to /api/contact received');
-    return jsonResponse({
-        message: 'Contact API is working!',
-        method: 'GET',
-        timestamp: new Date().toISOString(),
-        env: {
-            hasResendKey: !!process.env.RESEND_API_KEY,
-            nodeEnv: process.env.NODE_ENV
-        }
-    }, { status: 200 });
+    return jsonResponse({ error: 'Method not allowed' }, { status: 405 });
 }
 
 export async function HEAD() {
-    console.log('HEAD request received');
     return new Response(null, {
         status: 405,
         headers: buildCorsHeaders(),
     });
 }
 
-export async function PUT(request) {
-    console.log('PUT request received (should be POST)');
-    return jsonResponse({ error: 'Method not allowed - use POST' }, { status: 405 });
-}
-
-export async function PATCH(request) {
-    console.log('PATCH request received (should be POST)');
-    return jsonResponse({ error: 'Method not allowed - use POST' }, { status: 405 });
-}
-
-export async function DELETE(request) {
-    console.log('DELETE request received (should be POST)');
-    return jsonResponse({ error: 'Method not allowed - use POST' }, { status: 405 });
-}
 
 async function getContactEmail() {
     try {
@@ -126,32 +101,10 @@ async function getContactEmail() {
 }
 
 export async function POST(request) {
-    try {
-        // Enhanced debugging for deployment issues
-        console.log('POST request received to /api/contact');
-        console.log('Request method:', request.method);
-        console.log('Request URL:', request.url);
-        console.log('Request headers:', Object.fromEntries(request.headers.entries()));
-
-        console.log('RESEND_API_KEY available:', !!process.env.RESEND_API_KEY);
-        console.log('Raw RESEND_API_KEY:', process.env.RESEND_API_KEY);
-        console.log('Processed resendKey available:', !!resendKey);
-        console.log('Processed resendKey value:', resendKey);
-    } catch (debugError) {
-        console.error('Error in initial debugging:', debugError);
-        return jsonResponse({ error: 'Debug error: ' + debugError.message }, { status: 500 });
-    }
 
     if (!resendKey) {
-        console.warn('RESEND_API_KEY is not configured properly. Raw key:', process.env.RESEND_API_KEY ? 'exists' : 'missing');
         return jsonResponse(
-            {
-                error: 'Email service not configured. Please try again later.',
-                debug: process.env.NODE_ENV === 'development' ? {
-                    hasRawKey: !!process.env.RESEND_API_KEY,
-                    hasProcessedKey: !!resendKey
-                } : undefined
-            },
+            { error: 'Email service not configured. Please try again later.' },
             { status: 503 }
         );
     }

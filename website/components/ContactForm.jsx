@@ -24,9 +24,6 @@ export default function ContactForm() {
         setIsSubmitting(true);
         setSubmitStatus(null);
 
-        console.log('Submitting form with data:', formData);
-        console.log('Making request to:', '/api/contact');
-
         try {
             const response = await fetch('/api/contact', {
                 method: 'POST',
@@ -34,13 +31,6 @@ export default function ContactForm() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
-            });
-
-            console.log('Response received:', {
-                status: response.status,
-                statusText: response.statusText,
-                headers: Object.fromEntries(response.headers.entries()),
-                url: response.url
             });
 
             const rawBody = await response.text();
@@ -58,22 +48,6 @@ export default function ContactForm() {
                 setSubmitStatus('success');
                 setFormData({ name: '', email: '', message: '' });
             } else {
-                const errorMessage =
-                    parsedBody?.error || rawBody || 'Unknown error occurred';
-                console.error(
-                    'Form submission error:',
-                    '–',
-                    response.status,
-                    '–',
-                    errorMessage
-                );
-                console.error('Full response details:', {
-                    status: response.status,
-                    statusText: response.statusText,
-                    headers: Object.fromEntries(response.headers.entries()),
-                    body: parsedBody,
-                    rawBody: rawBody
-                });
                 setSubmitStatus('error');
             }
         } catch (error) {
