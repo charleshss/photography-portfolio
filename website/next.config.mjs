@@ -14,16 +14,6 @@ const nextConfig = {
             },
         ],
     },
-    // Fix for Vercel deployment issues with Next.js 15
-    webpack: (config, { isServer }) => {
-        if (isServer) {
-            config.externals = config.externals || [];
-            config.externals.push({
-                'source-map': 'commonjs source-map'
-            });
-        }
-        return config;
-    },
 }
 
 export default nextConfig
