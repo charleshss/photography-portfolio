@@ -11,7 +11,8 @@ export default function NotFound() {
                     Photo Not Found
                 </h1>
                 <p className="text-gray-600 mb-8">
-                    The photo you&apos;re looking for doesn&apos;t exist or may have been moved.
+                    The photo you&apos;re looking for doesn&apos;t exist or may
+                    have been moved.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Link

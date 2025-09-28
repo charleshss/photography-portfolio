@@ -12,7 +12,8 @@
     "studio:deploy": "npm run deploy --prefix studio",
     "install:all": "npm install --prefix website && npm install --prefix studio",
     "build:all": "npm run build --prefix website && npm run build --prefix studio",
-    "clean": "rm -rf website/node_modules studio/node_modules website/.next studio/dist"
+    "clean": "rm -rf website/node_modules studio/node_modules website/.next studio/dist",
+    "format": "prettier --write \"website/**/*.{js,jsx,ts,tsx,json,md}\" \"studio/**/*.{js,jsx,ts,tsx,json,md}\""
   },
   "workspaces": [
     "website",
@@ -23,5 +24,8 @@
     "url": "https://github.com/charleshss/photography-portfolio"
   },
   "author": "Charles Suddens-Spiers",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^3.5.0"
+  }
 }

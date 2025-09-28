@@ -44,7 +44,11 @@ export default function HeroCarousel() {
 
     // Initialize autoplay with ref for cleanup
     React.useEffect(() => {
-        autoplayRef.current = Autoplay({ delay: 6000, stopOnMouseEnter: true, stopOnInteraction: false });
+        autoplayRef.current = Autoplay({
+            delay: 6000,
+            stopOnMouseEnter: true,
+            stopOnInteraction: false,
+        });
         return () => {
             if (autoplayRef.current) {
                 autoplayRef.current.stop();
@@ -67,7 +71,10 @@ export default function HeroCarousel() {
             <div className="h-screen bg-gray-800 flex items-center justify-center">
                 <div className="text-center text-white">
                     <h1 className="text-4xl font-bold mb-4">No Hero Images</h1>
-                    <p>Upload some photos and mark them as "Hero Carousel" in Sanity Studio</p>
+                    <p>
+                        Upload some photos and mark them as "Hero Carousel" in
+                        Sanity Studio
+                    </p>
                 </div>
             </div>
         );
@@ -87,16 +94,22 @@ export default function HeroCarousel() {
                             className="relative w-full bg-cover bg-center"
                             style={{
                                 height: 'calc(100vh - 64px)',
-                                backgroundImage: `url(${urlFor(image.image).width(1920).height(1080).quality(85).url()})`
+                                backgroundImage: `url(${urlFor(image.image).width(1920).height(1080).quality(85).url()})`,
                             }}
                         >
                             <div className="absolute inset-0 bg-black/40" />
                             <div className="relative flex h-full items-center justify-center px-4 text-center text-white">
                                 <div>
-                                    <h1 className="mb-4 text-4xl font-bold md:text-6xl">{image.title}</h1>
-                                    <p className="text-lg md:text-xl">{image.description}</p>
+                                    <h1 className="mb-4 text-4xl font-bold md:text-6xl">
+                                        {image.title}
+                                    </h1>
+                                    <p className="text-lg md:text-xl">
+                                        {image.description}
+                                    </p>
                                     {image.location && (
-                                        <p className="mt-2 text-sm text-white/80">{image.location}</p>
+                                        <p className="mt-2 text-sm text-white/80">
+                                            {image.location}
+                                        </p>
                                     )}
                                 </div>
                             </div>
