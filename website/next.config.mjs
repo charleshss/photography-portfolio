@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     outputFileTracingRoot: process.cwd(),
-    experimental: {
-        devtoolSegmentExplorer: false,
-    },
     images: {
         remotePatterns: [
             {
