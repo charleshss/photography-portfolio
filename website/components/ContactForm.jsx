@@ -52,10 +52,18 @@ export default function ContactForm() {
                     parsedBody?.error || rawBody || 'Unknown error occurred';
                 console.error(
                     'Form submission error:',
+                    '–',
                     response.status,
+                    '–',
                     errorMessage
                 );
-
+                console.error('Full response details:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    headers: Object.fromEntries(response.headers.entries()),
+                    body: parsedBody,
+                    rawBody: rawBody
+                });
                 setSubmitStatus('error');
             }
         } catch (error) {

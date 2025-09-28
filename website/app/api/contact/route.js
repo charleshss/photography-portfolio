@@ -99,10 +99,21 @@ async function getContactEmail() {
 }
 
 export async function POST(request) {
+    // Enhanced debugging for deployment issues
+    console.log('POST request received to /api/contact');
+    console.log('RESEND_API_KEY available:', !!process.env.RESEND_API_KEY);
+    console.log('Processed resendKey available:', !!resendKey);
+
     if (!resendKey) {
-        console.warn('RESEND_API_KEY is not configured. Skipping email send.');
+        console.warn('RESEND_API_KEY is not configured properly. Raw key:', process.env.RESEND_API_KEY ? 'exists' : 'missing');
         return jsonResponse(
-            { error: 'Email service not configured. Please try again later.' },
+            {
+                error: 'Email service not configured. Please try again later.',
+                debug: process.env.NODE_ENV === 'development' ? {
+                    hasRawKey: !!process.env.RESEND_API_KEY,
+                    hasProcessedKey: !!resendKey
+                } : undefined
+            },
             { status: 503 }
         );
     }
