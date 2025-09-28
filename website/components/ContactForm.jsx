@@ -50,7 +50,11 @@ export default function ContactForm() {
             } else {
                 const errorMessage =
                     parsedBody?.error || rawBody || 'Unknown error occurred';
-                console.error('Form submission error:', errorMessage);
+                console.error(
+                    'Form submission error:',
+                    response.status,
+                    errorMessage
+                );
                 setSubmitStatus('error');
             }
         } catch (error) {

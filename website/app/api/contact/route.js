@@ -1,36 +1,86 @@
 import { Resend } from 'resend';
 import { client } from '@/lib/sanity';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const rawResendKey = process.env.RESEND_API_KEY;
 const resendKey =
     rawResendKey && !rawResendKey.includes('<YOUR_RESEND_API_KEY>')
         ? rawResendKey
         : null;
 
-const corsHeaders = {
-    'Access-Control-Allow-Origin':
-        process.env.NEXT_PUBLIC_SITE_URL || '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-};
+function resolveAllowedOrigin() {
+    const explicit = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL;
+    if (explicit) return explicit;
+    const vercelUrl = process.env.NEXT_PUBLIC_VERCEL_URL || process.env.VERCEL_URL;
+    if (vercelUrl) {
+        return vercelUrl.startsWith('http') ? vercelUrl : `https://${vercelUrl}`;
+    }
+    return '*';
+}
+
+const ALLOWED_ORIGIN = resolveAllowedOrigin();
+
+function buildCorsHeaders(extra = {}) {
+    const headers = {
+        'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers':
+            'Content-Type, Authorization, X-Requested-With, Accept',
+        Allow: 'POST, OPTIONS',
+        ...extra,
+    };
+    if (ALLOWED_ORIGIN !== '*') {
+        headers['Access-Control-Allow-Credentials'] = 'true';
+    }
+    return headers;
+}
+
+function normalizeHeaders(headers) {
+    if (!headers) return {};
+    if (headers instanceof Headers) {
+        return Object.fromEntries(headers.entries());
+    }
+    return headers;
+}
 
 function jsonResponse(body, init = {}) {
+    const extraHeaders = normalizeHeaders(init.headers);
     return Response.json(body, {
         ...init,
         headers: {
-            ...corsHeaders,
-            ...(init.headers || {}),
+            ...buildCorsHeaders(extraHeaders),
+            ...extraHeaders,
         },
     });
 }
 
-export async function OPTIONS() {
+export async function OPTIONS(request) {
+    const requestHeaders = request.headers.get('Access-Control-Request-Headers');
+    const headers = buildCorsHeaders(
+        requestHeaders
+            ? {
+                  'Access-Control-Allow-Headers': requestHeaders,
+              }
+            : {}
+    );
+    headers['Access-Control-Max-Age'] = '86400';
     return new Response(null, {
         status: 204,
-        headers: {
-            ...corsHeaders,
-            'Access-Control-Max-Age': '86400',
-        },
+        headers,
+    });
+}
+
+export async function GET() {
+    return jsonResponse({ error: 'Method not allowed' }, { status: 405 });
+}
+
+export async function HEAD() {
+    return new Response(null, {
+        status: 405,
+        headers: buildCorsHeaders(),
     });
 }
 
