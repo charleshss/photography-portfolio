@@ -262,7 +262,7 @@
   will-change: transform;
 }
 
-@utility image-zoom:hover {
+.image-zoom:hover {
   transform: scale(1.05);
 }
 
