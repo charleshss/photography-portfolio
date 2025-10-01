@@ -51,7 +51,10 @@ export default async function Contact() {
     return (
         <div className="min-h-screen bg-white">
             {/* Hero Section */}
-            <section className="relative h-screen">
+            <section
+                className="relative"
+                style={{ height: 'calc(100vh - var(--spacing-4xl))' }}
+            >
                 {contactData.heroImage ? (
                     <Image
                         src={urlFor(contactData.heroImage)
@@ -66,13 +69,29 @@ export default async function Contact() {
                 ) : (
                     <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-800" />
                 )}
-                <div className="absolute inset-0 bg-black/30" />
-                <div className="relative flex items-center justify-center h-full">
-                    <div className="text-center text-white px-6">
-                        <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-tight">
+                <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-transparent" />
+                <div className="relative flex items-center justify-center h-full px-6">
+                    <div className="text-center text-white max-w-4xl">
+                        <h1
+                            className="font-bold tracking-tight"
+                            style={{
+                                fontSize: 'clamp(3rem, 6vw, 5rem)',
+                                lineHeight: 'var(--leading-tight)',
+                                marginBottom: 'var(--spacing-lg)',
+                                textShadow: '0 4px 12px rgba(0, 0, 0, 0.7)',
+                            }}
+                        >
                             {contactData.heroTitle}
                         </h1>
-                        <p className="text-xl md:text-2xl font-light opacity-90 max-w-2xl mx-auto">
+                        <p
+                            className="font-light opacity-90 mx-auto"
+                            style={{
+                                fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
+                                lineHeight: 'var(--leading-relaxed)',
+                                maxWidth: '42rem',
+                                textShadow: '0 2px 8px rgba(0, 0, 0, 0.7)',
+                            }}
+                        >
                             {contactData.heroSubtitle}
                         </p>
                     </div>
@@ -80,8 +99,16 @@ export default async function Contact() {
             </section>
 
             {/* Main Contact Section */}
-            <section className="max-w-7xl mx-auto px-6 py-24">
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <section
+                className="max-w-7xl mx-auto"
+                style={{
+                    padding: `var(--spacing-4xl) var(--spacing-lg)`,
+                }}
+            >
+                <div
+                    className="grid lg:grid-cols-2 items-center"
+                    style={{ gap: 'var(--spacing-3xl)' }}
+                >
                     {/* Left Side: Profile Image and Instagram Cards */}
                     <div className="order-1 lg:order-1 space-y-8">
                         {/* Profile Image */}
@@ -165,13 +192,34 @@ export default async function Contact() {
 
                     {/* Right Side: Contact Form */}
                     <div className="order-2 lg:order-2">
-                        <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 h-full">
-                            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        <div
+                            className="bg-white rounded-3xl shadow-xl h-full"
+                            style={{
+                                padding: 'var(--spacing-xl) var(--spacing-2xl)',
+                            }}
+                        >
+                            <h2
+                                className="font-bold"
+                                style={{
+                                    fontSize: 'clamp(1.875rem, 4vw, 2.5rem)',
+                                    lineHeight: 'var(--leading-tight)',
+                                    color: 'var(--color-rich-black)',
+                                    marginBottom: 'var(--spacing-lg)',
+                                }}
+                            >
                                 Send a Message
                             </h2>
 
                             {contactData.introText && (
-                                <p className="text-gray-600 mb-8 text-lg leading-relaxed">
+                                <p
+                                    className="max-w-2xl"
+                                    style={{
+                                        fontSize: 'var(--text-lg)',
+                                        lineHeight: 'var(--leading-relaxed)',
+                                        color: 'var(--color-mid-grey)',
+                                        marginBottom: 'var(--spacing-xl)',
+                                    }}
+                                >
                                     {contactData.introText}
                                 </p>
                             )}
@@ -183,16 +231,41 @@ export default async function Contact() {
 
                 {/* Response Time Card - Full Width Below */}
                 {contactData.responseTime && (
-                    <div className="mt-16 order-3">
-                        <div className="p-6 bg-blue-50 rounded-xl border border-blue-200 max-w-3xl mx-auto">
+                    <div style={{ marginTop: 'var(--spacing-4xl)' }} className="order-3">
+                        <div
+                            className="bg-blue-50 rounded-xl border border-blue-200 max-w-3xl mx-auto"
+                            style={{ padding: 'var(--spacing-xl)' }}
+                        >
                             <div className="text-center">
-                                <div className="w-12 h-12 bg-blue-500 rounded-full mx-auto mb-3 flex items-center justify-center">
-                                    <Info className="w-6 h-6 text-white" />
+                                <div
+                                    className="bg-blue-500 rounded-full mx-auto flex items-center justify-center"
+                                    style={{
+                                        width: 'var(--spacing-3xl)',
+                                        height: 'var(--spacing-3xl)',
+                                        marginBottom: 'var(--spacing-md)',
+                                    }}
+                                >
+                                    <Info
+                                        style={{
+                                            width: 'var(--spacing-lg)',
+                                            height: 'var(--spacing-lg)',
+                                        }}
+                                        className="text-white"
+                                    />
                                 </div>
-                                <p className="text-blue-800 font-semibold mb-1">
+                                <p
+                                    className="text-blue-800 font-semibold"
+                                    style={{
+                                        fontSize: 'var(--text-lg)',
+                                        marginBottom: 'var(--spacing-xs)',
+                                    }}
+                                >
                                     Quick Response Promise
                                 </p>
-                                <p className="text-blue-700 text-sm">
+                                <p
+                                    className="text-blue-700"
+                                    style={{ fontSize: 'var(--text-base)' }}
+                                >
                                     {contactData.responseTime}
                                 </p>
                             </div>
