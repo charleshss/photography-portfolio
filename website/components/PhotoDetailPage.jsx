@@ -13,6 +13,8 @@ import {
     ChevronDown,
 } from 'lucide-react';
 import ZoomableImage from '@/components/ZoomableImage';
+import MobileImageViewer from '@/components/MobileImageViewer';
+import { useDevice } from '@/contexts/DeviceContext';
 import { getCameraData, getLocationDisplay } from '@/lib/sanity';
 
 export default function PhotoDetailPage({
@@ -21,6 +23,7 @@ export default function PhotoDetailPage({
     backLabel = 'Back to Portfolio',
     context = 'portfolio',
 }) {
+    const { isMobile } = useDevice();
     const [smartBackUrl, setSmartBackUrl] = useState(backUrl);
     const [smartBackLabel, setSmartBackLabel] = useState(backLabel);
     const [cameraDetailsExpanded, setCameraDetailsExpanded] = useState(false);
@@ -120,11 +123,19 @@ export default function PhotoDetailPage({
                     <div className="mb-16">
                         <div className="mx-auto max-w-5xl">
                             <div className="aspect-[16/10] max-h-[70vh] bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
-                                <ZoomableImage
-                                    image={photo.image}
-                                    alt={photo.title}
-                                    title={photo.title}
-                                />
+                                {isMobile ? (
+                                    <MobileImageViewer
+                                        image={photo.image}
+                                        alt={photo.title}
+                                        title={photo.title}
+                                    />
+                                ) : (
+                                    <ZoomableImage
+                                        image={photo.image}
+                                        alt={photo.title}
+                                        title={photo.title}
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>

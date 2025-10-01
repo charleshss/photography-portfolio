@@ -93,22 +93,45 @@ export default function HeroCarousel() {
                         <div
                             className="relative w-full bg-cover bg-center"
                             style={{
-                                height: 'calc(100vh - 64px)',
+                                height: 'calc(100vh - var(--spacing-4xl))',
                                 backgroundImage: `url(${urlFor(image.image).width(1920).height(1080).quality(85).url()})`,
                             }}
                         >
-                            <div className="absolute inset-0 bg-black/40" />
-                            <div className="relative flex h-full items-center justify-center px-4 text-center text-white">
-                                <div>
-                                    <h1 className="mb-4 text-4xl font-bold md:text-6xl">
+                            <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-transparent" />
+                            <div className="relative flex h-full items-center px-8 md:px-16 lg:px-24 text-white">
+                                <div className="max-w-xl animate-fade-in">
+                                    <h1
+                                        className="font-bold tracking-tight mb-3 uppercase"
+                                        style={{
+                                            fontSize: 'clamp(2rem, 3.5vw, 3rem)',
+                                            lineHeight: 'var(--leading-tight)',
+                                            textShadow: '0 4px 12px rgba(0, 0, 0, 0.7)',
+                                            letterSpacing: '0.02em',
+                                        }}
+                                    >
                                         {image.title}
                                     </h1>
-                                    <p className="text-lg md:text-xl">
+                                    <p
+                                        className="leading-relaxed mb-2"
+                                        style={{
+                                            fontSize: 'var(--text-base)',
+                                            lineHeight: 'var(--leading-relaxed)',
+                                            textShadow: '0 2px 8px rgba(0, 0, 0, 0.7)',
+                                            maxWidth: '500px',
+                                        }}
+                                    >
                                         {image.description}
                                     </p>
                                     {image.location && (
-                                        <p className="mt-2 text-sm text-white/80">
-                                            {image.location}
+                                        <p
+                                            className="text-white/80 font-medium tracking-wide"
+                                            style={{
+                                                fontSize: 'var(--text-sm)',
+                                                letterSpacing: '0.05em',
+                                                textShadow: '0 2px 8px rgba(0, 0, 0, 0.7)',
+                                            }}
+                                        >
+                                            📍 {image.location}
                                         </p>
                                     )}
                                 </div>

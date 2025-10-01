@@ -86,27 +86,74 @@ export default async function Home() {
                 <HeroCarousel />
             </section>
 
-            <section className="bg-white px-6 py-16">
+            {/* Modern Section Divider */}
+            <div className="relative h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+
+            <section
+                className="bg-white"
+                style={{
+                    padding: `var(--spacing-4xl) var(--spacing-lg)`,
+                }}
+            >
                 <div className="mx-auto max-w-4xl text-center">
-                    <span className="mb-4 block text-sm uppercase tracking-[0.3em] text-gray-400">
+                    <span
+                        className="block uppercase tracking-[0.3em] mb-3"
+                        style={{
+                            fontSize: 'var(--text-sm)',
+                            color: 'var(--color-warm-grey)',
+                            letterSpacing: '0.15em',
+                        }}
+                    >
                         {pageData.heroTagline}
                     </span>
-                    <h1 className="text-3xl font-bold sm:text-4xl md:text-5xl">
+                    <h1
+                        className="font-bold mb-6"
+                        style={{
+                            fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+                            lineHeight: 'var(--leading-tight)',
+                            color: 'var(--color-rich-black)',
+                        }}
+                    >
                         {pageData.businessName}
                     </h1>
-                    <p className="mx-auto mt-4 max-w-2xl text-base text-gray-600 sm:text-lg">
+                    <p
+                        className="mx-auto max-w-2xl"
+                        style={{
+                            fontSize: 'var(--text-lg)',
+                            lineHeight: 'var(--leading-relaxed)',
+                            color: 'var(--color-mid-grey)',
+                        }}
+                    >
                         {pageData.heroDescription}
                     </p>
-                    <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+                    <div
+                        className="flex flex-col items-center sm:flex-row sm:justify-center"
+                        style={{
+                            marginTop: 'var(--spacing-xl)',
+                            gap: 'var(--spacing-md)',
+                        }}
+                    >
                         <Link
                             href={pageData.primaryButton.link}
-                            className="inline-flex items-center justify-center rounded-full bg-gray-900 px-8 py-3 text-sm font-semibold text-white transition hover:bg-gray-700"
+                            className="inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                            style={{
+                                backgroundColor: 'var(--color-rich-black)',
+                                color: 'var(--color-pure-white)',
+                                padding: 'var(--spacing-md) var(--spacing-xl)',
+                                fontSize: 'var(--text-base)',
+                            }}
                         >
                             {pageData.primaryButton.text}
                         </Link>
                         <Link
                             href={pageData.secondaryButton.link}
-                            className="inline-flex items-center justify-center rounded-full border-2 border-gray-900 px-8 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white"
+                            className="inline-flex items-center justify-center rounded-full font-semibold border-2 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                            style={{
+                                borderColor: 'var(--color-rich-black)',
+                                color: 'var(--color-rich-black)',
+                                padding: 'var(--spacing-md) var(--spacing-xl)',
+                                fontSize: 'var(--text-base)',
+                            }}
                         >
                             {pageData.secondaryButton.text}
                         </Link>
@@ -114,14 +161,45 @@ export default async function Home() {
                 </div>
             </section>
 
+            {/* Modern Section Divider with Accent */}
+            <div className="relative py-12">
+                <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-200" />
+                </div>
+                <div className="relative flex justify-center">
+                    <div className="bg-white px-6">
+                        <div className="h-2 w-2 rounded-full bg-gradient-to-r from-gray-400 to-gray-600" />
+                    </div>
+                </div>
+            </div>
+
             {/* My Best Work Section - Now uses Sanity data */}
-            <section className="bg-white px-6 py-20">
+            <section
+                className="bg-white"
+                style={{
+                    padding: `var(--spacing-4xl) var(--spacing-lg)`,
+                }}
+            >
                 <div className="mx-auto max-w-7xl">
-                    <div className="mb-12 text-center">
-                        <h2 className="text-3xl font-bold md:text-4xl">
+                    <div className="text-center" style={{ marginBottom: 'var(--spacing-3xl)' }}>
+                        <h2
+                            className="font-bold mb-4"
+                            style={{
+                                fontSize: 'clamp(1.875rem, 3.5vw, 2.5rem)',
+                                lineHeight: 'var(--leading-tight)',
+                                color: 'var(--color-rich-black)',
+                            }}
+                        >
                             {pageData.featuredSection.sectionTitle}
                         </h2>
-                        <p className="mx-auto max-w-2xl text-gray-600">
+                        <p
+                            className="mx-auto max-w-2xl"
+                            style={{
+                                fontSize: 'var(--text-lg)',
+                                lineHeight: 'var(--leading-relaxed)',
+                                color: 'var(--color-mid-grey)',
+                            }}
+                        >
                             {pageData.featuredSection.sectionDescription}
                         </p>
                     </div>
@@ -157,10 +235,16 @@ export default async function Home() {
                     )}
 
                     {/* View All Button */}
-                    <div className="mt-10 text-center">
+                    <div className="text-center" style={{ marginTop: 'var(--spacing-3xl)' }}>
                         <Link
                             href="/portfolio"
-                            className="inline-flex items-center rounded-full bg-gray-900 px-8 py-3 text-sm font-semibold text-white transition hover:bg-gray-700"
+                            className="inline-flex items-center rounded-full font-semibold transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                            style={{
+                                backgroundColor: 'var(--color-rich-black)',
+                                color: 'var(--color-pure-white)',
+                                padding: 'var(--spacing-md) var(--spacing-xl)',
+                                fontSize: 'var(--text-base)',
+                            }}
                         >
                             {pageData.featuredSection.viewAllButtonText}
                         </Link>
@@ -168,17 +252,44 @@ export default async function Home() {
                 </div>
             </section>
 
-            <section className="bg-gray-50">
-                <div className="mx-auto flex max-w-4xl flex-col gap-6 px-6 py-20 text-center">
-                    <h2 className="text-3xl font-semibold sm:text-4xl">
+            {/* Modern Section Divider - Subtle Line */}
+            <div className="relative h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-8" />
+
+            <section
+                style={{
+                    backgroundColor: 'var(--color-warm-white)',
+                    padding: `var(--spacing-4xl) var(--spacing-lg)`,
+                }}
+            >
+                <div className="mx-auto flex max-w-4xl flex-col text-center" style={{ gap: 'var(--spacing-lg)' }}>
+                    <h2
+                        className="font-semibold"
+                        style={{
+                            fontSize: 'clamp(1.875rem, 3.5vw, 2.5rem)',
+                            lineHeight: 'var(--leading-tight)',
+                            color: 'var(--color-rich-black)',
+                        }}
+                    >
                         {pageData.collaborationSection.ctaTitle}
                     </h2>
-                    <p className="text-base text-gray-600 sm:text-lg">
+                    <p
+                        style={{
+                            fontSize: 'var(--text-lg)',
+                            lineHeight: 'var(--leading-relaxed)',
+                            color: 'var(--color-mid-grey)',
+                        }}
+                    >
                         {pageData.collaborationSection.ctaDescription}
                     </p>
                     <a
                         href={pageData.collaborationSection.ctaButtonLink}
-                        className="mx-auto inline-flex items-center justify-center rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-700"
+                        className="mx-auto inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                        style={{
+                            backgroundColor: 'var(--color-rich-black)',
+                            color: 'var(--color-pure-white)',
+                            padding: 'var(--spacing-md) var(--spacing-xl)',
+                            fontSize: 'var(--text-base)',
+                        }}
                     >
                         {pageData.collaborationSection.ctaButtonText}
                     </a>

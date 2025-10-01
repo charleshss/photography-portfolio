@@ -26,11 +26,11 @@
         "react": "19.1.1",
         "react-dom": "19.1.1",
         "resend": "^6.1.0",
-        "styled-jsx": "5.1.6",
         "sharp": "^0.34.4",
         "styled-jsx": "^5.1.7",
         "tailwind-merge": "^3.3.1",
-        "tailwindcss": "^4.1.13"
+        "tailwindcss": "^4.1.13",
+        "yet-another-react-lightbox": "^3.25.0"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3",
