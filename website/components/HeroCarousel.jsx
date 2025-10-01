@@ -91,46 +91,22 @@ export default function HeroCarousel() {
                 {heroImages.map((image) => (
                     <CarouselItem key={image._id} className="h-full basis-full">
                         <div
-                            className="relative w-full bg-cover bg-center"
+                            className="relative w-full bg-cover bg-center hero-height"
                             style={{
-                                height: 'calc(100vh - var(--spacing-4xl))',
                                 backgroundImage: `url(${urlFor(image.image).width(1920).height(1080).quality(85).url()})`,
                             }}
                         >
-                            <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-transparent" />
+                            <div className="gradient-overlay" />
                             <div className="relative flex h-full items-center px-8 md:px-16 lg:px-24 text-white">
                                 <div className="max-w-xl animate-fade-in">
-                                    <h1
-                                        className="font-bold tracking-tight mb-3 uppercase"
-                                        style={{
-                                            fontSize: 'clamp(2rem, 3.5vw, 3rem)',
-                                            lineHeight: 'var(--leading-tight)',
-                                            textShadow: '0 4px 12px rgba(0, 0, 0, 0.7)',
-                                            letterSpacing: '0.02em',
-                                        }}
-                                    >
+                                    <h1 className="hero-subtitle font-bold tracking-tight mb-3 uppercase text-shadow-lg">
                                         {image.title}
                                     </h1>
-                                    <p
-                                        className="leading-relaxed mb-2"
-                                        style={{
-                                            fontSize: 'var(--text-base)',
-                                            lineHeight: 'var(--leading-relaxed)',
-                                            textShadow: '0 2px 8px rgba(0, 0, 0, 0.7)',
-                                            maxWidth: '500px',
-                                        }}
-                                    >
+                                    <p className="text-base leading-relaxed mb-2 max-w-lg text-shadow-md">
                                         {image.description}
                                     </p>
                                     {image.location && (
-                                        <p
-                                            className="text-white/80 font-medium tracking-wide"
-                                            style={{
-                                                fontSize: 'var(--text-sm)',
-                                                letterSpacing: '0.05em',
-                                                textShadow: '0 2px 8px rgba(0, 0, 0, 0.7)',
-                                            }}
-                                        >
+                                        <p className="text-sm text-white/80 font-medium tracking-wider text-shadow-md">
                                             📍 {image.location}
                                         </p>
                                     )}
@@ -142,11 +118,11 @@ export default function HeroCarousel() {
                                     <button
                                         key={index}
                                         onClick={() => api?.scrollTo(index)}
-                                        className={`transition-all duration-300 ease-out hover:scale-110 ${
+                                        className={`transition-all duration-300 ease-out hover:scale-110 rounded-full backdrop-blur-sm ${
                                             index === current - 1
-                                                ? 'h-2.5 w-8 bg-white shadow-lg' // Active dot - larger and bright
-                                                : 'h-2 w-2 bg-white/50 hover:bg-white/70' // Inactive dots - smaller and translucent
-                                        } rounded-full backdrop-blur-sm`}
+                                                ? 'h-2.5 w-8 bg-white shadow-lg'
+                                                : 'h-2 w-2 bg-white/50 hover:bg-white/70'
+                                        }`}
                                         aria-label={`Go to slide ${index + 1}`}
                                     />
                                 ))}

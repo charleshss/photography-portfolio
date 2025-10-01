@@ -82,10 +82,7 @@ export default async function About() {
     return (
         <div className="min-h-screen bg-white">
             {/* Hero Section with Background Image */}
-            <section
-                className="relative"
-                style={{ height: 'calc(100vh - var(--spacing-4xl))' }}
-            >
+            <section className="relative hero-height">
                 {aboutData.heroImage && (
                     <Image
                         src={urlFor(aboutData.heroImage)
@@ -98,27 +95,13 @@ export default async function About() {
                         priority
                     />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-transparent" />
+                <div className="gradient-overlay" />
                 <div className="relative flex items-center justify-center h-full px-6">
                     <div className="text-center text-white max-w-4xl">
-                        <h1
-                            className="font-bold mb-6 tracking-tight"
-                            style={{
-                                fontSize: 'clamp(3rem, 6vw, 5rem)',
-                                lineHeight: 'var(--leading-tight)',
-                                textShadow: '0 4px 12px rgba(0, 0, 0, 0.7)',
-                            }}
-                        >
+                        <h1 className="hero-title mb-6 tracking-tight text-shadow-lg">
                             {aboutData.heroTitle || 'About Sam'}
                         </h1>
-                        <p
-                            className="font-light opacity-90"
-                            style={{
-                                fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
-                                lineHeight: 'var(--leading-relaxed)',
-                                textShadow: '0 2px 8px rgba(0, 0, 0, 0.7)',
-                            }}
-                        >
+                        <p className="hero-subtitle font-light opacity-90 text-shadow-md">
                             {aboutData.heroSubtitle ||
                                 'Wildlife & Nature Photography'}
                         </p>
@@ -127,16 +110,8 @@ export default async function About() {
             </section>
 
             {/* Main Content */}
-            <section
-                className="max-w-6xl mx-auto"
-                style={{
-                    padding: `var(--spacing-4xl) var(--spacing-lg)`,
-                }}
-            >
-                <div
-                    className="grid lg:grid-cols-2 items-center"
-                    style={{ gap: 'var(--spacing-3xl)' }}
-                >
+            <section className="max-w-6xl mx-auto section-padding">
+                <div className="grid lg:grid-cols-2 items-center gap-16">
                     {/* Profile Image */}
                     <div className="order-2 lg:order-1">
                         {aboutData.profileImage ? (
@@ -163,18 +138,8 @@ export default async function About() {
                     </div>
 
                     {/* About Text */}
-                    <div
-                        className="order-1 lg:order-2 min-w-0 overflow-hidden"
-                        style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-xl)' }}
-                    >
-                        <h2
-                            className="font-bold break-words"
-                            style={{
-                                fontSize: 'clamp(2.25rem, 5vw, 3rem)',
-                                lineHeight: 'var(--leading-tight)',
-                                color: 'var(--color-rich-black)',
-                            }}
-                        >
+                    <div className="order-1 lg:order-2 min-w-0 overflow-hidden flex flex-col gap-8">
+                        <h2 className="section-title text-foreground break-words">
                             My Journey with Nature
                         </h2>
 
@@ -317,42 +282,18 @@ export default async function About() {
 
                 {/* Call to Action */}
                 {aboutData.callToAction && (
-                    <div
-                        className="text-center bg-gradient-to-r from-green-600 to-green-700 rounded-3xl text-white"
-                        style={{
-                            marginTop: 'var(--spacing-4xl)',
-                            padding: 'var(--spacing-4xl) var(--spacing-xl)',
-                        }}
-                    >
-                        <h3
-                            className="font-bold"
-                            style={{
-                                fontSize: 'clamp(1.875rem, 4vw, 2.5rem)',
-                                lineHeight: 'var(--leading-tight)',
-                                marginBottom: 'var(--spacing-lg)',
-                            }}
-                        >
+                    <div className="text-center bg-gradient-to-r from-green-600 to-green-700 rounded-3xl text-white mt-24 px-8 py-16">
+                        <h3 className="section-subtitle mb-6">
                             {aboutData.callToAction.ctaTitle || "Let's Connect"}
                         </h3>
                         {aboutData.callToAction.ctaText && (
-                            <p
-                                className="text-green-100 max-w-2xl mx-auto break-words"
-                                style={{
-                                    fontSize: 'var(--text-lg)',
-                                    lineHeight: 'var(--leading-relaxed)',
-                                    marginBottom: 'var(--spacing-xl)',
-                                }}
-                            >
+                            <p className="body-large text-green-100 max-w-2xl mx-auto break-words mb-8">
                                 {aboutData.callToAction.ctaText}
                             </p>
                         )}
                         <a
                             href="/contact"
-                            className="inline-block bg-white text-green-700 rounded-2xl hover:bg-gray-50 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                            style={{
-                                padding: 'var(--spacing-md) var(--spacing-2xl)',
-                                fontSize: 'var(--text-lg)',
-                            }}
+                            className="inline-block bg-white text-green-700 rounded-2xl hover:bg-gray-50 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 px-12 py-3 text-lg"
                         >
                             {aboutData.callToAction.ctaButtonText ||
                                 'Get in Touch'}

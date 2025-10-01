@@ -87,73 +87,29 @@ export default async function Home() {
             </section>
 
             {/* Modern Section Divider */}
-            <div className="relative h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+            <div className="section-divider" />
 
-            <section
-                className="bg-white"
-                style={{
-                    padding: `var(--spacing-4xl) var(--spacing-lg)`,
-                }}
-            >
+            <section className="bg-white section-padding">
                 <div className="mx-auto max-w-4xl text-center">
-                    <span
-                        className="block uppercase tracking-[0.3em] mb-3"
-                        style={{
-                            fontSize: 'var(--text-sm)',
-                            color: 'var(--color-warm-grey)',
-                            letterSpacing: '0.15em',
-                        }}
-                    >
+                    <span className="block uppercase tracking-[0.15em] text-sm text-muted-foreground mb-3">
                         {pageData.heroTagline}
                     </span>
-                    <h1
-                        className="font-bold mb-6"
-                        style={{
-                            fontSize: 'clamp(2rem, 4vw, 3.5rem)',
-                            lineHeight: 'var(--leading-tight)',
-                            color: 'var(--color-rich-black)',
-                        }}
-                    >
+                    <h1 className="section-title text-foreground mb-6">
                         {pageData.businessName}
                     </h1>
-                    <p
-                        className="mx-auto max-w-2xl"
-                        style={{
-                            fontSize: 'var(--text-lg)',
-                            lineHeight: 'var(--leading-relaxed)',
-                            color: 'var(--color-mid-grey)',
-                        }}
-                    >
+                    <p className="body-large text-muted-foreground mx-auto max-w-2xl">
                         {pageData.heroDescription}
                     </p>
-                    <div
-                        className="flex flex-col items-center sm:flex-row sm:justify-center"
-                        style={{
-                            marginTop: 'var(--spacing-xl)',
-                            gap: 'var(--spacing-md)',
-                        }}
-                    >
+                    <div className="flex flex-col items-center sm:flex-row sm:justify-center gap-4 mt-8">
                         <Link
                             href={pageData.primaryButton.link}
-                            className="inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
-                            style={{
-                                backgroundColor: 'var(--color-rich-black)',
-                                color: 'var(--color-pure-white)',
-                                padding: 'var(--spacing-md) var(--spacing-xl)',
-                                fontSize: 'var(--text-base)',
-                            }}
+                            className="cta-button"
                         >
                             {pageData.primaryButton.text}
                         </Link>
                         <Link
                             href={pageData.secondaryButton.link}
-                            className="inline-flex items-center justify-center rounded-full font-semibold border-2 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
-                            style={{
-                                borderColor: 'var(--color-rich-black)',
-                                color: 'var(--color-rich-black)',
-                                padding: 'var(--spacing-md) var(--spacing-xl)',
-                                fontSize: 'var(--text-base)',
-                            }}
+                            className="cta-button-outline"
                         >
                             {pageData.secondaryButton.text}
                         </Link>
@@ -174,32 +130,13 @@ export default async function Home() {
             </div>
 
             {/* My Best Work Section - Now uses Sanity data */}
-            <section
-                className="bg-white"
-                style={{
-                    padding: `var(--spacing-4xl) var(--spacing-lg)`,
-                }}
-            >
+            <section className="bg-white section-padding">
                 <div className="mx-auto max-w-7xl">
-                    <div className="text-center" style={{ marginBottom: 'var(--spacing-3xl)' }}>
-                        <h2
-                            className="font-bold mb-4"
-                            style={{
-                                fontSize: 'clamp(1.875rem, 3.5vw, 2.5rem)',
-                                lineHeight: 'var(--leading-tight)',
-                                color: 'var(--color-rich-black)',
-                            }}
-                        >
+                    <div className="text-center mb-16">
+                        <h2 className="section-subtitle text-foreground mb-4">
                             {pageData.featuredSection.sectionTitle}
                         </h2>
-                        <p
-                            className="mx-auto max-w-2xl"
-                            style={{
-                                fontSize: 'var(--text-lg)',
-                                lineHeight: 'var(--leading-relaxed)',
-                                color: 'var(--color-mid-grey)',
-                            }}
-                        >
+                        <p className="body-large text-muted-foreground mx-auto max-w-2xl">
                             {pageData.featuredSection.sectionDescription}
                         </p>
                     </div>
@@ -235,17 +172,8 @@ export default async function Home() {
                     )}
 
                     {/* View All Button */}
-                    <div className="text-center" style={{ marginTop: 'var(--spacing-3xl)' }}>
-                        <Link
-                            href="/portfolio"
-                            className="inline-flex items-center rounded-full font-semibold transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
-                            style={{
-                                backgroundColor: 'var(--color-rich-black)',
-                                color: 'var(--color-pure-white)',
-                                padding: 'var(--spacing-md) var(--spacing-xl)',
-                                fontSize: 'var(--text-base)',
-                            }}
-                        >
+                    <div className="text-center mt-16">
+                        <Link href="/portfolio" className="cta-button">
                             {pageData.featuredSection.viewAllButtonText}
                         </Link>
                     </div>
@@ -253,43 +181,19 @@ export default async function Home() {
             </section>
 
             {/* Modern Section Divider - Subtle Line */}
-            <div className="relative h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-8" />
+            <div className="section-divider my-8" />
 
-            <section
-                style={{
-                    backgroundColor: 'var(--color-warm-white)',
-                    padding: `var(--spacing-4xl) var(--spacing-lg)`,
-                }}
-            >
-                <div className="mx-auto flex max-w-4xl flex-col text-center" style={{ gap: 'var(--spacing-lg)' }}>
-                    <h2
-                        className="font-semibold"
-                        style={{
-                            fontSize: 'clamp(1.875rem, 3.5vw, 2.5rem)',
-                            lineHeight: 'var(--leading-tight)',
-                            color: 'var(--color-rich-black)',
-                        }}
-                    >
+            <section className="bg-background section-padding">
+                <div className="mx-auto flex max-w-4xl flex-col text-center gap-6">
+                    <h2 className="section-subtitle text-foreground">
                         {pageData.collaborationSection.ctaTitle}
                     </h2>
-                    <p
-                        style={{
-                            fontSize: 'var(--text-lg)',
-                            lineHeight: 'var(--leading-relaxed)',
-                            color: 'var(--color-mid-grey)',
-                        }}
-                    >
+                    <p className="body-large text-muted-foreground">
                         {pageData.collaborationSection.ctaDescription}
                     </p>
                     <a
                         href={pageData.collaborationSection.ctaButtonLink}
-                        className="mx-auto inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
-                        style={{
-                            backgroundColor: 'var(--color-rich-black)',
-                            color: 'var(--color-pure-white)',
-                            padding: 'var(--spacing-md) var(--spacing-xl)',
-                            fontSize: 'var(--text-base)',
-                        }}
+                        className="cta-button mx-auto"
                     >
                         {pageData.collaborationSection.ctaButtonText}
                     </a>

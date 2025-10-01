@@ -51,10 +51,7 @@ export default async function Contact() {
     return (
         <div className="min-h-screen bg-white">
             {/* Hero Section */}
-            <section
-                className="relative"
-                style={{ height: 'calc(100vh - var(--spacing-4xl))' }}
-            >
+            <section className="relative hero-height">
                 {contactData.heroImage ? (
                     <Image
                         src={urlFor(contactData.heroImage)
@@ -69,29 +66,13 @@ export default async function Contact() {
                 ) : (
                     <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-800" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-transparent" />
+                <div className="gradient-overlay" />
                 <div className="relative flex items-center justify-center h-full px-6">
                     <div className="text-center text-white max-w-4xl">
-                        <h1
-                            className="font-bold tracking-tight"
-                            style={{
-                                fontSize: 'clamp(3rem, 6vw, 5rem)',
-                                lineHeight: 'var(--leading-tight)',
-                                marginBottom: 'var(--spacing-lg)',
-                                textShadow: '0 4px 12px rgba(0, 0, 0, 0.7)',
-                            }}
-                        >
+                        <h1 className="hero-title tracking-tight mb-6 text-shadow-lg">
                             {contactData.heroTitle}
                         </h1>
-                        <p
-                            className="font-light opacity-90 mx-auto"
-                            style={{
-                                fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
-                                lineHeight: 'var(--leading-relaxed)',
-                                maxWidth: '42rem',
-                                textShadow: '0 2px 8px rgba(0, 0, 0, 0.7)',
-                            }}
-                        >
+                        <p className="hero-subtitle font-light opacity-90 mx-auto max-w-2xl text-shadow-md">
                             {contactData.heroSubtitle}
                         </p>
                     </div>
@@ -99,16 +80,8 @@ export default async function Contact() {
             </section>
 
             {/* Main Contact Section */}
-            <section
-                className="max-w-7xl mx-auto"
-                style={{
-                    padding: `var(--spacing-4xl) var(--spacing-lg)`,
-                }}
-            >
-                <div
-                    className="grid lg:grid-cols-2 items-center"
-                    style={{ gap: 'var(--spacing-3xl)' }}
-                >
+            <section className="max-w-7xl mx-auto section-padding">
+                <div className="grid lg:grid-cols-2 items-center gap-16">
                     {/* Left Side: Profile Image and Instagram Cards */}
                     <div className="order-1 lg:order-1 space-y-8">
                         {/* Profile Image */}
@@ -192,34 +165,13 @@ export default async function Contact() {
 
                     {/* Right Side: Contact Form */}
                     <div className="order-2 lg:order-2">
-                        <div
-                            className="bg-white rounded-3xl shadow-xl h-full"
-                            style={{
-                                padding: 'var(--spacing-xl) var(--spacing-2xl)',
-                            }}
-                        >
-                            <h2
-                                className="font-bold"
-                                style={{
-                                    fontSize: 'clamp(1.875rem, 4vw, 2.5rem)',
-                                    lineHeight: 'var(--leading-tight)',
-                                    color: 'var(--color-rich-black)',
-                                    marginBottom: 'var(--spacing-lg)',
-                                }}
-                            >
+                        <div className="bg-white rounded-3xl shadow-xl h-full px-12 py-8">
+                            <h2 className="section-subtitle text-foreground mb-6">
                                 Send a Message
                             </h2>
 
                             {contactData.introText && (
-                                <p
-                                    className="max-w-2xl"
-                                    style={{
-                                        fontSize: 'var(--text-lg)',
-                                        lineHeight: 'var(--leading-relaxed)',
-                                        color: 'var(--color-mid-grey)',
-                                        marginBottom: 'var(--spacing-xl)',
-                                    }}
-                                >
+                                <p className="body-large text-muted-foreground max-w-2xl mb-8">
                                     {contactData.introText}
                                 </p>
                             )}
@@ -231,41 +183,16 @@ export default async function Contact() {
 
                 {/* Response Time Card - Full Width Below */}
                 {contactData.responseTime && (
-                    <div style={{ marginTop: 'var(--spacing-4xl)' }} className="order-3">
-                        <div
-                            className="bg-blue-50 rounded-xl border border-blue-200 max-w-3xl mx-auto"
-                            style={{ padding: 'var(--spacing-xl)' }}
-                        >
+                    <div className="mt-24 order-3">
+                        <div className="bg-blue-50 rounded-xl border border-blue-200 max-w-3xl mx-auto p-8">
                             <div className="text-center">
-                                <div
-                                    className="bg-blue-500 rounded-full mx-auto flex items-center justify-center"
-                                    style={{
-                                        width: 'var(--spacing-3xl)',
-                                        height: 'var(--spacing-3xl)',
-                                        marginBottom: 'var(--spacing-md)',
-                                    }}
-                                >
-                                    <Info
-                                        style={{
-                                            width: 'var(--spacing-lg)',
-                                            height: 'var(--spacing-lg)',
-                                        }}
-                                        className="text-white"
-                                    />
+                                <div className="w-16 h-16 bg-blue-500 rounded-full mx-auto flex items-center justify-center mb-4">
+                                    <Info className="w-6 h-6 text-white" />
                                 </div>
-                                <p
-                                    className="text-blue-800 font-semibold"
-                                    style={{
-                                        fontSize: 'var(--text-lg)',
-                                        marginBottom: 'var(--spacing-xs)',
-                                    }}
-                                >
+                                <p className="text-lg font-semibold text-blue-800 mb-2">
                                     Quick Response Promise
                                 </p>
-                                <p
-                                    className="text-blue-700"
-                                    style={{ fontSize: 'var(--text-base)' }}
-                                >
+                                <p className="text-base text-blue-700">
                                     {contactData.responseTime}
                                 </p>
                             </div>

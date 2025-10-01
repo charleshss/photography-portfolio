@@ -28,10 +28,7 @@ export default function Navigation() {
             }`}
         >
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                <div
-                    className="flex items-center justify-between"
-                    style={{ height: 'var(--spacing-4xl)' }}
-                >
+                <div className="flex items-center justify-between h-24">
                     <Link href="/" className="flex items-center group">
                         {!logoError ? (
                             <Image
@@ -39,69 +36,40 @@ export default function Navigation() {
                                 alt="SamuelSS Photography Logo"
                                 width={200}
                                 height={48}
-                                className="transition-all duration-300 group-hover:scale-105 group-hover:brightness-75"
-                                style={{
-                                    width: 'auto',
-                                    height: 'var(--spacing-2xl)',
-                                }}
+                                className="h-12 w-auto transition-all duration-300 group-hover:scale-105 group-hover:brightness-75"
                                 priority
                                 onError={() => setLogoError(true)}
                             />
                         ) : (
                             /* Text fallback when logo fails to load */
-                            <span
-                                className="font-bold transition-colors group-hover:text-gray-700"
-                                style={{
-                                    fontSize: 'var(--text-xl)',
-                                    color: 'var(--color-rich-black)',
-                                }}
-                            >
+                            <span className="text-xl font-bold text-foreground transition-colors group-hover:text-gray-700">
                                 SamuelSS. Photography
                             </span>
                         )}
                     </Link>
 
-                    <div
-                        className="hidden md:flex items-center"
-                        style={{ gap: 'var(--spacing-xl)' }}
-                    >
+                    <div className="hidden md:flex items-center gap-8">
                         <Link
                             href="/"
-                            className="font-medium transition-all duration-200 hover:text-gray-600 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-900 after:transition-all after:duration-200 hover:after:w-full"
-                            style={{
-                                fontSize: 'var(--text-base)',
-                                letterSpacing: '0.01em',
-                            }}
+                            className="text-base font-medium tracking-tight transition-all duration-200 hover:text-gray-600 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-900 after:transition-all after:duration-200 hover:after:w-full"
                         >
                             Home
                         </Link>
                         <Link
                             href="/portfolio"
-                            className="font-medium transition-all duration-200 hover:text-gray-600 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-900 after:transition-all after:duration-200 hover:after:w-full"
-                            style={{
-                                fontSize: 'var(--text-base)',
-                                letterSpacing: '0.01em',
-                            }}
+                            className="text-base font-medium tracking-tight transition-all duration-200 hover:text-gray-600 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-900 after:transition-all after:duration-200 hover:after:w-full"
                         >
                             Portfolio
                         </Link>
                         <Link
                             href="/about"
-                            className="font-medium transition-all duration-200 hover:text-gray-600 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-900 after:transition-all after:duration-200 hover:after:w-full"
-                            style={{
-                                fontSize: 'var(--text-base)',
-                                letterSpacing: '0.01em',
-                            }}
+                            className="text-base font-medium tracking-tight transition-all duration-200 hover:text-gray-600 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-900 after:transition-all after:duration-200 hover:after:w-full"
                         >
                             About
                         </Link>
                         <Link
                             href="/contact"
-                            className="font-medium transition-all duration-200 hover:text-gray-600 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-900 after:transition-all after:duration-200 hover:after:w-full"
-                            style={{
-                                fontSize: 'var(--text-base)',
-                                letterSpacing: '0.01em',
-                            }}
+                            className="text-base font-medium tracking-tight transition-all duration-200 hover:text-gray-600 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-900 after:transition-all after:duration-200 hover:after:w-full"
                         >
                             Contact
                         </Link>
@@ -125,56 +93,31 @@ export default function Navigation() {
             {/* Mobile menu */}
             {mobileMenuOpen && (
                 <div className="md:hidden border-t border-gray-200/50 bg-white/95 backdrop-blur-lg">
-                    <div
-                        className="space-y-1"
-                        style={{
-                            padding: 'var(--spacing-md)',
-                        }}
-                    >
+                    <div className="space-y-1 p-4">
                         <Link
                             href="/"
-                            className="block font-medium hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all duration-200"
-                            style={{
-                                fontSize: 'var(--text-base)',
-                                padding: 'var(--spacing-sm) var(--spacing-md)',
-                                color: 'var(--color-rich-black)',
-                            }}
+                            className="block text-base font-medium text-foreground hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all duration-200 px-4 py-3"
                             onClick={() => setMobileMenuOpen(false)}
                         >
                             Home
                         </Link>
                         <Link
                             href="/portfolio"
-                            className="block font-medium hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all duration-200"
-                            style={{
-                                fontSize: 'var(--text-base)',
-                                padding: 'var(--spacing-sm) var(--spacing-md)',
-                                color: 'var(--color-rich-black)',
-                            }}
+                            className="block text-base font-medium text-foreground hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all duration-200 px-4 py-3"
                             onClick={() => setMobileMenuOpen(false)}
                         >
                             Portfolio
                         </Link>
                         <Link
                             href="/about"
-                            className="block font-medium hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all duration-200"
-                            style={{
-                                fontSize: 'var(--text-base)',
-                                padding: 'var(--spacing-sm) var(--spacing-md)',
-                                color: 'var(--color-rich-black)',
-                            }}
+                            className="block text-base font-medium text-foreground hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all duration-200 px-4 py-3"
                             onClick={() => setMobileMenuOpen(false)}
                         >
                             About
                         </Link>
                         <Link
                             href="/contact"
-                            className="block font-medium hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all duration-200"
-                            style={{
-                                fontSize: 'var(--text-base)',
-                                padding: 'var(--spacing-sm) var(--spacing-md)',
-                                color: 'var(--color-rich-black)',
-                            }}
+                            className="block text-base font-medium text-foreground hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all duration-200 px-4 py-3"
                             onClick={() => setMobileMenuOpen(false)}
                         >
                             Contact
