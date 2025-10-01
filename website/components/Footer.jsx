@@ -41,28 +41,55 @@ export default async function Footer() {
     const siteInfo = await getSiteInfo();
 
     return (
-        <footer className="border-t py-8 text-center text-sm text-gray-500">
-            <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 sm:flex-row">
-                <p>
+        <footer
+            className="border-t text-center"
+            style={{
+                padding: `var(--spacing-xl) var(--spacing-md)`,
+                fontSize: 'var(--text-sm)',
+                color: 'var(--color-mid-grey)',
+                borderColor: 'var(--color-light-grey)',
+            }}
+        >
+            <div
+                className="mx-auto flex max-w-7xl flex-col items-center justify-between sm:flex-row"
+                style={{ gap: 'var(--spacing-md)' }}
+            >
+                <p style={{ fontSize: 'var(--text-sm)' }}>
                     © {new Date().getFullYear()} {siteInfo.businessName} | All
                     rights reserved.
                 </p>
-                <div className="flex gap-6">
+                <div className="flex" style={{ gap: 'var(--spacing-lg)' }}>
                     <a
                         href={`https://instagram.com/${siteInfo.instagram}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-500 hover:text-gray-900 transition"
+                        className="transition-all duration-200 hover:-translate-y-0.5 hover:text-gray-900"
+                        style={{
+                            color: 'var(--color-mid-grey)',
+                        }}
                         aria-label="Instagram"
                     >
-                        <Instagram className="h-5 w-5" />
+                        <Instagram
+                            style={{
+                                height: 'var(--spacing-lg)',
+                                width: 'var(--spacing-lg)',
+                            }}
+                        />
                     </a>
                     <a
                         href={`mailto:${siteInfo.email}`}
-                        className="text-gray-500 hover:text-gray-900 transition"
+                        className="transition-all duration-200 hover:-translate-y-0.5 hover:text-gray-900"
+                        style={{
+                            color: 'var(--color-mid-grey)',
+                        }}
                         aria-label="Email"
                     >
-                        <Mail className="h-5 w-5" />
+                        <Mail
+                            style={{
+                                height: 'var(--spacing-lg)',
+                                width: 'var(--spacing-lg)',
+                            }}
+                        />
                     </a>
                 </div>
             </div>

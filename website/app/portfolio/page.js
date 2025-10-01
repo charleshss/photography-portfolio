@@ -88,40 +88,108 @@ export default async function Portfolio() {
     return (
         <main className="min-h-screen bg-white">
             {/* Hero Section */}
-            <section className="bg-gray-900 text-white">
-                <div className="mx-auto max-w-7xl px-6 py-24 text-center">
-                    <h1 className="mb-6 text-4xl font-bold md:text-6xl">
+            <section
+                className="text-white"
+                style={{
+                    backgroundColor: 'var(--color-rich-black)',
+                    padding: `var(--spacing-4xl) var(--spacing-lg)`,
+                }}
+            >
+                <div className="mx-auto max-w-7xl text-center">
+                    <h1
+                        className="font-bold mb-6"
+                        style={{
+                            fontSize: 'clamp(2.25rem, 5vw, 4rem)',
+                            lineHeight: 'var(--leading-tight)',
+                        }}
+                    >
                         {pageContent.heroTitle}
                     </h1>
-                    <p className="mx-auto max-w-2xl text-lg text-gray-300 md:text-xl">
+                    <p
+                        className="mx-auto max-w-2xl text-gray-300"
+                        style={{
+                            fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
+                            lineHeight: 'var(--leading-relaxed)',
+                        }}
+                    >
                         {pageContent.heroDescription}
                     </p>
 
                     {/* Unified Portfolio Stats */}
-                    <div className="mt-12 grid grid-cols-2 gap-8 md:grid-cols-4">
+                    <div
+                        className="grid grid-cols-2 md:grid-cols-4"
+                        style={{
+                            marginTop: 'var(--spacing-3xl)',
+                            gap: 'var(--spacing-xl)',
+                        }}
+                    >
                         <div>
-                            <h3 className="text-3xl font-bold text-white">
+                            <h3
+                                className="font-bold text-white"
+                                style={{
+                                    fontSize: 'var(--text-4xl)',
+                                    marginBottom: 'var(--spacing-xs)',
+                                }}
+                            >
                                 {safeStats.totalImages}
                             </h3>
-                            <p className="text-gray-300">Total Images</p>
+                            <p
+                                className="text-gray-300"
+                                style={{ fontSize: 'var(--text-base)' }}
+                            >
+                                Total Images
+                            </p>
                         </div>
                         <div>
-                            <h3 className="text-3xl font-bold text-white">
+                            <h3
+                                className="font-bold text-white"
+                                style={{
+                                    fontSize: 'var(--text-4xl)',
+                                    marginBottom: 'var(--spacing-xs)',
+                                }}
+                            >
                                 {safeStats.locationCount}
                             </h3>
-                            <p className="text-gray-300">Unique Locations</p>
+                            <p
+                                className="text-gray-300"
+                                style={{ fontSize: 'var(--text-base)' }}
+                            >
+                                Unique Locations
+                            </p>
                         </div>
                         <div>
-                            <h3 className="text-3xl font-bold text-white">
+                            <h3
+                                className="font-bold text-white"
+                                style={{
+                                    fontSize: 'var(--text-4xl)',
+                                    marginBottom: 'var(--spacing-xs)',
+                                }}
+                            >
                                 {safeStats.countryCount}
                             </h3>
-                            <p className="text-gray-300">Countries</p>
+                            <p
+                                className="text-gray-300"
+                                style={{ fontSize: 'var(--text-base)' }}
+                            >
+                                Countries
+                            </p>
                         </div>
                         <div>
-                            <h3 className="text-3xl font-bold text-white">
+                            <h3
+                                className="font-bold text-white"
+                                style={{
+                                    fontSize: 'var(--text-4xl)',
+                                    marginBottom: 'var(--spacing-xs)',
+                                }}
+                            >
                                 {safeStats.speciesCount}
                             </h3>
-                            <p className="text-gray-300">Species</p>
+                            <p
+                                className="text-gray-300"
+                                style={{ fontSize: 'var(--text-base)' }}
+                            >
+                                Species
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -156,17 +224,42 @@ export default async function Portfolio() {
             />
 
             {/* Call to Action */}
-            <section className="px-6 py-20">
+            <section
+                style={{
+                    padding: `var(--spacing-4xl) var(--spacing-lg)`,
+                }}
+            >
                 <div className="mx-auto max-w-4xl text-center">
-                    <h2 className="mb-6 text-3xl font-bold md:text-4xl">
+                    <h2
+                        className="font-bold"
+                        style={{
+                            fontSize: 'clamp(1.875rem, 4vw, 2.5rem)',
+                            lineHeight: 'var(--leading-tight)',
+                            marginBottom: 'var(--spacing-lg)',
+                            color: 'var(--color-rich-black)',
+                        }}
+                    >
                         {pageContent.ctaTitle}
                     </h2>
-                    <p className="mb-8 text-lg text-gray-600">
+                    <p
+                        style={{
+                            fontSize: 'var(--text-lg)',
+                            lineHeight: 'var(--leading-relaxed)',
+                            color: 'var(--color-mid-grey)',
+                            marginBottom: 'var(--spacing-xl)',
+                        }}
+                    >
                         {pageContent.ctaDescription}
                     </p>
                     <Link
                         href={pageContent.ctaButtonLink}
-                        className="inline-flex items-center rounded-full bg-gray-900 px-8 py-4 text-lg font-semibold text-white transition hover:bg-gray-700"
+                        className="inline-flex items-center rounded-full font-semibold transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                        style={{
+                            backgroundColor: 'var(--color-rich-black)',
+                            color: 'var(--color-pure-white)',
+                            padding: 'var(--spacing-md) var(--spacing-xl)',
+                            fontSize: 'var(--text-lg)',
+                        }}
                     >
                         {pageContent.ctaButtonText}
                     </Link>
