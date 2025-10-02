@@ -21,63 +21,52 @@ export default function Navigation() {
 
     return (
         <nav
-            className={`sticky top-0 z-50 transition-all duration-300 ${
+            className={`sticky top-0 z-50 border-b border-transparent backdrop-blur-2xl transition-all duration-500 ${
                 scrolled
-                    ? 'bg-white/95 backdrop-blur-lg border-b border-gray-200/50 shadow-sm'
-                    : 'bg-white/80 backdrop-blur-md border-b border-transparent'
+                    ? 'bg-[rgba(8,10,15,0.9)] border-border/70 shadow-[var(--shadow-strong)]'
+                    : 'bg-transparent'
             }`}
         >
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                <div className="flex items-center justify-between h-24">
-                    <Link href="/" className="flex items-center group">
+                <div className="flex h-20 items-center justify-between">
+                    <Link href="/" className="group flex items-center gap-3">
                         {!logoError ? (
                             <Image
                                 src="/logo.png"
                                 alt="SamuelSS Photography Logo"
                                 width={200}
                                 height={48}
-                                className="h-12 w-auto transition-all duration-300 group-hover:scale-105 group-hover:brightness-75"
+                                className="h-11 w-auto transition-transform duration-500 group-hover:scale-105"
                                 priority
                                 onError={() => setLogoError(true)}
+                                style={{ filter: 'brightness(0) invert(1)' }}
                             />
                         ) : (
                             /* Text fallback when logo fails to load */
-                            <span className="text-xl font-bold text-foreground transition-colors group-hover:text-gray-700">
+                            <span className="text-xl font-semibold tracking-[0.24em] text-foreground transition-colors group-hover:text-primary">
                                 SamuelSS. Photography
                             </span>
                         )}
                     </Link>
 
-                    <div className="hidden md:flex items-center gap-8">
-                        <Link
-                            href="/"
-                            className="text-base font-medium tracking-tight transition-all duration-200 hover:text-gray-600 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-900 after:transition-all after:duration-200 hover:after:w-full"
-                        >
+                    <div className="hidden items-center gap-10 md:flex">
+                        <Link href="/" className="nav-link">
                             Home
                         </Link>
-                        <Link
-                            href="/portfolio"
-                            className="text-base font-medium tracking-tight transition-all duration-200 hover:text-gray-600 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-900 after:transition-all after:duration-200 hover:after:w-full"
-                        >
+                        <Link href="/portfolio" className="nav-link">
                             Portfolio
                         </Link>
-                        <Link
-                            href="/about"
-                            className="text-base font-medium tracking-tight transition-all duration-200 hover:text-gray-600 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-900 after:transition-all after:duration-200 hover:after:w-full"
-                        >
+                        <Link href="/about" className="nav-link">
                             About
                         </Link>
-                        <Link
-                            href="/contact"
-                            className="text-base font-medium tracking-tight transition-all duration-200 hover:text-gray-600 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gray-900 after:transition-all after:duration-200 hover:after:w-full"
-                        >
+                        <Link href="/contact" className="nav-link">
                             Contact
                         </Link>
                     </div>
 
                     {/* Mobile menu button */}
                     <button
-                        className="md:hidden"
+                        className="md:hidden text-foreground"
                         aria-label="Toggle menu"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     >
@@ -92,32 +81,32 @@ export default function Navigation() {
 
             {/* Mobile menu */}
             {mobileMenuOpen && (
-                <div className="md:hidden border-t border-gray-200/50 bg-white/95 backdrop-blur-lg">
+                <div className="border-t border-border/60 bg-surface-alt/95 backdrop-blur-xl md:hidden">
                     <div className="space-y-1 p-4">
                         <Link
                             href="/"
-                            className="block text-base font-medium text-foreground hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all duration-200 px-4 py-3"
+                            className="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.3em] text-muted-foreground transition-colors duration-200 hover:bg-white/5 hover:text-foreground"
                             onClick={() => setMobileMenuOpen(false)}
                         >
                             Home
                         </Link>
                         <Link
                             href="/portfolio"
-                            className="block text-base font-medium text-foreground hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all duration-200 px-4 py-3"
+                            className="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.3em] text-muted-foreground transition-colors duration-200 hover:bg-white/5 hover:text-foreground"
                             onClick={() => setMobileMenuOpen(false)}
                         >
                             Portfolio
                         </Link>
                         <Link
                             href="/about"
-                            className="block text-base font-medium text-foreground hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all duration-200 px-4 py-3"
+                            className="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.3em] text-muted-foreground transition-colors duration-200 hover:bg-white/5 hover:text-foreground"
                             onClick={() => setMobileMenuOpen(false)}
                         >
                             About
                         </Link>
                         <Link
                             href="/contact"
-                            className="block text-base font-medium text-foreground hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-all duration-200 px-4 py-3"
+                            className="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.3em] text-muted-foreground transition-colors duration-200 hover:bg-white/5 hover:text-foreground"
                             onClick={() => setMobileMenuOpen(false)}
                         >
                             Contact

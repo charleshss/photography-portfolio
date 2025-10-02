@@ -80,27 +80,25 @@ export default async function Home() {
     };
 
     return (
-        <main className="min-h-screen bg-white text-gray-900">
+        <main className="min-h-screen">
             {/* Hero Section with Carousel - Full viewport height */}
             <section className="relative h-screen">
                 <HeroCarousel />
             </section>
 
-            {/* Modern Section Divider */}
-            <div className="section-divider" />
-
-            <section className="bg-white section-padding">
-                <div className="mx-auto max-w-4xl text-center">
-                    <span className="block uppercase tracking-[0.15em] text-sm text-muted-foreground mb-3">
+            {/* Hero Content Section - Unified Dark */}
+            <section className="section-padding">
+                <div className="glass-panel mx-auto max-w-5xl px-8 py-14 text-center">
+                    <span className="tag-capsule mx-auto mb-8">
                         {pageData.heroTagline}
                     </span>
-                    <h1 className="section-title text-foreground mb-6">
+                    <h1 className="section-title mb-6 text-foreground">
                         {pageData.businessName}
                     </h1>
-                    <p className="body-large text-muted-foreground mx-auto max-w-2xl">
+                    <p className="body-large mx-auto max-w-3xl text-text">
                         {pageData.heroDescription}
                     </p>
-                    <div className="flex flex-col items-center sm:flex-row sm:justify-center gap-4 mt-8">
+                    <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                         <Link
                             href={pageData.primaryButton.link}
                             className="cta-button"
@@ -117,33 +115,21 @@ export default async function Home() {
                 </div>
             </section>
 
-            {/* Modern Section Divider with Accent */}
-            <div className="relative py-12">
-                <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-200" />
-                </div>
-                <div className="relative flex justify-center">
-                    <div className="bg-white px-6">
-                        <div className="h-2 w-2 rounded-full bg-gradient-to-r from-gray-400 to-gray-600" />
-                    </div>
-                </div>
-            </div>
-
-            {/* My Best Work Section - Now uses Sanity data */}
-            <section className="bg-white section-padding">
-                <div className="mx-auto max-w-7xl">
-                    <div className="text-center mb-16">
-                        <h2 className="section-subtitle text-foreground mb-4">
+            {/* My Best Work Section - Unified Dark */}
+            <section className="section-padding">
+                <div className="mx-auto max-w-7xl space-y-14">
+                    <div className="mx-auto max-w-3xl text-center">
+                        <h2 className="section-subtitle mb-4 text-foreground">
                             {pageData.featuredSection.sectionTitle}
                         </h2>
-                        <p className="body-large text-muted-foreground mx-auto max-w-2xl">
+                        <p className="body-large text-text">
                             {pageData.featuredSection.sectionDescription}
                         </p>
                     </div>
 
                     {/* Featured Images Grid - Updated to use Sanity */}
                     {featuredImages.length > 0 ? (
-                        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                             {featuredImages.map((image) => (
                                 <ImageCard
                                     key={image._id}
@@ -161,10 +147,10 @@ export default async function Home() {
                     ) : (
                         // Fallback when no featured images exist
                         <div className="text-center py-12">
-                            <div className="text-gray-500 mb-4">
+                            <div className="text-muted-foreground mb-4">
                                 No featured images yet
                             </div>
-                            <p className="text-sm text-gray-400">
+                            <p className="text-sm text-grey-pale">
                                 Upload some photos in Sanity Studio and mark
                                 them as &#34;Featured&#34; to see them here
                             </p>
@@ -172,19 +158,22 @@ export default async function Home() {
                     )}
 
                     {/* View All Button */}
-                    <div className="text-center mt-16">
-                        <Link href="/portfolio" className="cta-button">
+                    <div className="flex justify-center pt-6">
+                        <Link href="/portfolio" className="cta-button-outline">
                             {pageData.featuredSection.viewAllButtonText}
                         </Link>
                     </div>
                 </div>
             </section>
 
-            {/* Modern Section Divider - Subtle Line */}
-            <div className="section-divider my-8" />
+            {/* Sleek Section Divider */}
+            <div className="section-padding py-10">
+                <span className="divider-gradient" />
+            </div>
 
-            <section className="bg-background section-padding">
-                <div className="mx-auto flex max-w-4xl flex-col text-center gap-6">
+            {/* CTA Section - Sleek with Gradient */}
+            <section className="section-padding">
+                <div className="glass-panel mx-auto flex max-w-4xl flex-col gap-6 px-10 py-14 text-center">
                     <h2 className="section-subtitle text-foreground">
                         {pageData.collaborationSection.ctaTitle}
                     </h2>
@@ -193,7 +182,7 @@ export default async function Home() {
                     </p>
                     <a
                         href={pageData.collaborationSection.ctaButtonLink}
-                        className="cta-button mx-auto"
+                        className="cta-button mx-auto mt-6"
                     >
                         {pageData.collaborationSection.ctaButtonText}
                     </a>

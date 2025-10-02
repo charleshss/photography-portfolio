@@ -41,56 +41,60 @@ export default async function Footer() {
     const siteInfo = await getSiteInfo();
 
     return (
-        <footer
-            className="border-t text-center"
-            style={{
-                padding: `var(--spacing-xl) var(--spacing-md)`,
-                fontSize: 'var(--text-sm)',
-                color: 'var(--color-mid-grey)',
-                borderColor: 'var(--color-light-grey)',
-            }}
-        >
-            <div
-                className="mx-auto flex max-w-7xl flex-col items-center justify-between sm:flex-row"
-                style={{ gap: 'var(--spacing-md)' }}
-            >
-                <p style={{ fontSize: 'var(--text-sm)' }}>
-                    © {new Date().getFullYear()} {siteInfo.businessName} | All
-                    rights reserved.
-                </p>
-                <div className="flex" style={{ gap: 'var(--spacing-lg)' }}>
-                    <a
-                        href={`https://instagram.com/${siteInfo.instagram}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="transition-all duration-200 hover:-translate-y-0.5 hover:text-gray-900"
-                        style={{
-                            color: 'var(--color-mid-grey)',
-                        }}
-                        aria-label="Instagram"
-                    >
-                        <Instagram
-                            style={{
-                                height: 'var(--spacing-lg)',
-                                width: 'var(--spacing-lg)',
-                            }}
-                        />
-                    </a>
-                    <a
-                        href={`mailto:${siteInfo.email}`}
-                        className="transition-all duration-200 hover:-translate-y-0.5 hover:text-gray-900"
-                        style={{
-                            color: 'var(--color-mid-grey)',
-                        }}
-                        aria-label="Email"
-                    >
-                        <Mail
-                            style={{
-                                height: 'var(--spacing-lg)',
-                                width: 'var(--spacing-lg)',
-                            }}
-                        />
-                    </a>
+        <footer className="border-t border-border bg-charcoal">
+            <div className="mx-auto max-w-7xl px-6 py-12">
+                {/* Main Footer Content */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                    {/* Brand Section */}
+                    <div className="text-center md:text-left">
+                        <h3 className="text-xl font-bold text-foreground mb-2">
+                            {siteInfo.businessName}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                            Wildlife & Nature Photography
+                        </p>
+                    </div>
+
+                    {/* Social Links - Large & Prominent */}
+                    <div className="flex items-center justify-center gap-6">
+                        <a
+                            href={`https://instagram.com/${siteInfo.instagram}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex items-center justify-center w-14 h-14 rounded-full bg-slate border border-border transition-all duration-300 hover:bg-accent hover:border-accent hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/30"
+                            aria-label="Instagram"
+                        >
+                            <Instagram className="w-6 h-6 text-muted-foreground group-hover:text-midnight transition-colors" />
+                        </a>
+                        <a
+                            href={`mailto:${siteInfo.email}`}
+                            className="group flex items-center justify-center w-14 h-14 rounded-full bg-slate border border-border transition-all duration-300 hover:bg-accent hover:border-accent hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/30"
+                            aria-label="Email"
+                        >
+                            <Mail className="w-6 h-6 text-muted-foreground group-hover:text-midnight transition-colors" />
+                        </a>
+                    </div>
+
+                    {/* Contact Info */}
+                    <div className="text-center md:text-right">
+                        <p className="text-sm text-muted-foreground mb-1">
+                            {siteInfo.email}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                            @{siteInfo.instagram}
+                        </p>
+                    </div>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-border mb-6" />
+
+                {/* Copyright */}
+                <div className="text-center">
+                    <p className="text-sm text-muted-foreground">
+                        © {new Date().getFullYear()} {siteInfo.businessName}. All
+                        rights reserved.
+                    </p>
                 </div>
             </div>
         </footer>

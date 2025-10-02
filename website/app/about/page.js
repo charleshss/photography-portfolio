@@ -13,27 +13,29 @@ function urlFor(source) {
 const portableTextComponents = {
     block: {
         h3: ({ children }) => (
-            <h3 className="text-xl font-semibold text-gray-900 mb-3 break-words">
+            <h3 className="text-xl font-semibold text-foreground mb-3 tracking-tight break-words">
                 {children}
             </h3>
         ),
         h4: ({ children }) => (
-            <h4 className="text-lg font-medium text-gray-900 mb-2 break-words">
+            <h4 className="text-lg font-medium text-foreground/90 mb-2 break-words">
                 {children}
             </h4>
         ),
         normal: ({ children }) => (
-            <p className="text-gray-700 mb-4 break-words leading-relaxed">
+            <p className="text-muted-foreground mb-4 break-words leading-relaxed">
                 {children}
             </p>
         ),
     },
     marks: {
         strong: ({ children }) => (
-            <strong className="font-semibold break-words">{children}</strong>
+            <strong className="font-semibold text-foreground break-words">
+                {children}
+            </strong>
         ),
         em: ({ children }) => (
-            <em className="italic break-words">{children}</em>
+            <em className="italic text-foreground/90 break-words">{children}</em>
         ),
     },
 };
@@ -66,12 +68,12 @@ export default async function About() {
     // Fallback if no data exists yet
     if (!aboutData) {
         return (
-            <div className="min-h-screen bg-white flex items-center justify-center">
-                <div className="text-center">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <div className="min-h-screen flex items-center justify-center bg-background">
+                <div className="glass-panel px-10 py-12 text-center">
+                    <h1 className="section-subtitle mb-4 text-foreground">
                         About Page
                     </h1>
-                    <p className="text-gray-600">
+                    <p className="text-muted-foreground">
                         Please set up your about page content in Sanity Studio.
                     </p>
                 </div>
@@ -80,14 +82,15 @@ export default async function About() {
     }
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen">
             {/* Hero Section with Background Image */}
-            <section className="relative hero-height">
+            <section className="relative flex items-center justify-center hero-height">
                 {aboutData.heroImage && (
                     <Image
                         src={urlFor(aboutData.heroImage)
                             .width(1920)
                             .height(1080)
+                            .quality(95)
                             .url()}
                         alt="Hero background"
                         fill
@@ -96,12 +99,12 @@ export default async function About() {
                     />
                 )}
                 <div className="gradient-overlay" />
-                <div className="relative flex items-center justify-center h-full px-6">
-                    <div className="text-center text-white max-w-4xl">
-                        <h1 className="hero-title mb-6 tracking-tight text-shadow-lg">
+                <div className="relative z-10 flex items-center justify-center px-6 w-full h-full">
+                    <div className="max-w-4xl text-center">
+                        <h1 className="hero-title mb-6 tracking-tight text-shadow-lg text-hero-text">
                             {aboutData.heroTitle || 'About Sam'}
                         </h1>
-                        <p className="hero-subtitle font-light opacity-90 text-shadow-md">
+                        <p className="hero-subtitle mx-auto font-light text-shadow-md text-hero-text/80">
                             {aboutData.heroSubtitle ||
                                 'Wildlife & Nature Photography'}
                         </p>
@@ -109,13 +112,13 @@ export default async function About() {
                 </div>
             </section>
 
-            {/* Main Content */}
-            <section className="max-w-6xl mx-auto section-padding">
-                <div className="grid lg:grid-cols-2 items-center gap-16">
+            {/* Main Content - Unified Dark */}
+            <section className="section-padding">
+                <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-2">
                     {/* Profile Image */}
                     <div className="order-2 lg:order-1">
                         {aboutData.profileImage ? (
-                            <div className="relative h-96 w-full rounded-2xl overflow-hidden shadow-2xl">
+                            <div className="relative h-96 w-full overflow-hidden rounded-3xl border border-white/5 shadow-[var(--shadow-soft)]">
                                 <Image
                                     src={urlFor(aboutData.profileImage)
                                         .width(500)
@@ -127,9 +130,9 @@ export default async function About() {
                                 />
                             </div>
                         ) : (
-                            <div className="relative h-96 w-full rounded-2xl overflow-hidden bg-gradient-to-br from-green-50 to-green-100 shadow-2xl">
-                                <div className="flex items-center justify-center h-full">
-                                    <span className="text-green-600 text-lg font-medium">
+                            <div className="relative h-96 w-full overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-br from-surface to-surface-alt">
+                                <div className="flex h-full items-center justify-center">
+                                    <span className="text-muted-foreground text-lg font-medium uppercase tracking-[0.3em]">
                                         Profile Photo
                                     </span>
                                 </div>
@@ -138,15 +141,15 @@ export default async function About() {
                     </div>
 
                     {/* About Text */}
-                    <div className="order-1 lg:order-2 min-w-0 overflow-hidden flex flex-col gap-8">
+                    <div className="order-1 flex min-w-0 flex-col gap-8 overflow-hidden text-center lg:order-2 lg:text-left">
                         <h2 className="section-title text-foreground break-words">
                             My Journey with Nature
                         </h2>
 
                         {/* Introduction */}
                         {aboutData.introduction && (
-                            <div className="text-lg md:text-xl text-gray-600 leading-relaxed break-words overflow-wrap-anywhere">
-                                <p className="break-words">
+                            <div className="body-large text-text break-words">
+                                <p>
                                     {aboutData.introduction}
                                 </p>
                             </div>
@@ -154,19 +157,16 @@ export default async function About() {
 
                         {/* Main Story */}
                         {aboutData.story && (
-                            <div className="prose prose-lg md:prose-xl text-gray-600 leading-relaxed max-w-none break-words overflow-wrap-anywhere">
-                                <PortableText
-                                    value={aboutData.story}
-                                    components={portableTextComponents}
-                                />
+                            <div className="space-y-6 text-base leading-relaxed text-text md:text-lg">
+                                <PortableText value={aboutData.story} components={portableTextComponents} />
                             </div>
                         )}
 
                         {/* What Drives Me */}
                         {aboutData.passions &&
                             aboutData.passions.length > 0 && (
-                                <div className="bg-gray-50 rounded-2xl p-8 mt-8">
-                                    <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                                <div className="glass-panel mt-8 px-8 py-10">
+                                    <h3 className="text-xl font-semibold uppercase tracking-[0.28em] text-muted-foreground mb-6">
                                         What Drives Me
                                     </h3>
                                     <ul className="space-y-4">
@@ -174,10 +174,10 @@ export default async function About() {
                                             (item, index) => (
                                                 <li
                                                     key={index}
-                                                    className="flex items-start"
+                                                    className="flex items-start gap-4"
                                                 >
-                                                    <div className="w-2 h-2 bg-green-500 rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                                                    <span className="text-gray-700 text-lg">
+                                                    <div className="mt-2 h-2 w-2 rounded-full bg-primary flex-shrink-0"></div>
+                                                    <span className="text-muted-foreground">
                                                         {item.passion}
                                                     </span>
                                                 </li>
@@ -191,16 +191,21 @@ export default async function About() {
 
                 {/* Equipment Section */}
                 {aboutData.equipment?.showEquipment && (
-                    <div className="mt-24 bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-12">
-                        <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
+                    <div className="mt-24 space-y-10">
+                        <h3 className="section-subtitle text-center text-foreground">
                             {aboutData.equipment.equipmentTitle ||
                                 'Currently Using'}
                         </h3>
-                        <div className="grid md:grid-cols-2 gap-12">
+                        {aboutData.equipment.equipmentDescription && (
+                            <p className="mx-auto max-w-3xl text-center text-muted-foreground">
+                                {aboutData.equipment.equipmentDescription}
+                            </p>
+                        )}
+                        <div className="grid gap-10 md:grid-cols-2">
                             {aboutData.equipment.camera &&
                                 aboutData.equipment.camera.length > 0 && (
-                                    <div className="bg-white rounded-2xl p-8 shadow-lg">
-                                        <h4 className="text-xl font-bold text-gray-900 mb-6">
+                                    <div className="glass-panel px-8 py-10 text-left">
+                                        <h4 className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-muted-foreground">
                                             Camera Kit
                                         </h4>
                                         <ul className="space-y-3">
@@ -208,10 +213,10 @@ export default async function About() {
                                                 (item, index) => (
                                                     <li
                                                         key={index}
-                                                        className="flex items-start"
+                                                        className="flex items-start gap-4 text-xs uppercase tracking-[0.26em] text-muted-foreground"
                                                     >
-                                                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 mr-3 flex-shrink-0"></div>
-                                                        <span className="text-gray-700">
+                                                        <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"></div>
+                                                        <span className="text-foreground/80">
                                                             {item}
                                                         </span>
                                                     </li>
@@ -222,8 +227,8 @@ export default async function About() {
                                 )}
                             {aboutData.equipment.locations &&
                                 aboutData.equipment.locations.length > 0 && (
-                                    <div className="bg-white rounded-2xl p-8 shadow-lg">
-                                        <h4 className="text-xl font-bold text-gray-900 mb-6">
+                                    <div className="glass-panel px-8 py-10 text-left">
+                                        <h4 className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-muted-foreground">
                                             Favourite Locations
                                         </h4>
                                         <ul className="space-y-3">
@@ -231,10 +236,10 @@ export default async function About() {
                                                 (item, index) => (
                                                     <li
                                                         key={index}
-                                                        className="flex items-start"
+                                                        className="flex items-start gap-4 text-xs uppercase tracking-[0.26em] text-muted-foreground"
                                                     >
-                                                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 mr-3 flex-shrink-0"></div>
-                                                        <span className="text-gray-700">
+                                                        <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-secondary"></div>
+                                                        <span className="text-foreground/80">
                                                             {item}
                                                         </span>
                                                     </li>
@@ -250,15 +255,15 @@ export default async function About() {
                 {/* Additional Sections */}
                 {aboutData.additionalSections &&
                     aboutData.additionalSections.map((section, index) => (
-                        <div key={index} className="mt-16">
-                            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                        <div key={index} className="mt-16 space-y-6">
+                            <h3 className="text-xl font-semibold uppercase tracking-[0.28em] text-muted-foreground">
                                 {section.sectionTitle}
                             </h3>
                             <div
-                                className={`grid ${section.sectionImage ? 'md:grid-cols-2' : 'grid-cols-1'} gap-8`}
+                                className={`grid gap-8 ${section.sectionImage ? 'md:grid-cols-2' : 'grid-cols-1'}`}
                             >
                                 {section.sectionImage && (
-                                    <div className="relative h-64 rounded-lg overflow-hidden">
+                                    <div className="relative h-64 overflow-hidden rounded-3xl border border-white/5 shadow-[var(--shadow-soft)]">
                                         <Image
                                             src={urlFor(section.sectionImage)
                                                 .width(400)
@@ -270,7 +275,7 @@ export default async function About() {
                                         />
                                     </div>
                                 )}
-                                <div className="prose prose-lg text-gray-700">
+                                <div className="space-y-5 text-muted-foreground">
                                     <PortableText
                                         value={section.sectionContent}
                                         components={portableTextComponents}
@@ -280,20 +285,20 @@ export default async function About() {
                         </div>
                     ))}
 
-                {/* Call to Action */}
+                {/* Call to Action - Clean Dark */}
                 {aboutData.callToAction && (
-                    <div className="text-center bg-gradient-to-r from-green-600 to-green-700 rounded-3xl text-white mt-24 px-8 py-16">
-                        <h3 className="section-subtitle mb-6">
+                    <div className="glass-panel mt-24 px-10 py-14 text-center">
+                        <h3 className="section-subtitle mb-6 text-foreground">
                             {aboutData.callToAction.ctaTitle || "Let's Connect"}
                         </h3>
                         {aboutData.callToAction.ctaText && (
-                            <p className="body-large text-green-100 max-w-2xl mx-auto break-words mb-8">
+                            <p className="body-large mx-auto mb-8 max-w-2xl break-words text-muted-foreground">
                                 {aboutData.callToAction.ctaText}
                             </p>
                         )}
                         <a
                             href="/contact"
-                            className="inline-block bg-white text-green-700 rounded-2xl hover:bg-gray-50 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 px-12 py-3 text-lg"
+                            className="cta-button"
                         >
                             {aboutData.callToAction.ctaButtonText ||
                                 'Get in Touch'}
