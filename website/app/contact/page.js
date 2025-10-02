@@ -88,16 +88,20 @@ export default async function Contact() {
                         {/* Profile Image */}
                         <div className="relative h-96 w-full overflow-hidden rounded-3xl border border-white/5 shadow-[var(--shadow-soft)] lg:h-[400px]">
                             {contactData.contactImage ? (
-                                <Image
-                                    src={urlFor(contactData.contactImage)
-                                        .width(600)
-                                        .height(400)
-                                        .url()}
-                                    alt="Samuel SS Photography - Contact"
-                                    fill
-                                    className="object-cover"
-                                    priority
-                                />
+                                <>
+                                    <Image
+                                        src={urlFor(contactData.contactImage)
+                                            .width(600)
+                                            .height(400)
+                                            .url()}
+                                        alt="Samuel SS Photography - Contact"
+                                        fill
+                                        className="object-cover"
+                                        priority
+                                    />
+                                    {/* Subtle overlay to reduce brightness and improve surrounding content readability */}
+                                    <div className="absolute inset-0 bg-black/15 pointer-events-none" />
+                                </>
                             ) : (
                                 <div className="flex h-full items-center justify-center bg-gradient-to-br from-surface to-surface-alt">
                                     <div className="text-center">

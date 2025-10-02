@@ -128,6 +128,27 @@ export default async function Landscapes() {
     const uniqueCoordinateLocations =
         getUniqueCoordinateLocations(landscapeImages);
 
+    // Calculate years of photography (from earliest to latest photo)
+    const photoYears = landscapeImages
+        .filter((img) => {
+            // Check both cameraData and EXIF data
+            return img.cameraData?.captureDate ||
+                   img.image?.asset?.metadata?.exif?.DateTimeOriginal ||
+                   img.image?.asset?.metadata?.exif?.DateTimeDigitized;
+        })
+        .map((img) => {
+            const date = img.cameraData?.captureDate ||
+                        img.image?.asset?.metadata?.exif?.DateTimeOriginal ||
+                        img.image?.asset?.metadata?.exif?.DateTimeDigitized;
+            return new Date(date).getFullYear();
+        })
+        .filter((year) => !isNaN(year));
+
+    const currentYear = new Date().getFullYear();
+    const yearsSpan = photoYears.length > 0
+        ? currentYear - Math.min(...photoYears) + 1
+        : 0;
+
     // Calculate landscape-specific statistics with coordinate-based counting
     const landscapeStats = {
         totalImages: landscapeImages.length,
@@ -138,7 +159,7 @@ export default async function Landscapes() {
         countries: [
             ...new Set(landscapeLocations.map((loc) => loc.split(', ').pop())),
         ].length,
-        featuredCount: landscapeImages.filter((img) => img.featured).length,
+        yearsActive: yearsSpan,
     };
 
     return (
@@ -158,7 +179,7 @@ export default async function Landscapes() {
                         <h1 className="hero-title mb-6 text-foreground">
                             {pageContent.heroTitle}
                         </h1>
-                        <p className="mx-auto max-w-3xl text-text">
+                        <p className="body-large mx-auto max-w-4xl leading-relaxed text-text">
                             {pageContent.heroDescription}
                         </p>
                     </div>
@@ -182,7 +203,7 @@ export default async function Landscapes() {
                                 {landscapeStats.locations}
                             </h3>
                             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                                Unique Locations
+                                Locations Visited
                             </p>
                         </div>
                         <div className="space-y-2">
@@ -195,10 +216,10 @@ export default async function Landscapes() {
                         </div>
                         <div className="space-y-2">
                             <h3 className="text-4xl font-semibold text-foreground">
-                                {landscapeStats.featuredCount}
+                                {landscapeStats.yearsActive || '—'}
                             </h3>
                             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                                Featured Images
+                                Years Capturing
                             </p>
                         </div>
                     </div>

@@ -67,10 +67,27 @@ export default function ImageCard({
                 delay: index * 0.1,
                 ease: [0.25, 0.46, 0.45, 0.94],
             }}
+            whileHover={{
+                scale: 1.05,
+                y: -8,
+                zIndex: 50,
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                transition: {
+                    duration: 0.3,
+                    ease: [0.34, 1.56, 0.64, 1],
+                },
+            }}
             className={[
-                'group relative overflow-hidden rounded-lg bg-gray-200 cursor-pointer',
+                'group relative overflow-hidden rounded-lg bg-background cursor-pointer shadow-md',
                 masonry ? 'h-full' : aspectRatio,
             ].join(' ')}
+            style={{
+                transformOrigin: 'center center',
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+                willChange: 'transform',
+                isolation: 'isolate',
+            }}
             onClick={onClick}
         >
             {/* Image */}
@@ -80,6 +97,12 @@ export default function ImageCard({
                     alt={altText}
                     className="block h-full w-full object-contain"
                     loading="lazy"
+                    style={{
+                        backfaceVisibility: 'hidden',
+                        WebkitBackfaceVisibility: 'hidden',
+                        transform: 'scale(1.02) translateZ(0)',
+                        willChange: 'transform',
+                    }}
                 />
             ) : (
                 <Image
@@ -90,12 +113,18 @@ export default function ImageCard({
                     priority={false}
                     placeholder={image.blurDataURL ? 'blur' : 'empty'}
                     blurDataURL={image.blurDataURL}
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                    style={{
+                        backfaceVisibility: 'hidden',
+                        WebkitBackfaceVisibility: 'hidden',
+                        transform: 'scale(1.02) translateZ(0)',
+                        willChange: 'transform',
+                    }}
                 />
             )}
 
             {/* Hover veil */}
-            <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
+            <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/10" />
 
             {/* Expand button */}
             <button

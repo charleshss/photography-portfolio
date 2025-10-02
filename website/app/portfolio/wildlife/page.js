@@ -126,6 +126,27 @@ export default async function Wildlife() {
     const uniqueCoordinateLocations =
         getUniqueCoordinateLocations(wildlifeImages);
 
+    // Calculate years of photography (from earliest to latest photo)
+    const photoYears = wildlifeImages
+        .filter((img) => {
+            // Check both cameraData and EXIF data
+            return img.cameraData?.captureDate ||
+                   img.image?.asset?.metadata?.exif?.DateTimeOriginal ||
+                   img.image?.asset?.metadata?.exif?.DateTimeDigitized;
+        })
+        .map((img) => {
+            const date = img.cameraData?.captureDate ||
+                        img.image?.asset?.metadata?.exif?.DateTimeOriginal ||
+                        img.image?.asset?.metadata?.exif?.DateTimeDigitized;
+            return new Date(date).getFullYear();
+        })
+        .filter((year) => !isNaN(year));
+
+    const currentYear = new Date().getFullYear();
+    const yearsSpan = photoYears.length > 0
+        ? currentYear - Math.min(...photoYears) + 1
+        : 0;
+
     const wildlifeStats = {
         totalImages: wildlifeImages.length,
         species: wildlifeSpecies.length,
@@ -133,12 +154,7 @@ export default async function Wildlife() {
             uniqueCoordinateLocations.length > 0
                 ? uniqueCoordinateLocations.length
                 : wildlifeLocations.length,
-        countries: [
-            ...new Set(
-                wildlifeLocations.map((loc) => getCountryFromLocation(loc))
-            ),
-        ].length,
-        featuredCount: wildlifeImages.filter((img) => img.featured).length,
+        yearsActive: yearsSpan,
     };
 
     // Get all species with their categories from the images
@@ -244,7 +260,7 @@ export default async function Wildlife() {
                         <h1 className="hero-title mb-6 text-foreground">
                             {pageContent.heroTitle}
                         </h1>
-                        <p className="mx-auto max-w-3xl text-text">
+                        <p className="body-large mx-auto max-w-4xl leading-relaxed text-text">
                             {pageContent.heroDescription}
                         </p>
                     </div>
@@ -276,15 +292,15 @@ export default async function Wildlife() {
                                 {wildlifeStats.locations}
                             </h3>
                             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                                Unique Locations
+                                Locations Visited
                             </p>
                         </div>
                         <div className="space-y-2">
                             <h3 className="text-4xl font-semibold text-foreground">
-                                {wildlifeStats.countries}
+                                {wildlifeStats.yearsActive || '—'}
                             </h3>
                             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                                Countries
+                                Years Capturing
                             </p>
                         </div>
                     </div>

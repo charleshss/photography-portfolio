@@ -48,6 +48,27 @@ export default async function Portfolio() {
     const landscapeImages = (landscapeRaw || []).slice(0, 4);
     const wildlifeImages = (wildlifeRaw || []).slice(0, 4);
 
+    // Calculate years of photography across ALL photos
+    const allImages = [...(landscapeRaw || []), ...(wildlifeRaw || [])];
+    const photoYears = allImages
+        .filter((img) => {
+            return img.cameraData?.captureDate ||
+                   img.image?.asset?.metadata?.exif?.DateTimeOriginal ||
+                   img.image?.asset?.metadata?.exif?.DateTimeDigitized;
+        })
+        .map((img) => {
+            const date = img.cameraData?.captureDate ||
+                        img.image?.asset?.metadata?.exif?.DateTimeOriginal ||
+                        img.image?.asset?.metadata?.exif?.DateTimeDigitized;
+            return new Date(date).getFullYear();
+        })
+        .filter((year) => !isNaN(year));
+
+    const currentYear = new Date().getFullYear();
+    const yearsSpan = photoYears.length > 0
+        ? currentYear - Math.min(...photoYears) + 1
+        : 0;
+
     const safeStats = {
         totalImages:
             stats?.totalImages ??
@@ -55,6 +76,7 @@ export default async function Portfolio() {
         locationCount: stats?.locationCount ?? 0,
         countryCount: stats?.countryCount ?? 0,
         speciesCount: stats?.speciesCount ?? 0,
+        yearsActive: yearsSpan,
         landscapeCount:
             stats?.landscapeCount ??
             landscapeRaw?.length ??
@@ -98,7 +120,7 @@ export default async function Portfolio() {
                     </p>
 
                     {/* Unified Portfolio Stats */}
-                    <div className="glass-panel mt-16 grid grid-cols-2 gap-8 px-10 py-12 md:grid-cols-4">
+                    <div className="glass-panel mt-16 grid grid-cols-2 gap-8 px-10 py-12 md:grid-cols-5">
                         <div className="space-y-2">
                             <h3 className="text-5xl font-semibold text-foreground">
                                 {safeStats.totalImages}
@@ -112,7 +134,7 @@ export default async function Portfolio() {
                                 {safeStats.locationCount}
                             </h3>
                             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                                Unique Locations
+                                Locations Visited
                             </p>
                         </div>
                         <div className="space-y-2">
@@ -120,7 +142,7 @@ export default async function Portfolio() {
                                 {safeStats.countryCount}
                             </h3>
                             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                                Countries
+                                Countries Explored
                             </p>
                         </div>
                         <div className="space-y-2">
@@ -128,7 +150,15 @@ export default async function Portfolio() {
                                 {safeStats.speciesCount}
                             </h3>
                             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                                Species
+                                Species Captured
+                            </p>
+                        </div>
+                        <div className="space-y-2">
+                            <h3 className="text-5xl font-semibold text-foreground">
+                                {safeStats.yearsActive || '—'}
+                            </h3>
+                            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                                Years Capturing
                             </p>
                         </div>
                     </div>

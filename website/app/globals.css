@@ -87,12 +87,12 @@
 
 :root {
   /* Atmosphere ----------------------------------------------------------- */
-  --background: #05070a;
-  --background-alt: #080b11;
-  --background-hover: #0f121b;
-  --surface: #10131a;
-  --surface-alt: #161924;
-  --line: #202433;
+  --background: #0a0d14;
+  --background-alt: #0e1219;
+  --background-hover: #13161f;
+  --surface: #151923;
+  --surface-alt: #1c2030;
+  --line: #252938;
 
   /* Accent system */
   --primary: #8b5cf6;
@@ -107,16 +107,16 @@
   --accent-foreground: #1b0615;
 
   /* Typography ----------------------------------------------------------- */
-  --text: #e6e8ef;
-  --text-strong: #f8f9fb;
-  --text-muted: #8d91a1;
+  --text: #e8eaf0;
+  --text-strong: #f9fafb;
+  --text-muted: #9ca1b3;
   --text-inverse: #070707;
   --hero-text: #ffffff;
   --foreground: var(--text-strong);
 
   /* Support -------------------------------------------------------------- */
   --muted: #151925;
-  --muted-foreground: #8d91a1;
+  --muted-foreground: #9ca1b3;
   --card: #10121a;
   --card-foreground: var(--foreground);
   --popover: #191d28;

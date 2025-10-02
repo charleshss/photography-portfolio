@@ -42,6 +42,22 @@ export default function HeroCarousel() {
         return () => api.off('select', onSelect);
     }, [api]);
 
+    // Add keyboard navigation for left/right arrow keys
+    React.useEffect(() => {
+        if (!api) return;
+
+        const handleKeyDown = (e) => {
+            if (e.key === 'ArrowLeft') {
+                api.scrollPrev();
+            } else if (e.key === 'ArrowRight') {
+                api.scrollNext();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [api]);
+
     // Initialize autoplay with ref for cleanup
     React.useEffect(() => {
         autoplayRef.current = Autoplay({
