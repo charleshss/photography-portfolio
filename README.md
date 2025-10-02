@@ -1,127 +1,236 @@
 # 📸 Professional Photography Portfolio
 
-A modern, responsive photography portfolio website built with Next.js 14, React, and Tailwind CSS. This project is being developed for a professional wildlife and landscape photographer to showcase their work and attract potential clients.
+A modern photography portfolio website built with Next.js 14, Sanity CMS, and Tailwind CSS. This project showcases professional wildlife and landscape photography whilst demonstrating full-stack development capabilities with a headless CMS architecture.
 
 ## 🎯 Project Overview
 
-This is a real client project that serves two purposes:
-1. **Client Need**: Creating a professional portfolio website for a photographer to display their wildlife and landscape photography
-2. **Learning Journey**: My first production Next.js project, moving from React to explore the benefits of Next.js framework
+This is my first production Next.js project, built for a real client. It's been a fantastic learning experience that's pushed me to understand:
+1. **Headless CMS Architecture**: How to integrate Sanity Studio for client-managed content without touching code
+2. **Server-Side Rendering**: Why SSR matters for SEO and initial page loads in photography portfolios
+3. **Real-World Development**: Working with actual client requirements, iterating on feedback, and deploying to production
 
 ## 🚀 Features
 
 ### Current Features
-- **Responsive Design**: Fully responsive layout that looks great on all devices
-- **Modern UI**: Clean, minimal design using shadcn/ui components
-- **Image Gallery**: Organised portfolio sections for different photography categories
-- **Performance Optimised**: Next.js image optimisation for fast loading
+- ✅ **Hero Carousel**: Auto-playing carousel with Embla - learnt how to handle autoplay state and prevent memory leaks
+- ✅ **Sanity CMS Integration**: Built custom schemas for photos and categories, allowing the client to manage content independently
+- ✅ **Dynamic Portfolio Galleries**: Category-based filtering that pulls directly from Sanity - understanding GROQ queries was key here
+- ✅ **Responsive Design**: Mobile-first approach using Tailwind's breakpoint system
+- ✅ **Contact Form**: Built a custom API route with server-side validation and integrated Resend for reliable email delivery
+- ✅ **Modern UI**: Implemented shadcn/ui components and customised them to fit the minimal aesthetic
+- ✅ **Performance Optimised**: Leveraged Next.js Image component and Sanity's CDN for fast image loading
+- ✅ **SEO Ready**: Server-side rendering ensures search engines can properly crawl the portfolio
 
 ### Planned Features
-- [ ] Hero carousel showcasing best work
-- [ ] Separate galleries for Wildlife and Landscape photography
-- [ ] Watermarked image protection
-- [ ] About section with photographer's story
-- [ ] Contact form for booking enquiries
-- [ ] Admin dashboard for easy content updates (Phase 2)
-- [ ] SEO optimisation for better discoverability
+- [ ] Advanced image watermarking
+- [ ] Client testimonials section
+- [ ] Blog/Journal for photography stories
+- [ ] Enhanced analytics and tracking
 
 ## 🛠️ Tech Stack
 
+### Frontend
 - **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
 - **Language**: JavaScript/JSX
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
-- **Image Processing**: Sharp (for watermarking)
-- **Carousel**: Embla Carousel
-- **Deployment**: Vercel (planned)
+- **Carousel**: [Embla Carousel](https://www.embla-carousel.com/) with Autoplay plugin
+- **Icons**: Lucide React
 
-## 📝 Learning Notes
+### Backend & CMS
+- **Headless CMS**: [Sanity.io](https://www.sanity.io/) (v3)
+- **Content Management**: Sanity Studio (hosted at `/studio`)
+- **Image Optimization**: Sanity's built-in CDN with automatic image transformations
+- **API Routes**: Next.js API Routes for server-side logic
 
-As my first Next.js project, I'm learning:
-- Next.js App Router structure
-- Server-side rendering (SSR) benefits for SEO
-- Next.js Image component for optimisation
-- File-based routing system
-- API routes for potential backend features
-- Differences between React SPA and Next.js
+### Deployment & Infrastructure
+- **Hosting**: [Vercel](https://vercel.com/)
+- **Content Database**: Sanity Content Lake (cloud-hosted)
+- **Email Service**: [Resend](https://resend.com/) for transactional emails
+- **CDN**: Vercel Edge Network + Sanity's global CDN for images
+
+## 📝 What I've Learnt
+
+Coming from React, this project taught me loads about Next.js and full-stack development:
+
+**Next.js Fundamentals**
+- The App Router structure and how it differs from Pages Router
+- Server-side rendering vs client-side rendering - when to use each
+- File-based routing and how to organise a real application
+- API routes for backend functionality without a separate server
+
+**Working with a Headless CMS**
+- Setting up and configuring Sanity Studio from scratch
+- Writing content schemas and understanding document types
+- GROQ queries for fetching data (like GraphQL but simpler)
+- Real-time content updates without rebuilding the site
+
+**Performance & Optimisation**
+- How Next.js Image component handles responsive images automatically
+- Understanding CDNs and why Sanity's image pipeline is brilliant for portfolios
+- Lazy loading and code splitting for faster page loads
+- Server-side rendering for better initial page performance
+
+**Real-World Development**
+- Client communication and managing requirements
+- Iterative development based on feedback
+- Deploying to Vercel and managing environment variables
+- Integrating third-party services like Resend for emails
 
 ## 🏗️ Project Structure
 
 ```
-photography-portfolio/
-├── app/                    # Next.js app router pages
-├── components/            
-│   ├── ui/                # shadcn/ui components
-│   └── *.jsx             # Custom React components
-├── lib/                   # Utility functions and data
-├── public/
-│   └── images/           # Optimised images
-└── [config files]        # Next, Tailwind, package.json, etc.
+sam-photography-portfolio/
+├── website/                      # Main Next.js application
+│   ├── app/                      # Next.js App Router
+│   │   ├── api/contact/         # Contact form API endpoint
+│   │   ├── about/               # About page
+│   │   ├── portfolio/           # Portfolio gallery pages
+│   │   └── contact/             # Contact page
+│   ├── components/
+│   │   ├── ui/                  # shadcn/ui base components
+│   │   ├── HeroCarousel.jsx     # Homepage hero carousel
+│   │   ├── Navbar.jsx           # Site navigation
+│   │   └── Footer.jsx           # Site footer
+│   └── lib/
+│       ├── sanity.js            # Sanity client configuration
+│       └── utils.js             # Utility functions
+├── studio/                       # Sanity Studio CMS
+│   ├── schemas/                 # Content schemas
+│   │   ├── category.js          # Portfolio categories
+│   │   ├── photo.js             # Photo documents
+│   │   └── settings.js          # Site settings
+│   └── sanity.config.js         # Studio configuration
+└── [config files]               # Next.js, Tailwind, etc.
 ```
 
 ## 🚦 Getting Started
 
 ### Prerequisites
 - Node.js 18+ installed
-- npm or yarn package manager
+- npm package manager
+- Sanity account (free tier available at [sanity.io](https://www.sanity.io/))
 
 ### Installation
 
 1. Clone the repository
 ```bash
 git clone https://github.com/charleshss/photography-portfolio.git
-cd photography-portfolio
+cd sam-photography-portfolio
 ```
 
-2. Install dependencies
+2. Install dependencies for both website and studio
 ```bash
 npm install
+cd website && npm install
+cd ../studio && npm install
 ```
 
-3. Run the development server
+3. Set up Sanity project
 ```bash
+cd studio
+npx sanity init
+# Follow prompts to create/link your Sanity project
+```
+
+4. Configure environment variables
+```bash
+# Create .env.local in website directory
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+NEXT_PUBLIC_SANITY_DATASET=production
+```
+
+5. Run the development servers
+```bash
+# Terminal 1 - Website (from project root)
+cd website
+npm run dev
+
+# Terminal 2 - Sanity Studio (from project root)
+cd studio
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+6. Access the applications
+- Website: [http://localhost:3000](http://localhost:3000)
+- Sanity Studio: [http://localhost:3333](http://localhost:3333)
 
 ## 🎨 Design Decisions
 
-- **Minimal aesthetic**: Let the photography be the focus
-- **Fast loading**: Optimised images and lazy loading for better UX
-- **Professional look**: Clean, modern design that appeals to potential clients
-- **Easy navigation**: Simple, intuitive menu structure
-- **Mobile-first**: Designed for mobile users primarily
+These choices were made to let the photography do the talking:
+
+- **Minimal aesthetic**: Dark backgrounds and clean typography keep the focus on the images
+- **Fast loading**: Used Sanity's CDN and Next.js image optimisation so galleries load quickly even on mobile
+- **Professional look**: Clean, modern design that appeals to potential clients without being flashy
+- **Easy navigation**: Simple menu structure - getting to any gallery is just one click away
+- **Mobile-first**: Most people browse portfolios on their phones, so that's where I started the design
 
 ## 📈 Project Status
 
-**Current Phase**: Initial Development
-- Setting up project structure ✅
-- Installing core dependencies ✅
-- Creating component architecture 🔄
-- Building homepage and galleries 📝
+**Current Phase**: Production Ready - Active Maintenance
+- ✅ Project structure and architecture
+- ✅ Sanity CMS integration
+- ✅ Hero carousel with auto-play
+- ✅ Dynamic portfolio galleries
+- ✅ Contact form with email integration
+- ✅ Responsive design across all devices
+- ✅ Deployed to production
 
-## 🤝 Client Requirements
+## 🎯 Key Features Explained
 
-- Display portfolio with easy navigation
-- Separate sections for Wildlife and Landscape photography
-- Professional appearance that attracts potential clients
-- Watermarked images to protect work
-- Future: Simple admin panel for content updates
+### Sanity CMS Integration
+One of the coolest parts of this project was implementing Sanity as a headless CMS. This means the client can manage all their photos without touching any code:
 
-## 📚 Resources & Acknowledgements
+- **Photo Management**: They upload images directly to Sanity with titles, descriptions, and locations
+- **Category System**: Simple tagging system for Wildlife, Landscape, etc.
+- **Hero Carousel**: They choose which images feature on the homepage and in what order
+- **Real-time Updates**: When they publish changes in Sanity Studio, the website updates immediately
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [shadcn/ui](https://ui.shadcn.com/)
-- Client: SamuelSS. Photography - Wildlife & Landscape Photography
+This was a game-changer coming from hard-coded data - the client has full control without needing me for every update.
 
-## 👨‍💻 Developer
+### Contact Form API
+Built a custom Next.js API route that handles form submissions server-side:
 
-Built by Charles Suddens-Spiers as a freelance project whilst transitioning to Next.js from React.
-- Learning Next.js through practical application
-- Applying for development positions whilst building real projects
-- Open to feedback and suggestions for improvement
+- **Server-side Validation**: All validation happens on the server, so it can't be bypassed
+- **Resend Integration**: Learnt how to integrate a transactional email service properly
+- **CORS Protection**: Configured proper CORS headers to prevent unauthorised requests
+- **HTML Templates**: Created professional-looking email templates with proper sanitisation
+- **Reply-to Headers**: Set it up so the client can reply directly to enquiries from their email
+
+This taught me a lot about API security and handling user input safely.
+
+### Performance Optimisations
+- **Server-Side Rendering**: Pages are rendered on the server first, so users see content faster
+- **Sanity's Image CDN**: Images are automatically optimised, resized, and served in modern formats (WebP, AVIF)
+- **Next.js Image Component**: Handles responsive images and lazy loading out of the box
+- **Code Splitting**: Only loads the JavaScript needed for each page
+
+## 📚 Technologies & Documentation
+
+### Core Technologies
+- [Next.js 14 Documentation](https://nextjs.org/docs) - React framework with SSR
+- [Sanity.io Documentation](https://www.sanity.io/docs) - Headless CMS
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [shadcn/ui](https://ui.shadcn.com/) - Re-usable component library
+- [Embla Carousel](https://www.embla-carousel.com/) - Carousel library
+
+### Deployment
+- Vercel for Next.js hosting
+- Sanity Content Lake for CMS data
+- Vercel Edge Network for global CDN
+
+## 👨‍💻 About This Project
+
+Built by Charles Suddens-Spiers as my first production Next.js project. Coming from a React background, this was a brilliant opportunity to learn full-stack development whilst delivering a real client project.
+
+**What This Project Demonstrates:**
+- Building a production-ready application from scratch
+- Integrating a headless CMS for client-managed content
+- Creating custom API routes with proper security
+- Deploying and maintaining a live website
+- Working with real client requirements and feedback
+
+This portfolio represents not just a finished product, but everything I've learnt about modern web development, from initial setup to production deployment.
 
 ## 📄 Licence
 
@@ -129,4 +238,4 @@ This project is private and belongs to the client. Portfolio images are copyrigh
 
 ---
 
-*Note: This is an active development project. Features and structure may change as requirements evolve.*
+*This is a live production site that's actively maintained and updated based on client needs.*

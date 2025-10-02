@@ -15,7 +15,7 @@ export default function ImageModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black/95 border-0 [&>button[data-slot='dialog-close']]:hidden">
+            <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-[#05070a]/98 border border-white/5 [&>button[data-slot='dialog-close']]:hidden backdrop-blur-xl">
                 {/* Hidden title for accessibility */}
                 <DialogTitle className="sr-only">
                     {title ? `Full size image: ${title}` : 'Full size image'}
@@ -24,7 +24,7 @@ export default function ImageModal({
                 {/* Close button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 z-50 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                    className="absolute top-4 right-4 z-50 p-2 rounded-full bg-surface/80 text-foreground hover:bg-surface-alt transition-colors backdrop-blur-sm border border-white/10"
                 >
                     <X size={24} />
                 </button>

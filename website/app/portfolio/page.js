@@ -48,6 +48,27 @@ export default async function Portfolio() {
     const landscapeImages = (landscapeRaw || []).slice(0, 4);
     const wildlifeImages = (wildlifeRaw || []).slice(0, 4);
 
+    // Calculate years of photography across ALL photos
+    const allImages = [...(landscapeRaw || []), ...(wildlifeRaw || [])];
+    const photoYears = allImages
+        .filter((img) => {
+            return img.cameraData?.captureDate ||
+                   img.image?.asset?.metadata?.exif?.DateTimeOriginal ||
+                   img.image?.asset?.metadata?.exif?.DateTimeDigitized;
+        })
+        .map((img) => {
+            const date = img.cameraData?.captureDate ||
+                        img.image?.asset?.metadata?.exif?.DateTimeOriginal ||
+                        img.image?.asset?.metadata?.exif?.DateTimeDigitized;
+            return new Date(date).getFullYear();
+        })
+        .filter((year) => !isNaN(year));
+
+    const currentYear = new Date().getFullYear();
+    const yearsSpan = photoYears.length > 0
+        ? currentYear - Math.min(...photoYears) + 1
+        : 0;
+
     const safeStats = {
         totalImages:
             stats?.totalImages ??
@@ -55,6 +76,7 @@ export default async function Portfolio() {
         locationCount: stats?.locationCount ?? 0,
         countryCount: stats?.countryCount ?? 0,
         speciesCount: stats?.speciesCount ?? 0,
+        yearsActive: yearsSpan,
         landscapeCount:
             stats?.landscapeCount ??
             landscapeRaw?.length ??
@@ -86,42 +108,58 @@ export default async function Portfolio() {
     };
 
     return (
-        <main className="min-h-screen bg-white">
-            {/* Hero Section */}
-            <section className="bg-gray-900 text-white">
-                <div className="mx-auto max-w-7xl px-6 py-24 text-center">
-                    <h1 className="mb-6 text-4xl font-bold md:text-6xl">
+        <main className="min-h-screen">
+            {/* Hero Section - Clean Dark */}
+            <section className="section-padding">
+                <div className="mx-auto max-w-7xl text-center">
+                    <h1 className="hero-title mb-6 text-foreground">
                         {pageContent.heroTitle}
                     </h1>
-                    <p className="mx-auto max-w-2xl text-lg text-gray-300 md:text-xl">
+                    <p className="body-large mx-auto max-w-2xl leading-relaxed text-text">
                         {pageContent.heroDescription}
                     </p>
 
                     {/* Unified Portfolio Stats */}
-                    <div className="mt-12 grid grid-cols-2 gap-8 md:grid-cols-4">
-                        <div>
-                            <h3 className="text-3xl font-bold text-white">
+                    <div className="glass-panel mt-16 grid grid-cols-2 gap-8 px-10 py-12 md:grid-cols-5">
+                        <div className="space-y-2">
+                            <h3 className="text-5xl font-semibold text-foreground">
                                 {safeStats.totalImages}
                             </h3>
-                            <p className="text-gray-300">Total Images</p>
+                            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                                Total Images
+                            </p>
                         </div>
-                        <div>
-                            <h3 className="text-3xl font-bold text-white">
+                        <div className="space-y-2">
+                            <h3 className="text-5xl font-semibold text-foreground">
                                 {safeStats.locationCount}
                             </h3>
-                            <p className="text-gray-300">Unique Locations</p>
+                            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                                Locations Visited
+                            </p>
                         </div>
-                        <div>
-                            <h3 className="text-3xl font-bold text-white">
+                        <div className="space-y-2">
+                            <h3 className="text-5xl font-semibold text-foreground">
                                 {safeStats.countryCount}
                             </h3>
-                            <p className="text-gray-300">Countries</p>
+                            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                                Countries Explored
+                            </p>
                         </div>
-                        <div>
-                            <h3 className="text-3xl font-bold text-white">
+                        <div className="space-y-2">
+                            <h3 className="text-5xl font-semibold text-foreground">
                                 {safeStats.speciesCount}
                             </h3>
-                            <p className="text-gray-300">Species</p>
+                            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                                Species Captured
+                            </p>
+                        </div>
+                        <div className="space-y-2">
+                            <h3 className="text-5xl font-semibold text-foreground">
+                                {safeStats.yearsActive || '—'}
+                            </h3>
+                            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                                Years Capturing
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -137,6 +175,7 @@ export default async function Portfolio() {
                 viewAllText="View All Landscapes"
                 showLocation={true}
                 showCount={true}
+                backgroundColor="bg-transparent"
                 context="portfolio"
             />
 
@@ -151,22 +190,22 @@ export default async function Portfolio() {
                 showLocation={true}
                 showSpecies={true}
                 showCount={true}
-                backgroundColor="bg-gray-50"
+                backgroundColor="bg-transparent"
                 context="portfolio"
             />
 
-            {/* Call to Action */}
-            <section className="px-6 py-20">
-                <div className="mx-auto max-w-4xl text-center">
-                    <h2 className="mb-6 text-3xl font-bold md:text-4xl">
+            {/* Call to Action - Clean Dark */}
+            <section className="section-padding">
+                <div className="glass-panel mx-auto max-w-4xl px-10 py-14 text-center">
+                    <h2 className="section-subtitle mb-6 text-foreground">
                         {pageContent.ctaTitle}
                     </h2>
-                    <p className="mb-8 text-lg text-gray-600">
+                    <p className="body-large text-muted-foreground mb-8 leading-relaxed">
                         {pageContent.ctaDescription}
                     </p>
                     <Link
                         href={pageContent.ctaButtonLink}
-                        className="inline-flex items-center rounded-full bg-gray-900 px-8 py-4 text-lg font-semibold text-white transition hover:bg-gray-700"
+                        className="cta-button"
                     >
                         {pageContent.ctaButtonText}
                     </Link>

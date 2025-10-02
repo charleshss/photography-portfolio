@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Expand } from 'lucide-react';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { urlFor, getLocationDisplay } from '@/lib/sanity';
 import ImageModal from './ImageModal';
 
@@ -15,6 +16,7 @@ export default function ImageCard({
     showSpecies = false,
     aspectRatio = 'aspect-[4/3]',
     onClick,
+    index = 0,
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,12 +27,22 @@ export default function ImageCard({
 
     // Handle both Sanity images and direct URLs
     const imageUrl = image.image
-        ? urlFor(image.image)
-              .width(masonry ? 600 : 800)
-              .height(masonry ? 400 : 600)
-              .quality(80)
-              .url()
+        ? (() => {
+              const builder = urlFor(image.image)
+                  .quality(masonry ? 85 : 80)
+                  .fit('clip');
+
+              if (masonry) {
+                  return builder.width(1600).url();
+              }
+
+              return builder.width(800).height(600).url();
+          })()
         : image.src;
+
+    const resolvedMasonrySrc = masonry
+        ? image.resolvedImageUrl || image.src || imageUrl
+        : imageUrl;
 
     // High-res image URL for modal - preserve original aspect ratio
     const highResImageUrl = image.image
@@ -46,20 +58,51 @@ export default function ImageCard({
     };
 
     const CardInner = (
-        <div
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{
+                duration: 0.5,
+                delay: index * 0.1,
+                ease: [0.25, 0.46, 0.45, 0.94],
+            }}
+            whileHover={{
+                scale: 1.05,
+                y: -8,
+                zIndex: 50,
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                transition: {
+                    duration: 0.3,
+                    ease: [0.34, 1.56, 0.64, 1],
+                },
+            }}
             className={[
-                'group relative overflow-hidden rounded-lg bg-gray-200 cursor-pointer',
-                masonry ? '' : aspectRatio,
+                'group relative overflow-hidden rounded-lg bg-background cursor-pointer shadow-md',
+                masonry ? 'h-full' : aspectRatio,
             ].join(' ')}
+            style={{
+                transformOrigin: 'center center',
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+                willChange: 'transform',
+                isolation: 'isolate',
+            }}
             onClick={onClick}
         >
             {/* Image */}
             {masonry ? (
                 <img
-                    src={imageUrl}
+                    src={resolvedMasonrySrc}
                     alt={altText}
-                    className="w-full h-auto object-cover"
+                    className="block h-full w-full object-contain"
                     loading="lazy"
+                    style={{
+                        backfaceVisibility: 'hidden',
+                        WebkitBackfaceVisibility: 'hidden',
+                        transform: 'scale(1.02) translateZ(0)',
+                        willChange: 'transform',
+                    }}
                 />
             ) : (
                 <Image
@@ -70,12 +113,18 @@ export default function ImageCard({
                     priority={false}
                     placeholder={image.blurDataURL ? 'blur' : 'empty'}
                     blurDataURL={image.blurDataURL}
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                    style={{
+                        backfaceVisibility: 'hidden',
+                        WebkitBackfaceVisibility: 'hidden',
+                        transform: 'scale(1.02) translateZ(0)',
+                        willChange: 'transform',
+                    }}
                 />
             )}
 
             {/* Hover veil */}
-            <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
+            <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/10" />
 
             {/* Expand button */}
             <button
@@ -118,7 +167,7 @@ export default function ImageCard({
                     </div>
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 
     // Clickable card if href provided

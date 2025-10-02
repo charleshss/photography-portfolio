@@ -126,6 +126,27 @@ export default async function Wildlife() {
     const uniqueCoordinateLocations =
         getUniqueCoordinateLocations(wildlifeImages);
 
+    // Calculate years of photography (from earliest to latest photo)
+    const photoYears = wildlifeImages
+        .filter((img) => {
+            // Check both cameraData and EXIF data
+            return img.cameraData?.captureDate ||
+                   img.image?.asset?.metadata?.exif?.DateTimeOriginal ||
+                   img.image?.asset?.metadata?.exif?.DateTimeDigitized;
+        })
+        .map((img) => {
+            const date = img.cameraData?.captureDate ||
+                        img.image?.asset?.metadata?.exif?.DateTimeOriginal ||
+                        img.image?.asset?.metadata?.exif?.DateTimeDigitized;
+            return new Date(date).getFullYear();
+        })
+        .filter((year) => !isNaN(year));
+
+    const currentYear = new Date().getFullYear();
+    const yearsSpan = photoYears.length > 0
+        ? currentYear - Math.min(...photoYears) + 1
+        : 0;
+
     const wildlifeStats = {
         totalImages: wildlifeImages.length,
         species: wildlifeSpecies.length,
@@ -133,12 +154,7 @@ export default async function Wildlife() {
             uniqueCoordinateLocations.length > 0
                 ? uniqueCoordinateLocations.length
                 : wildlifeLocations.length,
-        countries: [
-            ...new Set(
-                wildlifeLocations.map((loc) => getCountryFromLocation(loc))
-            ),
-        ].length,
-        featuredCount: wildlifeImages.filter((img) => img.featured).length,
+        yearsActive: yearsSpan,
     };
 
     // Get all species with their categories from the images
@@ -228,23 +244,23 @@ export default async function Wildlife() {
     );
 
     return (
-        <main className="min-h-screen bg-white">
+        <main className="min-h-screen">
             {/* Hero Section */}
-            <section className="bg-gray-900 text-white">
-                <div className="mx-auto max-w-7xl px-6 py-24">
+            <section className="section-padding">
+                <div className="mx-auto max-w-7xl">
                     <div className="mb-8">
                         <Link
                             href="/portfolio"
-                            className="inline-flex items-center text-gray-400 hover:text-white transition"
+                            className="inline-flex items-center text-sm font-semibold uppercase tracking-[0.4em] text-muted-foreground transition-colors duration-300 hover:text-foreground"
                         >
                             ← Back to Portfolio
                         </Link>
                     </div>
                     <div className="text-center">
-                        <h1 className="mb-6 text-4xl font-bold md:text-6xl">
+                        <h1 className="hero-title mb-6 text-foreground">
                             {pageContent.heroTitle}
                         </h1>
-                        <p className="mx-auto max-w-2xl text-lg text-gray-300 md:text-xl">
+                        <p className="body-large mx-auto max-w-4xl leading-relaxed text-text">
                             {pageContent.heroDescription}
                         </p>
                     </div>
@@ -252,34 +268,40 @@ export default async function Wildlife() {
             </section>
 
             {/* Statistics Section */}
-            <section className="border-b px-6 py-12">
+            <section className="section-padding pt-0">
                 <div className="mx-auto max-w-7xl">
-                    <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
-                        <div>
-                            <h3 className="text-3xl font-bold text-gray-900">
+                    <div className="glass-panel grid grid-cols-2 gap-8 px-8 py-12 text-center md:grid-cols-4">
+                        <div className="space-y-2">
+                            <h3 className="text-4xl font-semibold text-foreground">
                                 {wildlifeStats.totalImages}
                             </h3>
-                            <p className="text-gray-600">Wildlife Images</p>
+                            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                                Wildlife Images
+                            </p>
                         </div>
-                        <div>
-                            <h3 className="text-3xl font-bold text-gray-900">
+                        <div className="space-y-2">
+                            <h3 className="text-4xl font-semibold text-foreground">
                                 {wildlifeStats.species}
                             </h3>
-                            <p className="text-gray-600">
+                            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
                                 Species Photographed
                             </p>
                         </div>
-                        <div>
-                            <h3 className="text-3xl font-bold text-gray-900">
+                        <div className="space-y-2">
+                            <h3 className="text-4xl font-semibold text-foreground">
                                 {wildlifeStats.locations}
                             </h3>
-                            <p className="text-gray-600">Unique Locations</p>
+                            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                                Locations Visited
+                            </p>
                         </div>
-                        <div>
-                            <h3 className="text-3xl font-bold text-gray-900">
-                                {wildlifeStats.countries}
+                        <div className="space-y-2">
+                            <h3 className="text-4xl font-semibold text-foreground">
+                                {wildlifeStats.yearsActive || '—'}
                             </h3>
-                            <p className="text-gray-600">Countries</p>
+                            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                                Years Capturing
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -295,17 +317,18 @@ export default async function Wildlife() {
                 showSpecies={true}
                 masonry={true}
                 context="wildlife"
+                backgroundColor="bg-transparent"
             />
 
             {/* Species Showcase Section */}
             {wildlifeSpecies.length > 0 && (
-                <section className="bg-gray-50 px-6 py-20">
-                    <div className="mx-auto max-w-7xl">
-                        <div className="mb-12 text-center">
-                            <h2 className="mb-6 text-3xl font-bold md:text-4xl">
+                <section className="section-padding">
+                    <div className="mx-auto max-w-7xl space-y-12">
+                        <div className="text-center">
+                            <h2 className="section-subtitle mb-6 text-foreground">
                                 {pageContent.speciesSectionTitle}
                             </h2>
-                            <p className="mx-auto max-w-2xl text-lg text-gray-600">
+                            <p className="mx-auto max-w-3xl text-muted-foreground">
                                 {pageContent.speciesSectionDescription}
                             </p>
                         </div>
@@ -316,9 +339,9 @@ export default async function Wildlife() {
                                     species.length > 0 && (
                                         <div
                                             key={category}
-                                            className="rounded-lg bg-white p-6 shadow-sm"
+                                            className="glass-panel px-8 py-10 text-left"
                                         >
-                                            <h3 className="mb-4 text-xl font-semibold">
+                                            <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.28em] text-muted-foreground">
                                                 {category}
                                             </h3>
                                             <ul className="space-y-2">
@@ -331,7 +354,7 @@ export default async function Wildlife() {
                                                         ) => (
                                                             <li
                                                                 key={`${category}-${speciesName}-${index}`}
-                                                                className="text-gray-600"
+                                                                className="text-sm uppercase tracking-[0.24em] text-foreground/80"
                                                             >
                                                                 {speciesName
                                                                     .split(
@@ -343,7 +366,7 @@ export default async function Wildlife() {
                                                     )}
                                             </ul>
                                             {species.length > 4 && (
-                                                <p className="mt-2 text-sm text-gray-500">
+                                                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                                                     +{species.length - 4} more
                                                     species
                                                 </p>
@@ -354,17 +377,17 @@ export default async function Wildlife() {
                         </div>
 
                         {/* All Species List */}
-                        <div className="mt-12">
-                            <h3 className="mb-6 text-center text-2xl font-bold">
+                        <div className="space-y-6">
+                            <h3 className="text-center text-sm font-semibold uppercase tracking-[0.32em] text-muted-foreground">
                                 {pageContent.allSpeciesTitle}
                             </h3>
-                            <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
                                 {wildlifeSpecies.map((species, index) => (
                                     <div
                                         key={`species-${species}-${index}`}
-                                        className="rounded bg-white p-3 text-center shadow-sm"
+                                        className="glass-panel px-6 py-4 text-center"
                                     >
-                                        <span className="text-sm text-gray-700">
+                                        <span className="text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground">
                                             {species}
                                         </span>
                                     </div>
@@ -376,24 +399,24 @@ export default async function Wildlife() {
             )}
 
             {/* Call to Action */}
-            <section className="bg-gray-900 px-6 py-20 text-white">
-                <div className="mx-auto max-w-4xl text-center">
-                    <h2 className="mb-6 text-3xl font-bold md:text-4xl">
+            <section className="section-padding">
+                <div className="glass-panel mx-auto max-w-4xl px-10 py-14 text-center">
+                    <h2 className="section-subtitle mb-6 text-foreground">
                         {pageContent.ctaTitle}
                     </h2>
-                    <p className="mb-8 text-lg text-gray-300">
+                    <p className="body-large mb-8 text-muted-foreground">
                         {pageContent.ctaDescription}
                     </p>
                     <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                         <Link
                             href={pageContent.ctaPrimaryButtonLink}
-                            className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-lg font-semibold text-gray-900 transition hover:bg-gray-100"
+                            className="inline-flex items-center justify-center rounded-full bg-background px-8 py-4 text-lg font-semibold text-foreground transition hover:bg-gray-100"
                         >
                             {pageContent.ctaPrimaryButtonText}
                         </Link>
                         <Link
                             href={pageContent.ctaSecondaryButtonLink}
-                            className="inline-flex items-center justify-center rounded-full border-2 border-white px-8 py-4 text-lg font-semibold text-white transition hover:bg-white hover:text-gray-900"
+                            className="inline-flex items-center justify-center rounded-full border-2 border-white px-8 py-4 text-lg font-semibold text-white transition hover:bg-background hover:text-foreground"
                         >
                             {pageContent.ctaSecondaryButtonText}
                         </Link>

@@ -220,8 +220,8 @@ export default function ZoomableImage({ image, alt, title }) {
             <div
                 ref={containerRef}
                 className={`
-                    relative overflow-hidden bg-white rounded-lg select-none
-                    ${isFullscreen ? 'h-screen w-screen fixed inset-0 z-50 bg-black rounded-none' : 'aspect-[4/3] md:aspect-[16/10]'}
+                    relative overflow-hidden bg-surface/60 rounded-lg select-none
+                    ${isFullscreen ? 'h-screen w-screen fixed inset-0 z-50 bg-background rounded-none' : 'aspect-[4/3] md:aspect-[16/10]'}
                     ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}
                 `}
                 onMouseDown={handleMouseDown}
@@ -374,14 +374,14 @@ export default function ZoomableImage({ image, alt, title }) {
                             : 'opacity-0 group-hover:opacity-100'
                     }`}
                 >
-                    <div className="flex items-center gap-2 bg-black/80 backdrop-blur-sm rounded-lg p-2 pointer-events-auto">
+                    <div className="flex items-center gap-2 bg-surface/90 backdrop-blur-sm rounded-lg p-2 pointer-events-auto border border-white/10">
                         <button
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 zoomOut();
                             }}
-                            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition"
+                            className="p-2 rounded-lg bg-surface-alt hover:bg-primary/20 text-foreground transition-colors"
                             aria-label="Zoom out"
                         >
                             <ZoomOut size={18} />
@@ -392,7 +392,7 @@ export default function ZoomableImage({ image, alt, title }) {
                                 e.stopPropagation();
                                 resetZoom();
                             }}
-                            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition"
+                            className="p-2 rounded-lg bg-surface-alt hover:bg-primary/20 text-foreground transition-colors"
                             aria-label="Reset zoom"
                         >
                             <RotateCcw size={18} />
@@ -403,7 +403,7 @@ export default function ZoomableImage({ image, alt, title }) {
                                 e.stopPropagation();
                                 zoomIn();
                             }}
-                            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition"
+                            className="p-2 rounded-lg bg-surface-alt hover:bg-primary/20 text-foreground transition-colors"
                             aria-label="Zoom in"
                         >
                             <ZoomIn size={18} />
@@ -414,7 +414,7 @@ export default function ZoomableImage({ image, alt, title }) {
                                 e.stopPropagation();
                                 toggleFullscreen();
                             }}
-                            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition"
+                            className="p-2 rounded-lg bg-surface-alt hover:bg-primary/20 text-foreground transition-colors"
                             aria-label="Fullscreen"
                         >
                             <Maximize2 size={18} />
@@ -424,8 +424,8 @@ export default function ZoomableImage({ image, alt, title }) {
 
                 {/* Zoom level indicator - Top right corner */}
                 {scale !== 1 && (
-                    <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-sm rounded-lg px-3 py-2">
-                        <div className="text-sm text-white font-medium">
+                    <div className="absolute top-4 right-4 bg-surface/90 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/10">
+                        <div className="text-sm text-foreground font-medium">
                             {Math.round(scale * 100)}%
                         </div>
                     </div>
@@ -433,8 +433,8 @@ export default function ZoomableImage({ image, alt, title }) {
 
                 {/* Zoom hint overlay */}
                 {scale === 1 && !isDragging && !isPinching && (
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/5">
-                        <div className="bg-black/80 backdrop-blur-sm px-4 py-3 rounded-lg text-sm text-white text-center">
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-surface/5">
+                        <div className="bg-surface/90 backdrop-blur-sm px-4 py-3 rounded-lg text-sm text-foreground text-center border border-white/10">
                             <div className="hidden md:block">
                                 Click to zoom • Scroll wheel to zoom • Drag when
                                 zoomed

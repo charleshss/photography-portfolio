@@ -5,15 +5,33 @@ import Link from 'next/link';
 import {
     ArrowLeft,
     MapPin,
-    Calendar,
     Camera,
-    Tag,
+    Aperture,
+    Gauge,
     Info,
-    Eye,
+    Clock,
     ChevronDown,
+    Globe2,
 } from 'lucide-react';
 import ZoomableImage from '@/components/ZoomableImage';
+import MobileImageViewer from '@/components/MobileImageViewer';
+import { useDevice } from '@/contexts/DeviceContext';
 import { getCameraData, getLocationDisplay } from '@/lib/sanity';
+
+function MetaChip({ icon: Icon, label, value }) {
+    if (!value) return null;
+    return (
+        <div className="glass-panel flex items-center gap-3 px-4 py-3 text-left">
+            <Icon className="h-4 w-4 text-primary" />
+            <div className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
+                {label}
+                <div className="mt-1 text-sm font-semibold tracking-[0.08em] text-foreground">
+                    {value}
+                </div>
+            </div>
+        </div>
+    );
+}
 
 export default function PhotoDetailPage({
     photo,
@@ -21,12 +39,12 @@ export default function PhotoDetailPage({
     backLabel = 'Back to Portfolio',
     context = 'portfolio',
 }) {
+    const { isMobile } = useDevice();
     const [smartBackUrl, setSmartBackUrl] = useState(backUrl);
     const [smartBackLabel, setSmartBackLabel] = useState(backLabel);
     const [cameraDetailsExpanded, setCameraDetailsExpanded] = useState(false);
 
     useEffect(() => {
-        // Simple context-based navigation - prioritise the passed props since they're route-specific
         if (context === 'wildlife') {
             setSmartBackUrl('/portfolio/wildlife');
             setSmartBackLabel('Back to Wildlife');
@@ -40,7 +58,6 @@ export default function PhotoDetailPage({
             setSmartBackUrl('/portfolio');
             setSmartBackLabel('Back to Portfolio');
         } else {
-            // Use provided defaults as fallback
             setSmartBackUrl(backUrl);
             setSmartBackLabel(backLabel);
         }
@@ -48,27 +65,18 @@ export default function PhotoDetailPage({
 
     if (!photo) {
         return (
-            <main className="min-h-screen bg-white flex items-center justify-center px-6">
-                <div className="text-center max-w-md">
-                    <Camera size={64} className="mx-auto text-gray-400 mb-6" />
-                    <h1 className="text-2xl font-bold text-gray-900 mb-4">
-                        Photo Not Found
-                    </h1>
-                    <p className="text-gray-600 mb-8">
-                        The photo you're looking for doesn't exist or may have
-                        been moved.
+            <main className="flex min-h-screen items-center justify-center px-6">
+                <div className="glass-panel max-w-md space-y-4 px-10 py-12 text-center">
+                    <Camera size={40} className="mx-auto text-muted-foreground" />
+                    <h1 className="section-subtitle text-foreground">Photo Not Found</h1>
+                    <p className="text-sm text-muted-foreground">
+                        The photo you were looking for is unavailable. Try browsing the portfolio or return home.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link
-                            href="/portfolio"
-                            className="inline-flex items-center justify-center px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition"
-                        >
+                    <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+                        <Link href="/portfolio" className="cta-button-outline">
                             Browse Portfolio
                         </Link>
-                        <Link
-                            href="/"
-                            className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
-                        >
+                        <Link href="/" className="cta-button-tonal">
                             Go Home
                         </Link>
                     </div>
@@ -81,341 +89,229 @@ export default function PhotoDetailPage({
     const locationName = getLocationDisplay(photo);
 
     return (
-        <main className="min-h-screen bg-black">
-            {/* Header Navigation */}
-            <div className="bg-black border-b border-gray-800">
-                <div className="mx-auto max-w-7xl px-6 py-4">
+        <main className="min-h-screen">
+            <header className="border-b border-border/50 bg-background/80 backdrop-blur-xl">
+                <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
                     <Link
                         href={smartBackUrl}
-                        className="inline-flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200"
+                        className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground transition-colors duration-300 hover:text-foreground"
                     >
-                        <ArrowLeft size={20} />
+                        <ArrowLeft size={18} />
                         {smartBackLabel}
                     </Link>
                 </div>
-            </div>
+            </header>
 
-            {/* Hero Text Section - Black background */}
-            <div className="relative">
-                <div className="mx-auto max-w-4xl px-6 pt-8 pb-16">
-                    <div className="text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                            {photo.title}
-                        </h1>
+            <section className="section-padding pt-12">
+                <div className="mx-auto max-w-6xl space-y-12">
+                    <div className="space-y-4">
+                        <h1 className="section-title text-foreground">{photo.title}</h1>
                         {photo.description && (
-                            <div className="max-w-3xl mx-auto">
-                                <p className="text-xl text-gray-300 leading-relaxed">
-                                    {photo.description}
-                                </p>
-                            </div>
+                            <p className="body-large max-w-3xl text-muted-foreground">
+                                {photo.description}
+                            </p>
                         )}
                     </div>
-                </div>
-            </div>
 
-            {/* Content Section - Image and information */}
-            <div className="bg-white">
-                <div className="mx-auto max-w-4xl px-6 py-12">
-                    {/* Large Image - At top of white section */}
-                    <div className="mb-16">
-                        <div className="mx-auto max-w-5xl">
-                            <div className="aspect-[16/10] max-h-[70vh] bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
+                    <div className="overflow-hidden rounded-3xl border border-white/5 bg-surface/40 p-3 backdrop-blur-2xl shadow-[var(--shadow-soft)] lg:p-4">
+                        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.75rem] bg-background-alt">
+                            {isMobile ? (
+                                <MobileImageViewer
+                                    image={photo.image}
+                                    alt={photo.title}
+                                    title={photo.title}
+                                />
+                            ) : (
                                 <ZoomableImage
                                     image={photo.image}
                                     alt={photo.title}
                                     title={photo.title}
                                 />
-                            </div>
+                            )}
                         </div>
                     </div>
 
-                    {/* Key Information Row */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                        {/* Species Information */}
-                        {photo.species && photo.species.length > 0 && (
-                            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
-                                <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 mb-4">
-                                    <Eye size={20} className="text-blue-600" />
-                                    Species
-                                </h3>
-                                <div className="space-y-3">
-                                    {photo.species.map((species, index) => (
-                                        <div key={`${species.name}-${index}`}>
-                                            <span className="font-medium text-gray-900 block">
-                                                {species.name}
-                                            </span>
-                                            {species.category && (
-                                                <span className="text-sm text-blue-700 mt-1 block">
-                                                    {species.category
-                                                        .replace(/-/g, ' ')
-                                                        .replace(/\b\w/g, (l) =>
-                                                            l.toUpperCase()
-                                                        )}
-                                                </span>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Location Information */}
-                        {(locationName || photo.locationData) && (
-                            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
-                                <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 mb-4">
-                                    <MapPin
-                                        size={20}
-                                        className="text-green-600"
-                                    />
-                                    Location
-                                </h3>
-                                <div className="space-y-3">
-                                    {locationName && (
-                                        <div>
-                                            <div className="text-sm text-green-600 font-medium mb-1">
-                                                Location
+                    <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr]">
+                        <div className="space-y-8">
+                            {photo.species && photo.species.length > 0 && (
+                                <div className="glass-panel px-8 py-10">
+                                    <h2 className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
+                                        Species
+                                    </h2>
+                                    <div className="mt-5 space-y-4 text-left">
+                                        {photo.species.map((species, index) => (
+                                            <div key={`${species.name}-${index}`} className="rounded-2xl bg-primary/5 px-5 py-4">
+                                                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-foreground">
+                                                    {species.name}
+                                                </p>
+                                                {species.category && (
+                                                    <p className="mt-2 text-xs uppercase tracking-[0.28em] text-muted-foreground">
+                                                        {species.category.replace(/-/g, ' ')}
+                                                    </p>
+                                                )}
                                             </div>
-                                            <p className="text-gray-900 font-semibold">
-                                                {locationName}
-                                            </p>
-                                        </div>
-                                    )}
-                                    {photo.locationData?.country && (
-                                        <div>
-                                            <div className="text-xs text-green-600 mb-1">
-                                                Country
-                                            </div>
-                                            <p className="text-gray-900 font-medium">
-                                                {photo.locationData.country}
-                                            </p>
-                                        </div>
-                                    )}
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
 
-                        {/* Tags */}
-                        {photo.tags && photo.tags.length > 0 && (
-                            <div className="bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl p-6 border border-purple-200">
-                                <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 mb-4">
-                                    <Tag
-                                        size={20}
-                                        className="text-purple-600"
-                                    />
-                                    Tags
-                                </h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {photo.tags
-                                        .slice(0, 4)
-                                        .map((tag, index) => (
+                            {(locationName || photo.locationData) && (
+                                <div className="glass-panel px-8 py-10">
+                                    <h2 className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
+                                        Location
+                                    </h2>
+                                    <div className="mt-5 space-y-4">
+                                        {locationName && (
+                                            <MetaChip
+                                                icon={MapPin}
+                                                label="Location"
+                                                value={locationName}
+                                            />
+                                        )}
+                                        {photo.locationData?.country && (
+                                            <MetaChip
+                                                icon={Globe2}
+                                                label="Country"
+                                                value={photo.locationData.country}
+                                            />
+                                        )}
+                                        {photo.locationData?.locality && (
+                                            <MetaChip
+                                                icon={Info}
+                                                label="Locality"
+                                                value={photo.locationData.locality}
+                                            />
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {photo.tags && photo.tags.length > 0 && (
+                                <div className="glass-panel px-8 py-10">
+                                    <h2 className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
+                                        Tags
+                                    </h2>
+                                    <div className="mt-5 flex flex-wrap gap-3">
+                                        {photo.tags.slice(0, 6).map((tag, index) => (
                                             <span
                                                 key={`${tag.name}-${index}`}
-                                                className="px-3 py-1 bg-white text-purple-700 text-sm rounded-full border border-purple-300 font-medium"
+                                                className="tag-capsule bg-primary/10 text-foreground/80"
                                             >
                                                 {tag.name}
                                             </span>
                                         ))}
-                                    {photo.tags.length > 4 && (
-                                        <span className="px-3 py-1 bg-purple-100 text-purple-600 text-sm rounded-full border border-purple-300">
-                                            +{photo.tags.length - 4} more
-                                        </span>
-                                    )}
+                                        {photo.tags.length > 6 && (
+                                            <span className="tag-capsule bg-secondary/10 text-foreground/80">
+                                                +{photo.tags.length - 6}
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                    </div>
+                            )}
+                        </div>
 
-                    {/* Camera & Technical Details - Cleaner design */}
-                    {cameraData && (
-                        <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200">
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    setCameraDetailsExpanded((prev) => !prev)
-                                }
-                                className="flex w-full items-center justify-between text-left mb-6"
-                            >
-                                <span className="flex items-center gap-3 text-2xl font-bold text-gray-900">
-                                    <Camera
-                                        size={24}
-                                        className="text-gray-700"
-                                    />
-                                    Camera & Technical Details
-                                </span>
-                                <ChevronDown
-                                    size={24}
-                                    className={`text-gray-500 transition-transform ${cameraDetailsExpanded ? 'rotate-180' : ''}`}
-                                />
-                            </button>
+                        <aside className="space-y-6">
+                            {cameraData && (
+                                <div className="glass-panel px-6 py-6">
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setCameraDetailsExpanded((prev) => !prev)
+                                        }
+                                        className="flex w-full items-center justify-between text-left"
+                                    >
+                                        <span className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
+                                            <Camera size={18} className="text-primary" />
+                                            Camera Details
+                                        </span>
+                                        <ChevronDown
+                                            size={20}
+                                            className={`text-muted-foreground transition-transform ${cameraDetailsExpanded ? 'rotate-180' : ''}`}
+                                        />
+                                    </button>
 
-                            {cameraDetailsExpanded && (
-                                <div className="space-y-8">
-                                    {/* Camera Equipment */}
-                                    {(cameraData.camera || cameraData.lens) && (
-                                        <div className="bg-white rounded-xl p-6 shadow-sm">
-                                            <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                                <Camera
-                                                    size={20}
-                                                    className="text-gray-600"
-                                                />
-                                                Equipment
-                                            </h4>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                {cameraData.camera && (
-                                                    <div className="bg-gray-50 rounded-lg p-4">
-                                                        <div className="text-sm text-gray-500 mb-1">
-                                                            Camera Body
-                                                        </div>
-                                                        <div className="text-lg font-semibold text-gray-900">
-                                                            {cameraData.camera}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {cameraData.lens && (
-                                                    <div className="bg-gray-50 rounded-lg p-4">
-                                                        <div className="text-sm text-gray-500 mb-1">
-                                                            Lens
-                                                        </div>
-                                                        <div className="text-lg font-semibold text-gray-900">
-                                                            {cameraData.lens}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* Exposure Settings */}
-                                    {(cameraData.settings?.aperture ||
-                                        cameraData.settings?.shutterSpeed ||
-                                        cameraData.settings?.iso ||
-                                        cameraData.settings?.focalLength) && (
-                                        <div className="bg-white rounded-xl p-6 shadow-sm">
-                                            <h4 className="text-lg font-semibold text-gray-900 mb-4">
-                                                Exposure Settings
-                                            </h4>
-                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                                {cameraData.settings
-                                                    ?.aperture && (
-                                                    <div className="text-center bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
-                                                        <div className="text-sm text-blue-600 mb-1 font-medium">
-                                                            Aperture
-                                                        </div>
-                                                        <div className="text-2xl font-bold text-gray-900">
-                                                            {
-                                                                cameraData
-                                                                    .settings
-                                                                    .aperture
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {cameraData.settings
-                                                    ?.shutterSpeed && (
-                                                    <div className="text-center bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200">
-                                                        <div className="text-sm text-green-600 mb-1 font-medium">
-                                                            Shutter
-                                                        </div>
-                                                        <div className="text-2xl font-bold text-gray-900">
-                                                            {
-                                                                cameraData
-                                                                    .settings
-                                                                    .shutterSpeed
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {cameraData.settings?.iso && (
-                                                    <div className="text-center bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-4 border border-orange-200">
-                                                        <div className="text-sm text-orange-600 mb-1 font-medium">
-                                                            ISO
-                                                        </div>
-                                                        <div className="text-2xl font-bold text-gray-900">
-                                                            {
-                                                                cameraData
-                                                                    .settings
-                                                                    .iso
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {cameraData.settings
-                                                    ?.focalLength && (
-                                                    <div className="text-center bg-gradient-to-br from-purple-50 to-violet-50 rounded-lg p-4 border border-purple-200">
-                                                        <div className="text-sm text-purple-600 mb-1 font-medium">
-                                                            Focal Length
-                                                        </div>
-                                                        <div className="text-2xl font-bold text-gray-900">
-                                                            {
-                                                                cameraData
-                                                                    .settings
-                                                                    .focalLength
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* Capture Date */}
-                                    {cameraData.captureDate && (
-                                        <div className="bg-white rounded-xl p-6 shadow-sm">
-                                            <div className="flex items-start gap-4">
-                                                <Calendar
-                                                    size={24}
-                                                    className="text-blue-600 mt-1"
-                                                />
-                                                <div>
-                                                    <div className="text-lg font-semibold text-gray-900 mb-2">
-                                                        Captured
-                                                    </div>
-                                                    <div className="text-gray-600">
-                                                        {new Date(
-                                                            cameraData.captureDate
-                                                        ).toLocaleDateString(
-                                                            'en-US',
-                                                            {
-                                                                weekday: 'long',
-                                                                year: 'numeric',
-                                                                month: 'long',
-                                                                day: 'numeric',
-                                                            }
+                                    {cameraDetailsExpanded && (
+                                        <div className="mt-6 space-y-6">
+                                            {(cameraData.camera || cameraData.lens) && (
+                                                <div className="glass-panel px-5 py-4">
+                                                    <h3 className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                                                        Equipment
+                                                    </h3>
+                                                    <div className="mt-4 space-y-3 text-sm">
+                                                        {cameraData.camera && (
+                                                            <div className="flex items-center gap-3">
+                                                                <Camera size={16} className="text-secondary" />
+                                                                <span className="font-medium text-foreground">
+                                                                    {cameraData.camera}
+                                                                </span>
+                                                            </div>
                                                         )}
-                                                    </div>
-                                                    <div className="text-gray-500 mt-1">
-                                                        {new Date(
-                                                            cameraData.captureDate
-                                                        ).toLocaleTimeString(
-                                                            'en-US',
-                                                            {
-                                                                hour: '2-digit',
-                                                                minute: '2-digit',
-                                                                hour12: true,
-                                                            }
+                                                        {cameraData.lens && (
+                                                            <div className="flex items-center gap-3">
+                                                                <Aperture size={16} className="text-accent" />
+                                                                <span className="font-medium text-foreground">
+                                                                    {cameraData.lens}
+                                                                </span>
+                                                            </div>
                                                         )}
                                                     </div>
                                                 </div>
-                                            </div>
+                                            )}
+
+                                            {cameraData.settings && (
+                                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                                    <MetaChip
+                                                        icon={Aperture}
+                                                        label="Aperture"
+                                                        value={cameraData.settings.aperture}
+                                                    />
+                                                    <MetaChip
+                                                        icon={Clock}
+                                                        label="Shutter"
+                                                        value={cameraData.settings.shutterSpeed}
+                                                    />
+                                                    <MetaChip
+                                                        icon={Gauge}
+                                                        label="ISO"
+                                                        value={cameraData.settings.iso}
+                                                    />
+                                                    <MetaChip
+                                                        icon={Info}
+                                                        label="Focal Length"
+                                                        value={cameraData.settings.focalLength}
+                                                    />
+                                                </div>
+                                            )}
+
+                                            {cameraData.captureDate && (
+                                                <div className="glass-panel px-5 py-4">
+                                                    <h3 className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                                                        Captured
+                                                    </h3>
+                                                    <p className="mt-3 text-sm text-foreground">
+                                                        {new Date(cameraData.captureDate).toLocaleDateString('en-US', {
+                                                            weekday: 'long',
+                                                            year: 'numeric',
+                                                            month: 'long',
+                                                            day: 'numeric',
+                                                        })}
+                                                    </p>
+                                                    <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
+                                                        {new Date(cameraData.captureDate).toLocaleTimeString('en-US', {
+                                                            hour: '2-digit',
+                                                            minute: '2-digit',
+                                                        })}
+                                                    </p>
+                                                </div>
+                                            )}
                                         </div>
                                     )}
                                 </div>
                             )}
-                        </div>
-                    )}
-
-                    {/* Navigation Back */}
-                    <div className="text-center pt-8 border-t border-gray-200">
-                        <Link
-                            href={smartBackUrl}
-                            className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-xl hover:from-gray-800 hover:to-gray-700 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                        >
-                            <ArrowLeft size={20} />
-                            {smartBackLabel}
-                        </Link>
+                        </aside>
                     </div>
                 </div>
-            </div>
+            </section>
         </main>
     );
 }

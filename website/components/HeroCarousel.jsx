@@ -42,6 +42,22 @@ export default function HeroCarousel() {
         return () => api.off('select', onSelect);
     }, [api]);
 
+    // Add keyboard navigation for left/right arrow keys
+    React.useEffect(() => {
+        if (!api) return;
+
+        const handleKeyDown = (e) => {
+            if (e.key === 'ArrowLeft') {
+                api.scrollPrev();
+            } else if (e.key === 'ArrowRight') {
+                api.scrollNext();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [api]);
+
     // Initialize autoplay with ref for cleanup
     React.useEffect(() => {
         autoplayRef.current = Autoplay({
@@ -91,42 +107,44 @@ export default function HeroCarousel() {
                 {heroImages.map((image) => (
                     <CarouselItem key={image._id} className="h-full basis-full">
                         <div
-                            className="relative w-full bg-cover bg-center"
+                            className="relative flex w-full items-center bg-cover bg-center hero-height"
                             style={{
-                                height: 'calc(100vh - 64px)',
-                                backgroundImage: `url(${urlFor(image.image).width(1920).height(1080).quality(85).url()})`,
+                                backgroundImage: `url(${urlFor(image.image).width(1920).height(1080).quality(95).url()})`,
                             }}
                         >
-                            <div className="absolute inset-0 bg-black/40" />
-                            <div className="relative flex h-full items-center justify-center px-4 text-center text-white">
-                                <div>
-                                    <h1 className="mb-4 text-4xl font-bold md:text-6xl">
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+                            <div className="relative z-10 flex w-full items-center px-8 md:px-16 lg:px-24">
+                                <div className="max-w-2xl animate-fade-in space-y-4 text-left">
+                                    <h2 className="text-lg font-semibold uppercase tracking-[0.35em] text-hero-text md:text-xl lg:text-2xl">
                                         {image.title}
-                                    </h1>
-                                    <p className="text-lg md:text-xl">
-                                        {image.description}
-                                    </p>
+                                    </h2>
+                                    {image.description && (
+                                        <p className="text-sm font-light leading-relaxed text-hero-text/80 md:text-base">
+                                            {image.description}
+                                        </p>
+                                    )}
                                     {image.location && (
-                                        <p className="mt-2 text-sm text-white/80">
-                                            {image.location}
+                                        <p className="text-[0.65rem] font-medium uppercase tracking-[0.3em] text-hero-text/60">
+                                            📍 {image.location}
                                         </p>
                                     )}
                                 </div>
                             </div>
-                            {/* Modern Pagination Dots */}
-                            <div className="absolute inset-x-0 bottom-6 flex justify-center space-x-2">
-                                {heroImages.map((_, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => api?.scrollTo(index)}
-                                        className={`transition-all duration-300 ease-out hover:scale-110 ${
-                                            index === current - 1
-                                                ? 'h-2.5 w-8 bg-white shadow-lg' // Active dot - larger and bright
-                                                : 'h-2 w-2 bg-white/50 hover:bg-white/70' // Inactive dots - smaller and translucent
-                                        } rounded-full backdrop-blur-sm`}
-                                        aria-label={`Go to slide ${index + 1}`}
-                                    />
-                                ))}
+                            <div className="pointer-events-none absolute inset-x-0 bottom-8 flex items-center justify-center">
+                                <div className="flex gap-2">
+                                    {heroImages.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => api?.scrollTo(index)}
+                                            className={`pointer-events-auto rounded-full transition-all duration-300 ease-out hover:scale-110 ${
+                                                index === current - 1
+                                                    ? 'h-2.5 w-8 bg-white shadow-lg'
+                                                    : 'h-2 w-2 bg-white/50 hover:bg-white/70'
+                                            }`}
+                                            aria-label={`Go to slide ${index + 1}`}
+                                        />
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </CarouselItem>

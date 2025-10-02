@@ -203,7 +203,7 @@ export default {
                 {
                     name: 'captureDate',
                     title: 'Date Taken',
-                    type: 'string',
+                    type: 'datetime',
                 },
                 {
                     name: 'settings',

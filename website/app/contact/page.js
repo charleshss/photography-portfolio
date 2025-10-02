@@ -49,14 +49,15 @@ export default async function Contact() {
     };
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen">
             {/* Hero Section */}
-            <section className="relative h-screen">
+            <section className="relative flex items-center justify-center hero-height">
                 {contactData.heroImage ? (
                     <Image
                         src={urlFor(contactData.heroImage)
                             .width(1920)
                             .height(1080)
+                            .quality(95)
                             .url()}
                         alt="Contact hero background"
                         fill
@@ -64,15 +65,15 @@ export default async function Contact() {
                         priority
                     />
                 ) : (
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-800" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-background via-surface to-surface-alt" />
                 )}
-                <div className="absolute inset-0 bg-black/30" />
-                <div className="relative flex items-center justify-center h-full">
-                    <div className="text-center text-white px-6">
-                        <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-tight">
+                <div className="gradient-overlay" />
+                <div className="relative z-10 flex items-center justify-center px-6 w-full h-full">
+                    <div className="max-w-4xl text-center">
+                        <h1 className="hero-title mb-6 tracking-tight text-shadow-lg text-hero-text">
                             {contactData.heroTitle}
                         </h1>
-                        <p className="text-xl md:text-2xl font-light opacity-90 max-w-2xl mx-auto">
+                        <p className="hero-subtitle mx-auto font-light text-shadow-md text-hero-text/80">
                             {contactData.heroSubtitle}
                         </p>
                     </div>
@@ -80,33 +81,37 @@ export default async function Contact() {
             </section>
 
             {/* Main Contact Section */}
-            <section className="max-w-7xl mx-auto px-6 py-24">
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <section className="section-padding">
+                <div className="mx-auto grid max-w-7xl items-start gap-16 lg:grid-cols-2">
                     {/* Left Side: Profile Image and Instagram Cards */}
-                    <div className="order-1 lg:order-1 space-y-8">
+                    <div className="order-1 space-y-8 lg:order-1">
                         {/* Profile Image */}
-                        <div className="relative h-96 lg:h-[400px] w-full rounded-2xl overflow-hidden shadow-2xl">
+                        <div className="relative h-96 w-full overflow-hidden rounded-3xl border border-white/5 shadow-[var(--shadow-soft)] lg:h-[400px]">
                             {contactData.contactImage ? (
-                                <Image
-                                    src={urlFor(contactData.contactImage)
-                                        .width(600)
-                                        .height(400)
-                                        .url()}
-                                    alt="Samuel SS Photography - Contact"
-                                    fill
-                                    className="object-cover"
-                                    priority
-                                />
+                                <>
+                                    <Image
+                                        src={urlFor(contactData.contactImage)
+                                            .width(600)
+                                            .height(400)
+                                            .url()}
+                                        alt="Samuel SS Photography - Contact"
+                                        fill
+                                        className="object-cover"
+                                        priority
+                                    />
+                                    {/* Subtle overlay to reduce brightness and improve surrounding content readability */}
+                                    <div className="absolute inset-0 bg-black/15 pointer-events-none" />
+                                </>
                             ) : (
-                                <div className="h-full bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center">
+                                <div className="flex h-full items-center justify-center bg-gradient-to-br from-surface to-surface-alt">
                                     <div className="text-center">
-                                        <div className="w-24 h-24 bg-green-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                            <User className="w-12 h-12 text-white" />
+                                        <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-primary/20">
+                                            <User className="h-12 w-12 text-primary" />
                                         </div>
-                                        <h3 className="text-2xl font-bold text-green-800 mb-2">
+                                        <h3 className="text-lg font-semibold uppercase tracking-[0.28em] text-muted-foreground">
                                             Samuel SS
                                         </h3>
-                                        <p className="text-green-600">
+                                        <p className="text-muted-foreground">
                                             Professional wildlife & nature
                                             photography
                                         </p>
@@ -117,44 +122,44 @@ export default async function Contact() {
 
                         {/* Instagram Section */}
                         {contactData.instagramUsername && (
-                            <div className="bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-8 border border-pink-200 shadow-lg">
+                            <div className="glass-panel px-8 py-10 text-center transition-all duration-300 hover:border-primary/50">
                                 <div className="text-center">
-                                    <div className="w-16 h-16 bg-pink-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                        <Instagram className="w-8 h-8 text-white" />
+                                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20">
+                                        <Instagram className="h-7 w-7 text-primary" />
                                     </div>
-                                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                                    <h3 className="mb-2 text-lg font-semibold uppercase tracking-[0.28em] text-muted-foreground">
                                         Follow on Instagram
                                     </h3>
                                     <a
                                         href={`https://instagram.com/${contactData.instagramUsername}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-block text-pink-600 hover:text-pink-700 transition-colors text-xl font-semibold hover:underline mb-2"
+                                        className="mb-2 inline-block text-xl font-semibold text-foreground transition-colors duration-300 hover:text-primary"
                                     >
                                         @{contactData.instagramUsername}
                                     </a>
-                                    <p className="text-gray-600">
+                                    <p className="text-muted-foreground">
                                         See my latest work and send me a DM
                                     </p>
                                 </div>
                             </div>
                         )}
                         {contactData.email && (
-                            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border border-blue-200 shadow-lg">
+                            <div className="glass-panel px-8 py-10 text-center transition-all duration-300 hover:border-primary/50">
                                 <div className="text-center">
-                                    <div className="w-16 h-16 bg-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                        <Mail className="w-8 h-8 text-white" />
+                                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20">
+                                        <Mail className="h-7 w-7 text-primary" />
                                     </div>
-                                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                                    <h3 className="mb-2 text-lg font-semibold uppercase tracking-[0.28em] text-muted-foreground">
                                         Prefer Email?
                                     </h3>
                                     <a
                                         href={`mailto:${contactData.email}`}
-                                        className="inline-block text-blue-600 hover:text-blue-700 transition-colors text-xl font-semibold hover:underline mb-2"
+                                        className="mb-2 inline-block text-xl font-semibold text-foreground transition-colors duration-300 hover:text-primary"
                                     >
                                         {contactData.email}
                                     </a>
-                                    <p className="text-gray-600">
+                                    <p className="text-muted-foreground">
                                         Click to open your email client directly
                                         with my address.
                                     </p>
@@ -165,13 +170,13 @@ export default async function Contact() {
 
                     {/* Right Side: Contact Form */}
                     <div className="order-2 lg:order-2">
-                        <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 h-full">
-                            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        <div className="glass-panel h-full px-12 py-12">
+                            <h2 className="section-subtitle mb-6 text-foreground">
                                 Send a Message
                             </h2>
 
                             {contactData.introText && (
-                                <p className="text-gray-600 mb-8 text-lg leading-relaxed">
+                                <p className="body-large mb-8 max-w-2xl text-text">
                                     {contactData.introText}
                                 </p>
                             )}
@@ -183,16 +188,16 @@ export default async function Contact() {
 
                 {/* Response Time Card - Full Width Below */}
                 {contactData.responseTime && (
-                    <div className="mt-16 order-3">
-                        <div className="p-6 bg-blue-50 rounded-xl border border-blue-200 max-w-3xl mx-auto">
+                    <div className="order-3 mt-24">
+                        <div className="glass-panel mx-auto max-w-3xl px-8 py-10 text-center transition-all duration-300 hover:border-primary/50">
                             <div className="text-center">
-                                <div className="w-12 h-12 bg-blue-500 rounded-full mx-auto mb-3 flex items-center justify-center">
-                                    <Info className="w-6 h-6 text-white" />
+                                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20">
+                                    <Info className="h-6 w-6 text-primary" />
                                 </div>
-                                <p className="text-blue-800 font-semibold mb-1">
+                                <p className="mb-2 text-sm font-semibold uppercase tracking-[0.28em] text-muted-foreground">
                                     Quick Response Promise
                                 </p>
-                                <p className="text-blue-700 text-sm">
+                                <p className="text-base text-muted-foreground">
                                     {contactData.responseTime}
                                 </p>
                             </div>

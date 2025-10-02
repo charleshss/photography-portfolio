@@ -179,6 +179,12 @@ export async function getAllPhotos() {
           _id,
           url,
           metadata {
+            dimensions {
+              width,
+              height,
+              aspectRatio
+            },
+            lqip,
             exif,
             location
           }
@@ -239,6 +245,12 @@ export async function getImagesByCategory(category) {
           _id,
           url,
           metadata {
+            dimensions {
+              width,
+              height,
+              aspectRatio
+            },
+            lqip,
             exif,
             location
           }

@@ -1,6 +1,10 @@
+'use client';
+
 // components/Gallery.jsx
 import Link from 'next/link';
 import ImageCard from './ImageCard';
+import ReactBitsMasonry from '@/components/ui/react-bits-masonry';
+import { urlFor } from '@/lib/sanity';
 
 // Helper function to generate contextual photo URLs
 function getPhotoUrl(image, context) {
@@ -39,7 +43,7 @@ function getPhotoUrl(image, context) {
  * - showLocation, showSpecies
  * - showCount: show image count in title
  * - gridCols: e.g. "md:grid-cols-2 lg:grid-cols-4" (used for non-masonry)
- * - masonry: true => CSS columns masonry
+ * - masonry: true => use React Bits-style animated masonry
  * - backgroundColor: Tailwind bg-* class
  */
 export default function Gallery({
@@ -61,23 +65,23 @@ export default function Gallery({
         typeof totalCount === 'number' ? totalCount : images?.length || 0;
 
     return (
-        <section className={`${backgroundColor} px-6 py-20`}>
+        <section className={`${backgroundColor} section-padding`}>
             <div className="mx-auto max-w-7xl">
                 {/* Header */}
                 <div className="mb-12 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
                     <div>
                         {title && (
-                            <h2 className="mb-3 text-3xl font-bold md:text-4xl">
+                            <h2 className="mb-3 section-subtitle text-foreground">
                                 {title}
                                 {showCount && (
-                                    <span className="ml-3 text-2xl font-normal text-gray-500">
+                                    <span className="ml-3 text-2xl font-normal text-muted-foreground">
                                         ({resolvedCount})
                                     </span>
                                 )}
                             </h2>
                         )}
                         {description && (
-                            <p className="max-w-2xl text-gray-600">
+                            <p className="max-w-2xl body-large text-muted-foreground">
                                 {description}
                             </p>
                         )}
@@ -95,32 +99,56 @@ export default function Gallery({
 
                 {/* Gallery */}
                 {masonry ? (
-                    /**
-                     * Masonry: use CSS columns. Children must:
-                     * - be display: block,
-                     * - use break-inside-avoid to prevent splitting,
-                     * - have natural height (no fixed aspect box).
-                     */
-                    <div className="columns-1 gap-6 md:columns-2 lg:columns-3">
-                        {images.map((image, idx) => (
-                            <div
-                                key={image._id || image.id || idx}
-                                className="mb-6 break-inside-avoid"
-                            >
-                                <ImageCard
-                                    image={{
-                                        ...image,
-                                        href: image.slug?.current
-                                            ? getPhotoUrl(image, context)
-                                            : image.href,
-                                    }}
-                                    masonry
-                                    showLocation={showLocation}
-                                    showSpecies={showSpecies}
-                                />
-                            </div>
-                        ))}
-                    </div>
+                    <ReactBitsMasonry
+                        items={images.map((image, idx) => {
+                            const href = image.slug?.current
+                                ? getPhotoUrl(image, context)
+                                : image.href;
+                            const dimensions =
+                                image.image?.asset?.metadata?.dimensions;
+                            const blurDataURL =
+                                image.blurDataURL ||
+                                image.image?.asset?.metadata?.lqip;
+                            const altText =
+                                image.image?.alt || image.alt || image.title || '';
+
+                            const fullImageUrl = image.image
+                                ? urlFor(image.image)
+                                      .width(1600)
+                                      .quality(90)
+                                      .url()
+                                : image.src;
+
+                            return {
+                                id: image._id || image.id || idx,
+                                aspectRatio:
+                                    dimensions?.aspectRatio ??
+                                    (dimensions?.width && dimensions?.height
+                                        ? dimensions.width / dimensions.height
+                                        : undefined),
+                                width: dimensions?.width,
+                                height: dimensions?.height,
+                                src: fullImageUrl,
+                                href,
+                                data: {
+                                    ...image,
+                                    href,
+                                    blurDataURL,
+                                    alt: altText,
+                                    resolvedImageUrl: fullImageUrl,
+                                },
+                            };
+                        })}
+                        renderItem={(item, idx) => (
+                            <ImageCard
+                                image={item.data}
+                                masonry
+                                showLocation={showLocation}
+                                showSpecies={showSpecies}
+                                index={idx}
+                            />
+                        )}
+                    />
                 ) : (
                     /**
                      * Uniform grid for previews / homepage.
@@ -139,6 +167,7 @@ export default function Gallery({
                                 showLocation={showLocation}
                                 showSpecies={showSpecies}
                                 aspectRatio="aspect-[4/3]"
+                                index={idx}
                             />
                         ))}
                     </div>
