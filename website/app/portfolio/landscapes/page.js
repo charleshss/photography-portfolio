@@ -73,7 +73,7 @@ export default async function Landscapes() {
             {
                 title: 'Filters & Accessories',
                 description:
-                    'Polarising and ND filters for enhanced colours and long exposures',
+                    'Polarizing and ND filters for enhanced colors and long exposures',
             },
         ],
         ctaTitle: 'Commission a Landscape Session',

@@ -114,7 +114,7 @@ export default function PhotoDetailPage({
                     </div>
 
                     <div className="overflow-hidden rounded-3xl border border-white/5 bg-surface/40 p-3 backdrop-blur-2xl shadow-[var(--shadow-soft)] lg:p-4">
-                        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.75rem] bg-background-alt">
+                        <div className={`relative w-full overflow-hidden rounded-3xl bg-background-alt ${isMobile ? '' : 'aspect-[16/10]'}`}>
                             {isMobile ? (
                                 <MobileImageViewer
                                     image={photo.image}

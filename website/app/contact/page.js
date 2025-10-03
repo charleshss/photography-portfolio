@@ -82,10 +82,9 @@ export default async function Contact() {
 
             {/* Main Contact Section */}
             <section className="section-padding">
-                <div className="mx-auto grid max-w-7xl items-start gap-16 lg:grid-cols-2">
-                    {/* Left Side: Profile Image and Instagram Cards */}
-                    <div className="order-1 space-y-8 lg:order-1">
-                        {/* Profile Image */}
+                <div className="mx-auto max-w-7xl space-y-8 lg:grid lg:grid-cols-2 lg:items-start lg:gap-16 lg:space-y-0">
+                    {/* Profile Image */}
+                    <div className="order-1 lg:order-1 lg:row-span-3">
                         <div className="relative h-96 w-full overflow-hidden rounded-3xl border border-white/5 shadow-[var(--shadow-soft)] lg:h-[400px]">
                             {contactData.contactImage ? (
                                 <>
@@ -119,9 +118,28 @@ export default async function Contact() {
                                 </div>
                             )}
                         </div>
+                    </div>
 
-                        {/* Instagram Section */}
-                        {contactData.instagramUsername && (
+                    {/* Contact Form */}
+                    <div className="order-2 lg:order-2">
+                        <div className="glass-panel h-full px-12 py-12">
+                            <h2 className="section-subtitle mb-6 text-foreground">
+                                Send a Message
+                            </h2>
+
+                            {contactData.introText && (
+                                <p className="body-large mb-8 max-w-2xl text-text">
+                                    {contactData.introText}
+                                </p>
+                            )}
+
+                            <ContactForm />
+                        </div>
+                    </div>
+
+                    {/* Instagram Section */}
+                    {contactData.instagramUsername && (
+                        <div className="order-3 lg:order-1 lg:col-start-1">
                             <div className="glass-panel px-8 py-10 text-center transition-all duration-300 hover:border-primary/50">
                                 <div className="text-center">
                                     <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20">
@@ -143,8 +161,12 @@ export default async function Contact() {
                                     </p>
                                 </div>
                             </div>
-                        )}
-                        {contactData.email && (
+                        </div>
+                    )}
+
+                    {/* Email Section */}
+                    {contactData.email && (
+                        <div className="order-4 lg:order-1 lg:col-start-1">
                             <div className="glass-panel px-8 py-10 text-center transition-all duration-300 hover:border-primary/50">
                                 <div className="text-center">
                                     <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20">
@@ -155,7 +177,7 @@ export default async function Contact() {
                                     </h3>
                                     <a
                                         href={`mailto:${contactData.email}`}
-                                        className="mb-2 inline-block text-xl font-semibold text-foreground transition-colors duration-300 hover:text-primary"
+                                        className="mb-2 inline-block text-lg sm:text-xl font-semibold text-foreground transition-colors duration-300 hover:text-primary break-all"
                                     >
                                         {contactData.email}
                                     </a>
@@ -165,45 +187,28 @@ export default async function Contact() {
                                     </p>
                                 </div>
                             </div>
-                        )}
-                    </div>
-
-                    {/* Right Side: Contact Form */}
-                    <div className="order-2 lg:order-2">
-                        <div className="glass-panel h-full px-12 py-12">
-                            <h2 className="section-subtitle mb-6 text-foreground">
-                                Send a Message
-                            </h2>
-
-                            {contactData.introText && (
-                                <p className="body-large mb-8 max-w-2xl text-text">
-                                    {contactData.introText}
-                                </p>
-                            )}
-
-                            <ContactForm />
                         </div>
-                    </div>
-                </div>
+                    )}
 
-                {/* Response Time Card - Full Width Below */}
-                {contactData.responseTime && (
-                    <div className="order-3 mt-24">
-                        <div className="glass-panel mx-auto max-w-3xl px-8 py-10 text-center transition-all duration-300 hover:border-primary/50">
-                            <div className="text-center">
-                                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20">
-                                    <Info className="h-6 w-6 text-primary" />
+                    {/* Response Time Card */}
+                    {contactData.responseTime && (
+                        <div className="order-5 lg:order-3 lg:col-span-2">
+                            <div className="glass-panel mx-auto max-w-3xl px-8 py-10 text-center transition-all duration-300 hover:border-primary/50">
+                                <div className="text-center">
+                                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20">
+                                        <Info className="h-6 w-6 text-primary" />
+                                    </div>
+                                    <p className="mb-2 text-sm font-semibold uppercase tracking-[0.28em] text-muted-foreground">
+                                        Quick Response Promise
+                                    </p>
+                                    <p className="text-base text-muted-foreground">
+                                        {contactData.responseTime}
+                                    </p>
                                 </div>
-                                <p className="mb-2 text-sm font-semibold uppercase tracking-[0.28em] text-muted-foreground">
-                                    Quick Response Promise
-                                </p>
-                                <p className="text-base text-muted-foreground">
-                                    {contactData.responseTime}
-                                </p>
                             </div>
                         </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </section>
         </div>
     );

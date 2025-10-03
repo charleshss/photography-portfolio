@@ -72,3 +72,9 @@ next-env.d.ts
 CLAUDE.md
 .claude/
 claude-*
+
+# Playwright
+.playwright-mcp/
+test-results/
+playwright-report/
+playwright/.cache/

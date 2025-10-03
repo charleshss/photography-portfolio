@@ -56,7 +56,7 @@ Coming from React, this project taught me loads about Next.js and full-stack dev
 **Next.js Fundamentals**
 - The App Router structure and how it differs from Pages Router
 - Server-side rendering vs client-side rendering - when to use each
-- File-based routing and how to organise a real application
+- File-based routing and how to organize a real application
 - API routes for backend functionality without a separate server
 
 **Working with a Headless CMS**
