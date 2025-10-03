@@ -113,18 +113,18 @@ export default function HeroCarousel() {
                             }}
                         >
                             <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
-                            <div className="relative z-10 flex w-full items-center px-8 md:px-16 lg:px-24">
-                                <div className="max-w-2xl animate-fade-in space-y-4 text-left">
-                                    <h2 className="text-lg font-semibold uppercase tracking-[0.35em] text-hero-text md:text-xl lg:text-2xl">
+                            <div className="relative z-10 flex w-full items-center px-16 md:px-16 lg:px-24">
+                                <div className="max-w-xl animate-fade-in space-y-2 text-left sm:space-y-3 md:space-y-4">
+                                    <h2 className="text-base font-semibold uppercase tracking-[0.25em] text-hero-text sm:text-lg sm:tracking-[0.3em] md:text-xl md:tracking-[0.35em] lg:text-2xl">
                                         {image.title}
                                     </h2>
                                     {image.description && (
-                                        <p className="text-sm font-light leading-relaxed text-hero-text/80 md:text-base">
+                                        <p className="text-xs font-light leading-relaxed text-hero-text/80 sm:text-sm md:text-base">
                                             {image.description}
                                         </p>
                                     )}
                                     {image.location && (
-                                        <p className="text-[0.65rem] font-medium uppercase tracking-[0.3em] text-hero-text/60">
+                                        <p className="text-[0.6rem] font-medium uppercase tracking-[0.25em] text-hero-text/60 sm:text-[0.65rem] sm:tracking-[0.3em]">
                                             📍 {image.location}
                                         </p>
                                     )}
@@ -150,8 +150,8 @@ export default function HeroCarousel() {
                     </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious className="left-4 border-white/30 bg-white/20 text-white hover:bg-white/30" />
-            <CarouselNext className="right-4 border-white/30 bg-white/20 text-white hover:bg-white/30" />
+            <CarouselPrevious className="left-2 top-1/2 -translate-y-1/2 border-white/30 bg-white/20 text-white hover:bg-white/30 md:left-4 z-20" />
+            <CarouselNext className="right-2 top-1/2 -translate-y-1/2 border-white/30 bg-white/20 text-white hover:bg-white/30 md:right-4 z-20" />
         </Carousel>
     );
 }

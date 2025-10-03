@@ -116,7 +116,7 @@ export default async function About() {
             <section className="section-padding">
                 <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-2">
                     {/* Profile Image */}
-                    <div className="order-2 lg:order-1">
+                    <div className="order-1 lg:order-1">
                         {aboutData.profileImage ? (
                             <div className="relative h-96 w-full overflow-hidden rounded-3xl border border-white/5 shadow-[var(--shadow-soft)]">
                                 <Image
@@ -141,7 +141,7 @@ export default async function About() {
                     </div>
 
                     {/* About Text */}
-                    <div className="order-1 flex min-w-0 flex-col gap-8 overflow-hidden text-center lg:order-2 lg:text-left">
+                    <div className="order-2 flex min-w-0 flex-col gap-8 overflow-hidden text-center lg:order-2 lg:text-left">
                         <h2 className="section-title text-foreground break-words">
                             My Journey with Nature
                         </h2>

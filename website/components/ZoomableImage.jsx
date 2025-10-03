@@ -227,15 +227,18 @@ export default function ZoomableImage({ image, alt, title }) {
                 onMouseDown={handleMouseDown}
                 onTouchStart={(e) => {
                     e.preventDefault();
+                    e.stopPropagation();
 
                     if (e.touches.length === 1) {
-                        // Single touch - dragging
-                        const touch = e.touches[0];
-                        setIsDragging(true);
-                        setDragStart({
-                            x: touch.clientX - position.x,
-                            y: touch.clientY - position.y,
-                        });
+                        // Only allow dragging if zoomed in
+                        if (scale > 1) {
+                            const touch = e.touches[0];
+                            setIsDragging(true);
+                            setDragStart({
+                                x: touch.clientX - position.x,
+                                y: touch.clientY - position.y,
+                            });
+                        }
                     } else if (e.touches.length === 2) {
                         // Two touches - pinch to zoom
                         setIsDragging(false);
@@ -260,10 +263,14 @@ export default function ZoomableImage({ image, alt, title }) {
                     }
                 }}
                 onTouchMove={(e) => {
-                    e.preventDefault();
+                    // Only prevent default and stop propagation when we're actually interacting
+                    if ((isDragging && scale > 1) || isPinching) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
 
-                    if (e.touches.length === 1 && isDragging && !isPinching) {
-                        // Single touch drag
+                    if (e.touches.length === 1 && isDragging && !isPinching && scale > 1) {
+                        // Single touch drag - only when zoomed in
                         const touch = e.touches[0];
                         const newX = touch.clientX - dragStart.x;
                         const newY = touch.clientY - dragStart.y;
@@ -278,7 +285,6 @@ export default function ZoomableImage({ image, alt, title }) {
                         const touch1 = e.touches[0];
                         const touch2 = e.touches[1];
                         const distance = getTouchDistance(touch1, touch2);
-                        const center = getTouchCenter(touch1, touch2);
 
                         if (lastPinchDistance > 0) {
                             const scaleChange = distance / lastPinchDistance;
@@ -326,16 +332,18 @@ export default function ZoomableImage({ image, alt, title }) {
                         setIsPinching(false);
                         setLastPinchDistance(0);
                     } else if (e.touches.length === 1 && isPinching) {
-                        // Switch from pinch to drag
+                        // Switch from pinch to drag - only if zoomed in
                         setIsPinching(false);
                         setLastPinchDistance(0);
 
-                        const touch = e.touches[0];
-                        setIsDragging(true);
-                        setDragStart({
-                            x: touch.clientX - position.x,
-                            y: touch.clientY - position.y,
-                        });
+                        if (scale > 1) {
+                            const touch = e.touches[0];
+                            setIsDragging(true);
+                            setDragStart({
+                                x: touch.clientX - position.x,
+                                y: touch.clientY - position.y,
+                            });
+                        }
                     }
                 }}
                 onClick={(e) => {

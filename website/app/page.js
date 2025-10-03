@@ -58,7 +58,7 @@ export default async function Home() {
         featuredSection: {
             sectionTitle: 'My Best Work',
             sectionDescription:
-                'A carefully curated selection of my favourite captures from years of exploring the natural world',
+                'A carefully curated selection of my favorite captures from years of exploring the natural world',
             viewAllButtonText: 'View Full Portfolio',
         },
         collaborationSection: {

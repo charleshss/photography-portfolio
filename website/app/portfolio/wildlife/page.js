@@ -47,7 +47,7 @@ export default async function Wildlife() {
     const fallbackContent = {
         heroTitle: 'Wildlife Photography',
         heroDescription:
-            'Capturing the raw beauty, personality, and behaviour of wildlife in their natural habitats. Each image tells a story of survival, adaptation, and the delicate balance of nature.',
+            'Capturing the raw beauty, personality, and behavior of wildlife in their natural habitats. Each image tells a story of survival, adaptation, and the delicate balance of nature.',
         galleryTitle: 'Wildlife Collection',
         galleryDescription:
             'Each photograph represents hours of fieldwork, research, and patient observation. These images showcase the incredible diversity of wildlife across different habitats and continents.',
