@@ -1,11 +1,11 @@
 export default {
     name: 'contactPageNew',
-    title: '📧 Contact Page Settings',
+    title: 'Contact Page Settings',
     type: 'document',
     fields: [
         {
             name: 'title',
-            title: '📄 Page Title (Internal) *',
+            title: 'Page Title (Internal) *',
             type: 'string',
             description: 'Required — internal reference name for the page (not shown to visitors)',
             initialValue: 'Contact Me',
@@ -15,7 +15,7 @@ export default {
         // Hero Section
         {
             name: 'heroImage',
-            title: '🖼️ Hero Background Image *',
+            title: 'Hero Background Image *',
             type: 'image',
             description:
                 'Required — large background image at the top of the contact page. Choose a high-quality, landscape-oriented photo that represents your photography style.',
@@ -27,7 +27,7 @@ export default {
         },
         {
             name: 'heroTitle',
-            title: '✨ Hero Main Headline *',
+            title: 'Hero Main Headline *',
             type: 'string',
             description:
                 'Required — main headline text that overlays the hero image. Make it welcoming and encourage visitors to reach out.',
@@ -38,7 +38,7 @@ export default {
         },
         {
             name: 'heroSubtitle',
-            title: '💬 Hero Subheading *',
+            title: 'Hero Subheading *',
             type: 'string',
             description:
                 'Required — short sentence beneath the headline describing what visitors can expect.',
@@ -51,7 +51,7 @@ export default {
         // Contact Section
         {
             name: 'contactImage',
-            title: '📸 Your Profile Photo *',
+            title: 'Your Profile Photo *',
             type: 'image',
             description:
                 'Required — professional photo that appears next to the contact form. Helps visitors connect with you personally (portrait orientation works best).',
@@ -63,7 +63,7 @@ export default {
         },
         {
             name: 'introText',
-            title: '📝 Contact Form Introduction *',
+            title: 'Contact Form Introduction *',
             type: 'text',
             rows: 4,
             description:
@@ -78,7 +78,7 @@ export default {
         // Contact Information
         {
             name: 'email',
-            title: '📧 Your Business Email Address *',
+            title: 'Your Business Email Address *',
             type: 'string',
             description:
                 '⚠️ IMPORTANT: This email appears publicly on your website and receives contact form messages. Use your professional photography email address.',
@@ -89,7 +89,7 @@ export default {
         },
         {
             name: 'instagramUsername',
-            title: '📱 Instagram Handle *',
+            title: 'Instagram Handle *',
             type: 'string',
             description:
                 'Required — Instagram username (without the @ symbol). Used to create a clickable link to your profile.',
@@ -111,7 +111,7 @@ export default {
         // Response Promise
         {
             name: 'responseTime',
-            title: '⏰ Response Time Promise',
+            title: 'Response Time Promise',
             type: 'string',
             description:
                 'Optional — let visitors know how quickly you typically respond to messages.',

@@ -13,7 +13,7 @@ export default function MasonryGallery({
     showLocation = false,
     showSpecies = false,
     context = 'portfolio',
-    columns = { sm: 1, md: 2, lg: 3, xl: 4 },
+    columns = { sm: 1, md: 2, lg: 3, xl: 3 },
 }) {
     return (
         <div

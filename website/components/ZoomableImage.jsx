@@ -4,7 +4,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { urlFor } from '@/lib/sanity';
 import { ZoomIn, ZoomOut, RotateCcw, Maximize2 } from 'lucide-react';
 
-export default function ZoomableImage({ image, alt, title }) {
+export default function ZoomableImage({ image, alt }) {
     const [scale, setScale] = useState(1);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
@@ -76,7 +76,7 @@ export default function ZoomableImage({ image, alt, title }) {
             x: e.clientX - position.x,
             y: e.clientY - position.y,
         });
-        e.preventDefault(); // Prevent text selection and other default behaviors
+        e.preventDefault(); // Prevent text selection and other default behaviours
     };
 
     const handleMouseMove = useCallback(
@@ -94,10 +94,6 @@ export default function ZoomableImage({ image, alt, title }) {
         },
         [isDragging, dragStart, scale, constrainPosition]
     );
-
-    const handleMouseUp = () => {
-        setIsDragging(false);
-    };
 
     const handleWheel = useCallback(
         (e) => {
@@ -365,7 +361,7 @@ export default function ZoomableImage({ image, alt, title }) {
                     className="w-full h-full object-contain select-none"
                     style={{
                         transform: `scale(${scale}) translate(${position.x / scale}px, ${position.y / scale}px)`,
-                        transformOrigin: 'center center',
+                        transformOrigin: '50% 50%',
                         willChange: isDragging ? 'transform' : 'auto',
                         transition: isDragging
                             ? 'none'

@@ -1,11 +1,11 @@
 export default {
     name: 'wildlifePage',
-    title: '🦅 Wildlife Page Settings',
+    title: 'Wildlife Page Settings',
     type: 'document',
     fields: [
         {
             name: 'title',
-            title: '📄 Page Title (Internal) *',
+            title: 'Page Title (Internal) *',
             type: 'string',
             description: 'Required — internal reference name (not visible to visitors)',
             initialValue: 'Wildlife Page',
@@ -13,7 +13,7 @@ export default {
         },
         {
             name: 'heroTitle',
-            title: '🦁 Hero Title *',
+            title: 'Hero Title *',
             type: 'string',
             description: 'Required — main heading shown at the top of the wildlife page',
             placeholder: 'Wildlife Photography',
@@ -23,7 +23,7 @@ export default {
         },
         {
             name: 'heroDescription',
-            title: '📝 Hero Description *',
+            title: 'Hero Description *',
             type: 'text',
             rows: 3,
             description: 'Required — introductory paragraph beneath the hero title',
@@ -39,7 +39,7 @@ export default {
         },
         {
             name: 'galleryTitle',
-            title: '🖼️ Gallery Title *',
+            title: 'Gallery Title *',
             type: 'string',
             description: 'Required — heading shown above the wildlife gallery',
             placeholder: 'Wildlife Collection',
@@ -49,7 +49,7 @@ export default {
         },
         {
             name: 'galleryDescription',
-            title: '📚 Gallery Description *',
+            title: 'Gallery Description *',
             type: 'text',
             rows: 3,
             description: 'Required — description shown above the wildlife gallery grid',
@@ -65,7 +65,7 @@ export default {
         },
         {
             name: 'speciesSectionTitle',
-            title: '🦉 Species Section Title *',
+            title: 'Species Section Title *',
             type: 'string',
             description: 'Required — heading for the species documented section',
             placeholder: 'Species Documented',
@@ -78,7 +78,7 @@ export default {
         },
         {
             name: 'speciesSectionDescription',
-            title: '📝 Species Section Description *',
+            title: 'Species Section Description *',
             type: 'text',
             rows: 3,
             description: 'Required — description shown above the species showcase grid',
@@ -94,7 +94,7 @@ export default {
         },
         {
             name: 'allSpeciesTitle',
-            title: '🗂️ All Species Title *',
+            title: 'All Species Title *',
             type: 'string',
             description: 'Required — heading for the list of all species photographed',
             placeholder: 'All Species Photographed',
@@ -104,7 +104,7 @@ export default {
         },
         {
             name: 'ctaTitle',
-            title: '✨ CTA Title *',
+            title: 'CTA Title *',
             type: 'string',
             description:
                 'Required — headline for the call-to-action block at the bottom of the page',
@@ -115,7 +115,7 @@ export default {
         },
         {
             name: 'ctaDescription',
-            title: '📝 CTA Description *',
+            title: 'CTA Description *',
             type: 'text',
             rows: 3,
             description: 'Required — supporting text encouraging visitors to take action',
@@ -131,7 +131,7 @@ export default {
         },
         {
             name: 'ctaPrimaryButtonText',
-            title: '🔘 Primary Button Text *',
+            title: 'Primary Button Text *',
             type: 'string',
             description: 'Required — text for the main CTA button',
             placeholder: 'Plan an Expedition',
@@ -141,7 +141,7 @@ export default {
         },
         {
             name: 'ctaPrimaryButtonLink',
-            title: '🔗 Primary Button Link *',
+            title: 'Primary Button Link',
             type: 'string',
             description: 'Fixed link (read-only) — always points to /contact',
             initialValue: '/contact',
@@ -150,7 +150,7 @@ export default {
         },
         {
             name: 'ctaSecondaryButtonText',
-            title: '🔘 Secondary Button Text *',
+            title: 'Secondary Button Text *',
             type: 'string',
             description: 'Required — text for the secondary CTA button',
             placeholder: 'View Landscape Portfolio',
@@ -163,7 +163,7 @@ export default {
         },
         {
             name: 'ctaSecondaryButtonLink',
-            title: '🔗 Secondary Button Link *',
+            title: 'Secondary Button Link',
             type: 'string',
             description: 'Fixed link (read-only) — always points to /portfolio/landscapes',
             initialValue: '/portfolio/landscapes',
@@ -177,7 +177,7 @@ export default {
             heroTitle: 'heroTitle',
         },
         prepare(selection) {
-            const {title, heroTitle} = selection
+            const { title, heroTitle } = selection
             return {
                 title,
                 subtitle: heroTitle ? `Hero: "${heroTitle}"` : 'Wildlife page settings',

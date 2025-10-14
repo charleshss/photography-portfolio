@@ -28,7 +28,7 @@ async function getSiteInfo() {
             businessName: homeData?.businessName || 'SamuelSS. Photography',
         };
     } catch (error) {
-        console.log('Sanity CMS not available, using fallback site info');
+        console.warn('Sanity CMS not available, using fallback site info', error);
         return {
             email: 'contact@samuelss.photography',
             instagram: 'samuelss_photography',

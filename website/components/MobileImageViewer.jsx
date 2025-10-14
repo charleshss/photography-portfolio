@@ -2,7 +2,7 @@
 
 import { urlFor } from '@/lib/sanity';
 
-export default function MobileImageViewer({ image, alt, title }) {
+export default function MobileImageViewer({ image, alt }) {
     // Get high-quality image URL
     const imageUrl = urlFor(image).width(1200).quality(95).url();
 

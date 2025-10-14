@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import { client } from '@/lib/sanity';
+import { brandColours } from '@/lib/colours';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -95,7 +96,7 @@ async function getContactEmail() {
         );
         return contactData?.email || 'contact@samuelss.photography';
     } catch (error) {
-        console.log('Sanity CMS not available, using fallback email');
+        console.warn('Sanity CMS not available, using fallback email', error);
         return 'contact@samuelss.photography';
     }
 }
@@ -143,29 +144,39 @@ export async function POST(request) {
             .replace(/\n/g, '<br>');
 
         // Send email using Resend
+        const {
+            primary,
+            surfaceLight,
+            surfaceBase,
+            borderMuted,
+            borderLight,
+            textMuted,
+            textStrong,
+        } = brandColours;
+
         const data = await resend.emails.send({
             from: 'Samuel Photography <contact@samuelss.photography>', // Using your official email
             to: [destinationEmail],
             subject: `New Contact Form Message from ${name}`,
             html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #16a34a; border-bottom: 2px solid #16a34a; padding-bottom: 10px;">
+          <h2 style="color: ${primary}; border-bottom: 2px solid ${primary}; padding-bottom: 10px;">
             New Contact Form Submission
           </h2>
 
-          <div style="background-color: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <div style="background-color: ${surfaceLight}; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <p><strong>Name:</strong> ${name}</p>
             <p><strong>Email:</strong> ${email}</p>
           </div>
 
           <div style="margin: 20px 0;">
-            <h3 style="color: #374151;">Message:</h3>
-            <div style="background-color: #ffffff; padding: 15px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <h3 style="color: ${textStrong};">Message:</h3>
+            <div style="background-color: ${surfaceBase}; padding: 15px; border: 1px solid ${borderMuted}; border-radius: 6px;">
               ${sanitizedMessage}
             </div>
           </div>
 
-          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 14px;">
+          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid ${borderLight}; color: ${textMuted}; font-size: 14px;">
             <p>This message was sent through the contact form on your photography portfolio website.</p>
             <p>Reply directly to this email to respond to ${name}.</p>
           </div>

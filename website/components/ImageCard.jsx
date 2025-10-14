@@ -82,7 +82,7 @@ export default function ImageCard({
                 masonry ? 'h-full' : aspectRatio,
             ].join(' ')}
             style={{
-                transformOrigin: 'center center',
+                transformOrigin: '50% 50%',
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
                 willChange: 'transform',

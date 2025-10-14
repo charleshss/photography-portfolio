@@ -1,12 +1,12 @@
 // studio/schemas/tag.js
 export default {
     name: 'tag',
-    title: '🏷️ Photo Tags & Keywords',
+    title: 'Photo Tags & Keywords',
     type: 'document',
     fields: [
         {
             name: 'name',
-            title: '🏷️ Tag Name',
+            title: 'Tag Name',
             type: 'string',
             description:
                 'Create descriptive keywords to help organise and categorise your photos. Type in any case - it will automatically be formatted to Title-Case-With-Hyphens (e.g., "golden hour" becomes "Golden-Hour").',
@@ -38,7 +38,7 @@ export default {
                         return true
                     }),
             inputComponent: (props) => {
-                const {onChange, value} = props
+                const { onChange, value } = props
                 const React = require('react')
 
                 const handleChange = (event) => {
@@ -84,7 +84,7 @@ export default {
             title: 'name',
         },
         prepare(selection) {
-            const {title} = selection
+            const { title } = selection
             return {
                 title: title,
                 subtitle: 'Photo Tag',

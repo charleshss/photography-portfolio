@@ -1,6 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { brandColours } from '@/lib/colours';
+
+const markerSvg = encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text x="16" y="24" font-family="Arial" font-size="24" text-anchor="middle" fill="${brandColours.error}">📍</text></svg>`
+);
 
 export default function LocationMap({ coordinates, locationName }) {
     const mapRef = useRef(null);
@@ -63,6 +68,7 @@ export default function LocationMap({ coordinates, locationName }) {
                         markerElement.innerHTML = '📍';
                         markerElement.style.fontSize = '24px';
                         markerElement.style.cursor = 'pointer';
+                        markerElement.style.color = brandColours.error;
 
                         marker =
                             new window.google.maps.marker.AdvancedMarkerElement(
@@ -74,6 +80,7 @@ export default function LocationMap({ coordinates, locationName }) {
                                 }
                             );
                     } catch (advancedMarkerError) {
+                        console.warn('Falling back to standard markers', advancedMarkerError);
                         // Fallback to regular marker
                         marker = new window.google.maps.Marker({
                             position: mapCenter,
@@ -82,11 +89,7 @@ export default function LocationMap({ coordinates, locationName }) {
                             icon: {
                                 url:
                                     'data:image/svg+xml;charset=UTF-8,' +
-                                    encodeURIComponent(`
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                                        <text x="16" y="24" font-family="Arial" font-size="24" text-anchor="middle" fill="#e53e3e">📍</text>
-                                    </svg>
-                                `),
+                                    markerSvg,
                                 scaledSize: new window.google.maps.Size(32, 32),
                                 anchor: new window.google.maps.Point(16, 32),
                             },
@@ -100,12 +103,7 @@ export default function LocationMap({ coordinates, locationName }) {
                         title: locationName || 'Photo Location',
                         icon: {
                             url:
-                                'data:image/svg+xml;charset=UTF-8,' +
-                                encodeURIComponent(`
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                                    <text x="16" y="24" font-family="Arial" font-size="24" text-anchor="middle" fill="#e53e3e">📍</text>
-                                </svg>
-                            `),
+                                'data:image/svg+xml;charset=UTF-8,' + markerSvg,
                             scaledSize: new window.google.maps.Size(32, 32),
                             anchor: new window.google.maps.Point(16, 32),
                         },
@@ -120,7 +118,7 @@ export default function LocationMap({ coordinates, locationName }) {
                         content: `
                             <div style="padding: 8px; font-family: -apple-system, BlinkMacSystemFont, sans-serif;">
                                 <div style="font-weight: 600; margin-bottom: 4px;">${locationName}</div>
-                                <div style="font-size: 12px; color: #666;">
+                                <div style="font-size: 12px; color: ${brandColours.textMuted};">
                                     ${coordinates.lat.toFixed(6)}, ${coordinates.lng.toFixed(6)}
                                 </div>
                             </div>
@@ -244,7 +242,7 @@ export default function LocationMap({ coordinates, locationName }) {
                 if (mapInstanceRef.current) {
                     mapInstanceRef.current = null;
                 }
-            } catch (error) {
+            } catch {
                 // Ignore cleanup errors during Fast Refresh
             }
         };

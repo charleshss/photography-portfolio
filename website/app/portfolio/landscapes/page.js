@@ -33,8 +33,9 @@ async function getLandscapePageData() {
             { next: { revalidate: 60 } }
         );
     } catch (error) {
-        console.log(
-            'Sanity CMS not available, using fallback landscape content'
+        console.warn(
+            'Sanity CMS not available, using fallback landscape content',
+            error
         );
         return null;
     }
@@ -237,6 +238,54 @@ export default async function Landscapes() {
                 context="landscapes"
                 backgroundColor="bg-transparent"
             />
+
+            {/* Equipment Highlights */}
+            {equipmentHighlights.length > 0 && (
+                <section className="section-padding pt-0">
+                    <div className="mx-auto max-w-6xl space-y-12">
+                        <div className="text-center space-y-4">
+                            {pageContent.equipmentTitle && (
+                                <h2 className="section-subtitle text-foreground">
+                                    {pageContent.equipmentTitle}
+                                </h2>
+                            )}
+                            {pageContent.equipmentDescription && (
+                                <p className="body-large mx-auto max-w-3xl text-muted-foreground leading-relaxed">
+                                    {pageContent.equipmentDescription}
+                                </p>
+                            )}
+                        </div>
+                        <div className="grid gap-6 md:grid-cols-3">
+                            {equipmentHighlights.map((highlight, index) => (
+                                <div
+                                    key={highlight.title || index}
+                                    className="group rounded-[32px] border border-border/35 bg-surface/65 p-8 backdrop-blur-xl shadow-[var(--shadow-soft)] transition-transform duration-300 ease-out hover:-translate-y-1"
+                                    style={{
+                                        background:
+                                            'linear-gradient(180deg, color-mix(in srgb, var(--primary) 12%, transparent) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 100%)',
+                                    }}
+                                >
+                                    <div className="space-y-5">
+                                        <div className="flex items-center gap-4">
+                                            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/15 text-sm font-semibold text-primary">
+                                                {String(index + 1).padStart(2, '0')}
+                                            </span>
+                                            <h3 className="text-base font-semibold tracking-tight text-foreground">
+                                                {highlight.title || `Highlight ${index + 1}`}
+                                            </h3>
+                                        </div>
+                                        {highlight.description && (
+                                            <p className="text-sm leading-relaxed text-muted-foreground/85">
+                                                {highlight.description}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* Call to Action */}
             <section className="section-padding">
