@@ -21,7 +21,7 @@ export default function Navigation() {
 
     return (
         <nav
-            className={`sticky top-0 z-50 border-b border-transparent backdrop-blur-2xl transition-all duration-500 ${
+            className={`sticky top-0 z-[200] border-b border-transparent backdrop-blur-2xl transition-all duration-500 ${
                 scrolled
                     ? 'bg-[rgba(8,10,15,0.9)] border-border/70 shadow-[var(--shadow-strong)]'
                     : 'bg-transparent'
