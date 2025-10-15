@@ -1,12 +1,12 @@
 // studio/schemas/species.js
 export default {
     name: 'species',
-    title: '🦅 Wildlife Species Database',
+    title: 'Wildlife Species Database',
     type: 'document',
     fields: [
         {
             name: 'name',
-            title: '🏷️ Species Common Name',
+            title: 'Species Common Name',
             type: 'string',
             description:
                 'The common name of the wildlife species as it will appear on your website. Type in any case - it will automatically be formatted to Title Case (e.g., "brown bear" becomes "Brown Bear").',
@@ -19,7 +19,7 @@ export default {
                     .max(50)
                     .error('Species name should be under 50 characters'),
             inputComponent: (props) => {
-                const {onChange, value} = props
+                const { onChange, value } = props
                 const React = require('react')
 
                 const handleChange = (event) => {
@@ -51,83 +51,83 @@ export default {
         },
         {
             name: 'category',
-            title: '📂 Species Category',
+            title: 'Species Category',
             type: 'string',
             description:
                 'Select the category this species belongs to. This helps organise your wildlife photos and makes them easier to find. Choose the most specific category that applies.',
             options: {
                 list: [
                     // ──────────── MAMMALS ────────────
-                    {title: '🦁 Big Cats (Lions, Tigers, Leopards, Cougars)', value: 'big-cats'},
-                    {title: '🐻 Bears (Brown, Black, Polar, Grizzly)', value: 'bears'},
-                    {title: '🐺 Canids (Wolves, Foxes, Coyotes)', value: 'canids'},
+                    { title: 'Big Cats (Lions, Tigers, Leopards, Cougars)', value: 'big-cats' },
+                    { title: 'Bears (Brown, Black, Polar, Grizzly)', value: 'bears' },
+                    { title: 'Canids (Wolves, Foxes, Coyotes)', value: 'canids' },
                     {
-                        title: '🦌 Large Herbivores (Deer, Elk, Moose, Bison)',
+                        title: 'Large Herbivores (Deer, Elk, Moose, Bison)',
                         value: 'large-herbivores',
                     },
-                    {title: '🐿️ Small Mammals (Squirrels, Rabbits)', value: 'small-mammals'},
-                    {title: '🐒 Primates (Monkeys, Apes)', value: 'primates'},
-                    {title: '🐋 Marine Mammals (Whales, Seals, Dolphins)', value: 'marine-mammals'},
-                    {title: '🦓 Hoofed Animals (Horses, Zebras, Rhinos)', value: 'hoofed-animals'},
-                    {title: '🦘 Marsupials (Kangaroos, Koalas, Opossums)', value: 'marsupials'},
-                    {title: '🦇 Bats (Flying Mammals)', value: 'bats'},
-                    {title: '🐭 Rodents (Mice, Rats, Beavers, Porcupines)', value: 'rodents'},
+                    { title: 'Small Mammals (Squirrels, Rabbits)', value: 'small-mammals' },
+                    { title: 'Primates (Monkeys, Apes)', value: 'primates' },
+                    { title: 'Marine Mammals (Whales, Seals, Dolphins)', value: 'marine-mammals' },
+                    { title: 'Hoofed Animals (Horses, Zebras, Rhinos)', value: 'hoofed-animals' },
+                    { title: 'Marsupials (Kangaroos, Koalas, Opossums)', value: 'marsupials' },
+                    { title: 'Bats (Flying Mammals)', value: 'bats' },
+                    { title: 'Rodents (Mice, Rats, Beavers, Porcupines)', value: 'rodents' },
 
                     // ──────────── BIRDS ────────────
-                    {title: '🦅 Birds of Prey (Eagles, Hawks, Falcons)', value: 'birds-of-prey'},
-                    {title: '🦆 Waterfowl (Ducks, Geese, Swans)', value: 'waterfowl'},
-                    {title: '🦢 Shorebirds (Sandpipers, Plovers, Herons)', value: 'shorebirds'},
-                    {title: '🐦 Songbirds (Finches, Sparrows, Warblers)', value: 'songbirds'},
-                    {title: '🐦‍⬛ Corvids (Ravens, Crows, Jays)', value: 'corvids'},
-                    {title: '🦃 Game Birds (Grouse, Pheasants, Quail)', value: 'game-birds'},
-                    {title: '🐧 Seabirds (Gulls, Terns, Puffins)', value: 'seabirds'},
-                    {title: '🔴 Hummingbirds', value: 'hummingbirds'},
-                    {title: '🔨 Woodpeckers', value: 'woodpeckers'},
-                    {title: '🦜 Parrots & Cockatoos', value: 'parrots'},
-                    {title: '🦉 Owls', value: 'owls'},
+                    { title: 'Birds of Prey (Eagles, Hawks, Falcons)', value: 'birds-of-prey' },
+                    { title: 'Waterfowl (Ducks, Geese, Swans)', value: 'waterfowl' },
+                    { title: 'Shorebirds (Sandpipers, Plovers, Herons)', value: 'shorebirds' },
+                    { title: 'Songbirds (Finches, Sparrows, Warblers)', value: 'songbirds' },
+                    { title: 'Corvids (Ravens, Crows, Jays)', value: 'corvids' },
+                    { title: 'Game Birds (Grouse, Pheasants, Quail)', value: 'game-birds' },
+                    { title: 'Seabirds (Gulls, Terns, Puffins)', value: 'seabirds' },
+                    { title: 'Hummingbirds', value: 'hummingbirds' },
+                    { title: 'Woodpeckers', value: 'woodpeckers' },
+                    { title: 'Parrots & Cockatoos', value: 'parrots' },
+                    { title: 'Owls', value: 'owls' },
                     {
-                        title: '🐧 Flightless Birds (Ostriches, Emus, Penguins)',
+                        title: 'Flightless Birds (Ostriches, Emus, Penguins)',
                         value: 'flightless-birds',
                     },
 
                     // ──────────── REPTILES & AMPHIBIANS ────────────
-                    {title: '🐍 Snakes', value: 'snakes'},
-                    {title: '🦎 Lizards', value: 'lizards'},
-                    {title: '🐢 Turtles & Tortoises', value: 'turtles'},
-                    {title: '🐸 Frogs & Toads', value: 'amphibians'},
-                    {title: '🐊 Crocodilians (Alligators, Crocodiles)', value: 'crocodilians'},
-                    {title: '🦎 Salamanders & Newts', value: 'salamanders'},
+                    { title: 'Snakes', value: 'snakes' },
+                    { title: 'Lizards', value: 'lizards' },
+                    { title: 'Turtles & Tortoises', value: 'turtles' },
+                    { title: 'Frogs & Toads', value: 'amphibians' },
+                    { title: 'Crocodilians (Alligators, Crocodiles)', value: 'crocodilians' },
+                    { title: 'Salamanders & Newts', value: 'salamanders' },
 
                     // ──────────── AQUATIC LIFE ────────────
-                    {title: '🐟 Fish (Freshwater)', value: 'freshwater-fish'},
-                    {title: '🐠 Fish (Saltwater)', value: 'saltwater-fish'},
-                    {title: '🦈 Sharks & Rays', value: 'sharks-rays'},
+                    { title: 'Fish (Freshwater)', value: 'freshwater-fish' },
+                    { title: 'Fish (Saltwater)', value: 'saltwater-fish' },
+                    { title: 'Sharks & Rays', value: 'sharks-rays' },
                     {
-                        title: '🐙 Marine Invertebrates (Octopus, Jellyfish, Crabs)',
+                        title: 'Marine Invertebrates (Octopus, Jellyfish, Crabs)',
                         value: 'marine-invertebrates',
                     },
                     {
-                        title: '🦐 Freshwater Invertebrates (Crayfish, Water Insects)',
+                        title: 'Freshwater Invertebrates (Crayfish, Water Insects)',
                         value: 'freshwater-invertebrates',
                     },
 
                     // ──────────── INSECTS & ARTHROPODS ────────────
-                    {title: '🦋 Butterflies & Moths', value: 'butterflies-moths'},
-                    {title: '🪲 Dragonflies & Damselflies', value: 'dragonflies'},
-                    {title: '🐝 Bees & Wasps', value: 'bees-wasps'},
-                    {title: '🪲 Beetles', value: 'beetles'},
-                    {title: '🕷️ Spiders & Arachnids', value: 'spiders'},
-                    {title: '🐜 Ants', value: 'ants'},
-                    {title: '🦗 Other Insects', value: 'insects-other'},
+                    { title: 'Butterflies & Moths', value: 'butterflies-moths' },
+                    { title: 'Dragonflies & Damselflies', value: 'dragonflies' },
+                    { title: 'Bees & Wasps', value: 'bees-wasps' },
+                    { title: 'Beetles', value: 'beetles' },
+                    { title: 'Spiders & Arachnids', value: 'spiders' },
+                    { title: 'Ants', value: 'ants' },
+                    { title: 'Other Insects', value: 'insects-other' },
 
                     // ──────────── SPECIALISED CATEGORIES ────────────
-                    {title: '🧊 Arctic Wildlife', value: 'arctic-wildlife'},
-                    {title: '🏜️ Desert Wildlife', value: 'desert-wildlife'},
-                    {title: '🌴 Tropical Wildlife', value: 'tropical-wildlife'},
-                    {title: '🌙 Nocturnal Animals', value: 'nocturnal'},
-                    {title: '⚠️ Endangered Species', value: 'endangered'},
-                    {title: '🏠 Domestic Animals', value: 'domestic'},
-                    {title: '❓ Other Wildlife', value: 'other'},
+                    { title: 'Arctic Wildlife', value: 'arctic-wildlife' },
+                    { title: 'Desert Wildlife', value: 'desert-wildlife' },
+                    { title: 'Tropical Wildlife', value: 'tropical-wildlife' },
+                    { title: 'Nocturnal Animals', value: 'nocturnal' },
+                    { title: 'Endangered Species', value: 'endangered' },
+                    { title: 'Domestic Animals', value: 'domestic' },
+                    { title: 'Other Wildlife', value: 'other' },
                 ],
                 layout: 'dropdown',
             },
@@ -141,7 +141,7 @@ export default {
             subtitle: 'category',
         },
         prepare(selection) {
-            const {title, subtitle} = selection
+            const { title, subtitle } = selection
             const categoryMap = {
                 // Mammals
                 'big-cats': 'Big Cats',

@@ -1,6 +1,6 @@
 // studio/schemas/photo.js
-import {UnifiedLocationInput} from '../components/UnifiedLocationInput'
-import {ExifDisplay} from '../components/ExifDisplay'
+import { UnifiedLocationInput } from '../components/UnifiedLocationInput'
+import { ExifDisplay } from '../components/ExifDisplay'
 
 export default {
     name: 'photo',
@@ -10,7 +10,7 @@ export default {
         // Basic Information (Required Fields)
         {
             name: 'title',
-            title: '📝 Photo Title *',
+            title: 'Photo Title *',
             type: 'string',
             description: 'Give your photo a compelling title that captures its essence',
             placeholder: 'e.g., "Golden Hour at Jasper Lake" or "Mountain Goat in Morning Light"',
@@ -23,7 +23,7 @@ export default {
         },
         {
             name: 'description',
-            title: '📖 Photo Description *',
+            title: 'Photo Description *',
             type: 'text',
             rows: 4,
             description: 'Tell the story behind this photo - where, when, what makes it special',
@@ -40,7 +40,7 @@ export default {
         // Main Image with EXIF extraction (Required)
         {
             name: 'image',
-            title: '📸 Upload Photo *',
+            title: 'Upload Photo *',
             type: 'image',
             description:
                 'Upload your high-quality photo. Camera settings will be automatically extracted.',
@@ -51,7 +51,7 @@ export default {
             fields: [
                 {
                     name: 'alt',
-                    title: '♿ Alt Text (Accessibility) *',
+                    title: 'Alt Text (Accessibility) *',
                     type: 'string',
                     description: 'Describe what is visible in the image for screen readers and SEO',
                     placeholder: 'e.g., "A brown bear catching salmon in a rushing river"',
@@ -69,7 +69,7 @@ export default {
         // Unified Location Input (Required)
         {
             name: 'locationData',
-            title: '📍 Photo Location *',
+            title: 'Photo Location *',
             type: 'object',
             description: 'Where was this photo taken? Use the search or click on the map below.',
             fields: [
@@ -97,14 +97,14 @@ export default {
         // Categorisation (Required) - Must come first so species field can conditionally show
         {
             name: 'category',
-            title: '🏷️ Photo Category *',
+            title: 'Photo Category *',
             type: 'string',
             description:
                 'What type of photography is this? This determines where it appears on your website.',
             options: {
                 list: [
-                    {title: '🦅 Wildlife Photography', value: 'wildlife'},
-                    {title: '🏔️ Landscape Photography', value: 'landscape'},
+                    { title: '🦅 Wildlife Photography', value: 'wildlife' },
+                    { title: '🏔️ Landscape Photography', value: 'landscape' },
                 ],
                 layout: 'radio',
             },
@@ -117,12 +117,12 @@ export default {
         // Species field - appears right after category selection for wildlife photos
         {
             name: 'species',
-            title: '🦅 Species (Required for Wildlife Photos)',
+            title: 'Species (Required for Wildlife Photos)',
             type: 'array',
             of: [
                 {
                     type: 'reference',
-                    to: [{type: 'species'}],
+                    to: [{ type: 'species' }],
                     options: {
                         disableNew: false,
                     },
@@ -131,7 +131,7 @@ export default {
             description:
                 'What wildlife species are featured in this photo? You can select multiple animals.',
             placeholder: 'Select or create species...',
-            hidden: ({document}) => document?.category !== 'wildlife',
+            hidden: ({ document }) => document?.category !== 'wildlife',
             validation: (Rule) =>
                 Rule.custom((species, context) => {
                     // Only require species if category is wildlife
@@ -147,7 +147,7 @@ export default {
         // Portfolio Placement Controls (Optional but Important)
         {
             name: 'heroCarousel',
-            title: '🎠 Homepage Hero Carousel',
+            title: 'Homepage Hero Carousel',
             type: 'boolean',
             description:
                 'Show this photo in the rotating slideshow on your homepage? (Select your very best shots)',
@@ -155,7 +155,7 @@ export default {
         },
         {
             name: 'featured',
-            title: '⭐ Featured in "Best Work"',
+            title: 'Featured in "Best Work"',
             type: 'boolean',
             description:
                 'Highlight this photo in your featured portfolio section? (Maximum 3 photos allowed)',
@@ -164,8 +164,8 @@ export default {
                 Rule.custom(async (featured, context) => {
                     if (!featured) return true // If not featured, no validation needed
 
-                    const {getClient} = context
-                    const client = getClient({apiVersion: '2024-01-01'})
+                    const { getClient } = context
+                    const client = getClient({ apiVersion: '2024-01-01' })
 
                     // Count current featured photos (excluding this document)
                     const query = `count(*[_type == "photo" && featured == true && _id != $currentId])`
@@ -238,7 +238,7 @@ export default {
         // EXIF Information Display (Custom Component)
         {
             name: 'exifInfo',
-            title: '📷 Camera Data from Image',
+            title: 'Camera Data from Image',
             type: 'object',
             description:
                 'Automatically extracted camera settings and metadata from your uploaded image',
@@ -263,12 +263,12 @@ export default {
         // Organisation (Optional but Helpful)
         {
             name: 'tags',
-            title: '🏷️ Tags (Optional)',
+            title: 'Tags (Optional)',
             type: 'array',
             of: [
                 {
                     type: 'reference',
-                    to: [{type: 'tag'}],
+                    to: [{ type: 'tag' }],
                     options: {
                         disableNew: false,
                     },
@@ -283,7 +283,7 @@ export default {
         },
         {
             name: 'slug',
-            title: '🔗 URL Slug *',
+            title: 'URL Slug *',
             type: 'slug',
             description:
                 'This creates the web address for your photo. Click "Generate" to create it from your title.',
@@ -308,7 +308,7 @@ export default {
             heroCarousel: 'heroCarousel',
         },
         prepare(selection) {
-            const {title, media, category, featured, heroCarousel} = selection
+            const { title, media, category, featured, heroCarousel } = selection
             const badges = []
             if (featured) badges.push('Featured')
             if (heroCarousel) badges.push('Hero')

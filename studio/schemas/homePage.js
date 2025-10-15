@@ -1,11 +1,11 @@
 export default {
     name: 'homePage',
-    title: '🏠 Home Page Settings',
+    title: 'Home Page Settings',
     type: 'document',
     fields: [
         {
             name: 'title',
-            title: '📄 Page Title (Internal) *',
+            title: 'Page Title (Internal) *',
             type: 'string',
             description: 'Required — internal reference only (not shown on the website)',
             initialValue: 'Home Page',
@@ -15,7 +15,7 @@ export default {
         // Hero Section Content
         {
             name: 'heroTagline',
-            title: '🏷️ Hero Tagline *',
+            title: 'Hero Tagline *',
             type: 'string',
             description:
                 'Required — short line that appears above the main headline (e.g., "Wild Landscapes • Intimate Wildlife")',
@@ -29,7 +29,7 @@ export default {
         },
         {
             name: 'businessName',
-            title: '✨ Business Name *',
+            title: 'Business Name *',
             type: 'string',
             description:
                 'Required — your business name. Displayed prominently on the home page, footer, and other areas of the site.',
@@ -43,7 +43,7 @@ export default {
         },
         {
             name: 'heroDescription',
-            title: '📝 Hero Description *',
+            title: 'Hero Description *',
             type: 'text',
             rows: 3,
             description:
@@ -62,7 +62,7 @@ export default {
         // Call to Action Buttons
         {
             name: 'primaryButton',
-            title: '🔘 Primary Button *',
+            title: 'Primary Button *',
             type: 'object',
             description: 'Required — controls the primary call-to-action button',
             validation: (Rule) => Rule.required().error('Primary button settings are required'),
@@ -78,7 +78,7 @@ export default {
                 },
                 {
                     name: 'link',
-                    title: 'Button Link *',
+                    title: 'Button Link',
                     type: 'string',
                     description: 'Fixed link (read-only) — always points to /portfolio',
                     initialValue: '/portfolio',
@@ -89,7 +89,7 @@ export default {
         },
         {
             name: 'secondaryButton',
-            title: '🔗 Secondary Button *',
+            title: 'Secondary Button *',
             type: 'object',
             description: 'Required — controls the secondary call-to-action button',
             validation: (Rule) => Rule.required().error('Secondary button settings are required'),
@@ -105,7 +105,7 @@ export default {
                 },
                 {
                     name: 'link',
-                    title: 'Button Link *',
+                    title: 'Button Link',
                     type: 'string',
                     description: 'Fixed link (read-only) — always points to /contact',
                     initialValue: '/contact',
@@ -118,7 +118,7 @@ export default {
         // Featured Work Section
         {
             name: 'featuredSection',
-            title: '⭐ Featured Work Section *',
+            title: 'Featured Work Section *',
             type: 'object',
             description: 'Required — controls the "My Best Work" featured section',
             validation: (Rule) =>
@@ -126,7 +126,7 @@ export default {
             fields: [
                 {
                     name: 'sectionTitle',
-                    title: '🏷️ Section Heading *',
+                    title: 'Section Heading *',
                     type: 'string',
                     description: 'Title for your featured work section',
                     placeholder: 'My Best Work',
@@ -139,7 +139,7 @@ export default {
                 },
                 {
                     name: 'sectionDescription',
-                    title: '📝 Section Description *',
+                    title: 'Section Description *',
                     type: 'text',
                     rows: 3,
                     description:
@@ -156,7 +156,7 @@ export default {
                 },
                 {
                     name: 'viewAllButtonText',
-                    title: '🔘 "View All" Button Text *',
+                    title: '"View All" Button Text *',
                     type: 'string',
                     description: 'Required — text for the button linking to the full portfolio',
                     placeholder: 'View Full Portfolio',
@@ -170,7 +170,7 @@ export default {
         // Collaboration Section (Bottom CTA)
         {
             name: 'collaborationSection',
-            title: '🤝 Collaboration Call-to-Action *',
+            title: 'Collaboration Call-to-Action *',
             type: 'object',
             description:
                 'Required — controls the collaboration call-to-action at the bottom of the page',
@@ -179,7 +179,7 @@ export default {
             fields: [
                 {
                     name: 'ctaTitle',
-                    title: '✨ CTA Headline *',
+                    title: 'CTA Headline *',
                     type: 'string',
                     description: 'Required — headline text that encourages collaboration',
                     placeholder: "Let's plan your next visual story",
@@ -192,7 +192,7 @@ export default {
                 },
                 {
                     name: 'ctaDescription',
-                    title: '📝 CTA Description *',
+                    title: 'CTA Description *',
                     type: 'text',
                     rows: 3,
                     description:
@@ -209,7 +209,7 @@ export default {
                 },
                 {
                     name: 'ctaButtonText',
-                    title: '🔘 CTA Button Text *',
+                    title: 'CTA Button Text *',
                     type: 'string',
                     description: 'Required — text displayed on the call-to-action button',
                     placeholder: 'Start a conversation',
@@ -219,7 +219,7 @@ export default {
                 },
                 {
                     name: 'ctaButtonLink',
-                    title: '🔗 CTA Button Link *',
+                    title: 'CTA Button Link',
                     type: 'string',
                     description: 'Fixed link (read-only) — always points to /contact',
                     initialValue: '/contact',
@@ -235,7 +235,7 @@ export default {
             businessName: 'businessName',
         },
         prepare(selection) {
-            const {title, businessName} = selection
+            const { title, businessName } = selection
             return {
                 title,
                 subtitle: businessName ? `Business: "${businessName}"` : 'Home page settings',

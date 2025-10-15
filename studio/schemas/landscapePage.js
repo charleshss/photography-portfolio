@@ -1,11 +1,11 @@
 export default {
     name: 'landscapePage',
-    title: '🏔️ Landscape Page Settings',
+    title: 'Landscape Page Settings',
     type: 'document',
     fields: [
         {
             name: 'title',
-            title: '📄 Page Title (Internal) *',
+            title: 'Page Title (Internal) *',
             type: 'string',
             description: 'Required — internal reference name (not visible to visitors)',
             initialValue: 'Landscape Page',
@@ -13,7 +13,7 @@ export default {
         },
         {
             name: 'heroTitle',
-            title: '🌄 Hero Title *',
+            title: 'Hero Title *',
             type: 'string',
             description: 'Required — main heading shown at the top of the landscape page',
             placeholder: 'Landscape Photography',
@@ -23,7 +23,7 @@ export default {
         },
         {
             name: 'heroDescription',
-            title: '📝 Hero Description *',
+            title: 'Hero Description *',
             type: 'text',
             rows: 3,
             description: 'Required — introductory paragraph beneath the hero title',
@@ -39,7 +39,7 @@ export default {
         },
         {
             name: 'galleryTitle',
-            title: '🖼️ Gallery Title *',
+            title: 'Gallery Title *',
             type: 'string',
             description: 'Required — heading shown above the landscape gallery',
             placeholder: 'Landscape Collection',
@@ -49,7 +49,7 @@ export default {
         },
         {
             name: 'galleryDescription',
-            title: '📚 Gallery Description *',
+            title: 'Gallery Description *',
             type: 'text',
             rows: 3,
             description: 'Required — description shown above the landscape gallery grid',
@@ -65,7 +65,7 @@ export default {
         },
         {
             name: 'locationsTitle',
-            title: '📍 Locations Section Title *',
+            title: 'Locations Section Title *',
             type: 'string',
             description: 'Required — heading for the captured locations section',
             placeholder: 'Captured Locations',
@@ -75,7 +75,7 @@ export default {
         },
         {
             name: 'locationsDescription',
-            title: '🗺️ Locations Description *',
+            title: 'Locations Description *',
             type: 'text',
             rows: 3,
             description: 'Required — description shown above the captured locations list',
@@ -91,7 +91,7 @@ export default {
         },
         {
             name: 'equipmentTitle',
-            title: '📷 Equipment Section Title *',
+            title: 'Equipment Section Title *',
             type: 'string',
             description: 'Required — heading for the equipment highlight section',
             placeholder: 'Behind the Lens',
@@ -101,7 +101,7 @@ export default {
         },
         {
             name: 'equipmentDescription',
-            title: '📝 Equipment Intro *',
+            title: 'Equipment Intro *',
             type: 'text',
             rows: 3,
             description: 'Required — introduction paragraph for the equipment section',
@@ -117,7 +117,7 @@ export default {
         },
         {
             name: 'equipmentHighlights',
-            title: '🔧 Equipment Highlights (Optional)',
+            title: 'Equipment Highlights',
             type: 'array',
             description:
                 'Optional — up to three highlight cards displayed beneath the equipment section',
@@ -170,7 +170,7 @@ export default {
         },
         {
             name: 'ctaTitle',
-            title: '✨ CTA Title *',
+            title: 'CTA Title *',
             type: 'string',
             description:
                 'Required — headline for the call-to-action block at the bottom of the page',
@@ -181,7 +181,7 @@ export default {
         },
         {
             name: 'ctaDescription',
-            title: '📝 CTA Description *',
+            title: 'CTA Description *',
             type: 'text',
             rows: 3,
             description: 'Required — supporting text encouraging visitors to take action',
@@ -197,7 +197,7 @@ export default {
         },
         {
             name: 'ctaPrimaryButtonText',
-            title: '🔘 Primary Button Text *',
+            title: 'Primary Button Text *',
             type: 'string',
             description: 'Required — text for the main CTA button',
             placeholder: 'Discuss Your Project',
@@ -207,7 +207,7 @@ export default {
         },
         {
             name: 'ctaPrimaryButtonLink',
-            title: '🔗 Primary Button Link *',
+            title: 'Primary Button Link',
             type: 'string',
             description: 'Fixed link (read-only) — always points to /contact',
             initialValue: '/contact',
@@ -216,7 +216,7 @@ export default {
         },
         {
             name: 'ctaSecondaryButtonText',
-            title: '🔘 Secondary Button Text *',
+            title: 'Secondary Button Text *',
             type: 'string',
             description: 'Required — text for the secondary CTA button',
             placeholder: 'View Wildlife Portfolio',
@@ -229,7 +229,7 @@ export default {
         },
         {
             name: 'ctaSecondaryButtonLink',
-            title: '🔗 Secondary Button Link *',
+            title: '🔗 Secondary Button Link',
             type: 'string',
             description: 'Fixed link (read-only) — always points to /portfolio/wildlife',
             initialValue: '/portfolio/wildlife',
@@ -243,7 +243,7 @@ export default {
             heroTitle: 'heroTitle',
         },
         prepare(selection) {
-            const {title, heroTitle} = selection
+            const { title, heroTitle } = selection
             return {
                 title,
                 subtitle: heroTitle ? `Hero: "${heroTitle}"` : 'Landscape page settings',

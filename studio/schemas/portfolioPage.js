@@ -1,11 +1,11 @@
 export default {
     name: 'portfolioPage',
-    title: '🖼️ Portfolio Page Settings',
+    title: 'Portfolio Page Settings',
     type: 'document',
     fields: [
         {
             name: 'title',
-            title: '📄 Page Title (Internal) *',
+            title: 'Page Title (Internal) *',
             type: 'string',
             description: 'Required — internal reference name (not visible to visitors)',
             initialValue: 'Portfolio Page',
@@ -13,7 +13,7 @@ export default {
         },
         {
             name: 'heroTitle',
-            title: '🏔️ Hero Title *',
+            title: 'Hero Title *',
             type: 'string',
             description: 'Required — main heading shown at the top of the portfolio page',
             placeholder: 'Photography Portfolio',
@@ -23,7 +23,7 @@ export default {
         },
         {
             name: 'heroDescription',
-            title: '📝 Hero Description *',
+            title: 'Hero Description *',
             type: 'text',
             rows: 3,
             description: 'Required — introductory paragraph beneath the hero title',
@@ -39,7 +39,7 @@ export default {
         },
         {
             name: 'landscapeDescription',
-            title: '🌄 Landscape Section Description *',
+            title: 'Landscape Section Description *',
             type: 'text',
             rows: 3,
             description: 'Required — description shown above the landscape gallery',
@@ -55,7 +55,7 @@ export default {
         },
         {
             name: 'wildlifeDescription',
-            title: '🦅 Wildlife Section Description *',
+            title: 'Wildlife Section Description *',
             type: 'text',
             rows: 3,
             description: 'Required — description shown above the wildlife gallery',
@@ -71,7 +71,7 @@ export default {
         },
         {
             name: 'ctaTitle',
-            title: '✨ CTA Title *',
+            title: 'CTA Title *',
             type: 'string',
             description: 'Required — headline for the call-to-action block at the bottom',
             placeholder: "Let's Capture Something Amazing Together",
@@ -81,7 +81,7 @@ export default {
         },
         {
             name: 'ctaDescription',
-            title: '📝 CTA Description *',
+            title: 'CTA Description *',
             type: 'text',
             rows: 3,
             description: 'Required — supporting text encouraging visitors to get in touch',
@@ -97,7 +97,7 @@ export default {
         },
         {
             name: 'ctaButtonText',
-            title: '🔘 CTA Button Text *',
+            title: 'CTA Button Text *',
             type: 'string',
             description: 'Required — text displayed on the CTA button',
             placeholder: 'Get In Touch',
@@ -107,7 +107,7 @@ export default {
         },
         {
             name: 'ctaButtonLink',
-            title: '🔗 CTA Button Link *',
+            title: 'CTA Button Link',
             type: 'string',
             description: 'Fixed link (read-only) — always points to /contact',
             initialValue: '/contact',
@@ -121,7 +121,7 @@ export default {
             heroTitle: 'heroTitle',
         },
         prepare(selection) {
-            const {title, heroTitle} = selection
+            const { title, heroTitle } = selection
             return {
                 title,
                 subtitle: heroTitle ? `Hero: "${heroTitle}"` : 'Portfolio page settings',

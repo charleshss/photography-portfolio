@@ -11,7 +11,7 @@ const queries = [
     '(min-width:480px)',
 ];
 
-const queryValues = [5, 4, 3, 2];
+const queryValues = [3, 3, 3, 2];
 
 const useMedia = (mediaQueries, values, defaultValue) => {
     const getValue = () => {
@@ -239,7 +239,7 @@ export default function ReactBitsMasonry({
                 return { x: -200, y: item.y };
             case 'right':
                 return { x: window.innerWidth + 200, y: item.y };
-            case 'center':
+            case 'centre':
                 return {
                     x: containerRect.width / 2 - item.width / 2,
                     y: containerRect.height / 2 - item.height / 2,

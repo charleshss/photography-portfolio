@@ -417,6 +417,89 @@
   @apply absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60;
 }
 
+/* About page refinements ------------------------------------------------ */
+
+@utility about-hero {
+  @apply relative flex items-center justify-center;
+}
+
+@utility about-hero-overlay {
+  @apply bg-gradient-to-br from-black/75 via-black/55 to-black/80;
+}
+
+@utility about-hero-inner {
+  @apply relative z-10 flex h-full w-full items-center justify-center px-6 py-20 md:px-10 lg:px-14;
+}
+
+@utility about-hero-panel {
+  @apply grid w-full max-w-6xl gap-10 rounded-[36px] border border-white/10 bg-surface/85 p-8 shadow-[var(--shadow-soft)] backdrop-blur-3xl lg:grid-cols-[minmax(0,420px)_1fr] lg:gap-16 lg:p-12 xl:grid-cols-[minmax(0,460px)_1fr];
+}
+
+@utility about-portrait {
+  @apply relative w-full overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-br from-surface to-surface-alt aspect-[3/4] lg:aspect-auto lg:h-full;
+  box-shadow: 0 28px 80px -40px rgba(0, 0, 0, 0.8);
+}
+
+@utility about-portrait-fallback {
+  @apply flex h-full w-full items-center justify-center text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground/70;
+}
+
+@utility about-copy {
+  @apply flex w-full flex-col gap-6 text-left lg:gap-7;
+}
+
+@utility about-subtitle {
+  @apply max-w-xl text-base font-medium leading-relaxed text-hero-text/85 sm:text-lg;
+}
+
+@utility about-lede {
+  @apply max-w-2xl text-lg leading-relaxed md:text-xl;
+}
+
+@utility about-stats {
+  @apply mt-10 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3;
+}
+
+@utility about-stats-item {
+  @apply flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 text-left backdrop-blur-xl;
+}
+
+@utility about-stats-value {
+  @apply text-3xl font-semibold tracking-tight text-hero-text;
+}
+
+@utility about-stats-label {
+  @apply text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-hero-text/70;
+}
+
+@utility about-tag {
+  @apply bg-white/5 text-hero-text/75;
+}
+
+@utility about-panel {
+  @apply relative overflow-hidden rounded-[32px] border border-white/7 bg-surface/80 backdrop-blur-2xl shadow-[var(--shadow-soft)];
+}
+
+@utility about-story {
+  @apply flex flex-col gap-8 px-8 py-10 md:px-12 md:py-14;
+}
+
+@utility about-pill-card {
+  @apply flex items-start gap-4 rounded-2xl border border-white/5 bg-surface/60 px-6 py-5 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-primary/60 hover:bg-surface/80;
+}
+
+@utility about-pill-dot {
+  @apply mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary;
+}
+
+@utility about-pill-text {
+  @apply text-sm leading-relaxed text-muted-foreground/90;
+}
+
+@utility about-section-image {
+  @apply relative h-[460px];
+}
+
 /* -----------------------------------------------------------------------
    Animations
    ----------------------------------------------------------------------- */

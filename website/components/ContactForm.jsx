@@ -33,17 +33,6 @@ export default function ContactForm() {
                 body: JSON.stringify(formData),
             });
 
-            const rawBody = await response.text();
-            let parsedBody = null;
-
-            if (rawBody) {
-                try {
-                    parsedBody = JSON.parse(rawBody);
-                } catch (parseError) {
-                    console.error('Unexpected response payload:', rawBody);
-                }
-            }
-
             if (response.ok) {
                 setSubmitStatus('success');
                 setFormData({ name: '', email: '', message: '' });
@@ -58,14 +47,16 @@ export default function ContactForm() {
         }
     };
 
+    const fieldLabelClass =
+        'mb-2 text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground/70';
+    const fieldInputClass =
+        'w-full rounded-2xl border border-border bg-transparent px-4 py-3 text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors duration-200';
+
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name Field */}
-            <div>
-                <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                >
+            <div className="space-y-2">
+                <label htmlFor="name" className={fieldLabelClass}>
                     Name *
                 </label>
                 <input
@@ -75,17 +66,15 @@ export default function ContactForm() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200"
+                    className={fieldInputClass}
                     placeholder="Your full name"
+                    autoComplete="name"
                 />
             </div>
 
             {/* Email Field */}
-            <div>
-                <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                >
+            <div className="space-y-2">
+                <label htmlFor="email" className={fieldLabelClass}>
                     Email *
                 </label>
                 <input
@@ -95,17 +84,15 @@ export default function ContactForm() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200"
+                    className={fieldInputClass}
                     placeholder="your.email@example.com"
+                    autoComplete="email"
                 />
             </div>
 
             {/* Message Field */}
-            <div>
-                <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                >
+            <div className="space-y-2">
+                <label htmlFor="message" className={fieldLabelClass}>
                     Message *
                 </label>
                 <textarea
@@ -115,7 +102,7 @@ export default function ContactForm() {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 resize-vertical"
+                    className={`${fieldInputClass} resize-none`}
                     placeholder="Tell me about your photography needs, project details, or any questions you have..."
                 />
             </div>
@@ -124,12 +111,12 @@ export default function ContactForm() {
             <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed transition duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
+                className="cta-button w-full justify-center disabled:cursor-not-allowed disabled:opacity-60"
             >
                 {isSubmitting ? (
-                    <span className="flex items-center justify-center">
-                        <Loader2 className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" />
-                        Sending...
+                    <span className="flex items-center gap-2">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Sending…
                     </span>
                 ) : (
                     'Send Message'
@@ -138,42 +125,48 @@ export default function ContactForm() {
 
             {/* Status Messages */}
             {submitStatus === 'success' && (
-                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <div className="flex">
-                        <CheckCircle className="w-5 h-5 text-green-400 mt-0.5 mr-3" />
-                        <div>
-                            <h3 className="text-sm font-medium text-green-800">
-                                Message sent successfully!
-                            </h3>
-                            <p className="text-sm text-green-700 mt-1">
-                                Thanks for reaching out. I'll get back to you
-                                soon.
-                            </p>
-                        </div>
+                <div
+                    className="flex items-start gap-3 rounded-2xl border px-4 py-3"
+                    style={{
+                        borderColor: 'color-mix(in srgb, var(--success) 45%, transparent)',
+                        backgroundColor:
+                            'color-mix(in srgb, var(--success) 14%, transparent)',
+                        color: 'var(--success)',
+                    }}
+                >
+                    <CheckCircle className="h-5 w-5" />
+                    <div className="space-y-1 text-sm">
+                        <p className="font-semibold">Message sent successfully</p>
+                        <p className="text-muted-foreground">
+                            Thanks for reaching out. I’ll reply as soon as I can.
+                        </p>
                     </div>
                 </div>
             )}
 
             {submitStatus === 'error' && (
-                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <div className="flex">
-                        <XCircle className="w-5 h-5 text-red-400 mt-0.5 mr-3" />
-                        <div>
-                            <h3 className="text-sm font-medium text-red-800">
-                                Something went wrong
-                            </h3>
-                            <p className="text-sm text-red-700 mt-1">
-                                Please try again or use the alternative contact
-                                methods below.
-                            </p>
-                        </div>
+                <div
+                    className="flex items-start gap-3 rounded-2xl border px-4 py-3"
+                    style={{
+                        borderColor: 'color-mix(in srgb, var(--error) 45%, transparent)',
+                        backgroundColor:
+                            'color-mix(in srgb, var(--error) 14%, transparent)',
+                        color: 'var(--error)',
+                    }}
+                >
+                    <XCircle className="h-5 w-5" />
+                    <div className="space-y-1 text-sm">
+                        <p className="font-semibold">Something went wrong</p>
+                        <p className="text-muted-foreground">
+                            Please try again or use the contact details on this page.
+                        </p>
                     </div>
                 </div>
             )}
 
-            <p className="text-xs text-gray-500">
-                * Required fields. Your information will be kept private and
-                only used to respond to your inquiry.
+            <p className="text-xs text-muted-foreground/60">
+                * Required fields. Your information stays private and is only used to
+                respond to your enquiry.
             </p>
         </form>
     );

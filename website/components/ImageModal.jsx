@@ -15,7 +15,7 @@ export default function ImageModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-[#05070a]/98 border border-white/5 [&>button[data-slot='dialog-close']]:hidden backdrop-blur-xl">
+            <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-background/95 border border-white/5 [&>button[data-slot='dialog-close']]:hidden backdrop-blur-xl">
                 {/* Hidden title for accessibility */}
                 <DialogTitle className="sr-only">
                     {title ? `Full size image: ${title}` : 'Full size image'}

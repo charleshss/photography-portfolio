@@ -24,8 +24,9 @@ async function getPortfolioPageData() {
             { next: { revalidate: 60 } }
         );
     } catch (error) {
-        console.log(
-            'Sanity CMS not available, using fallback portfolio content'
+        console.warn(
+            'Sanity CMS not available, using fallback portfolio content',
+            error
         );
         return null;
     }

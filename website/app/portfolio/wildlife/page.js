@@ -31,8 +31,9 @@ async function getWildlifePageData() {
             { next: { revalidate: 60 } }
         );
     } catch (error) {
-        console.log(
-            'Sanity CMS not available, using fallback wildlife content'
+        console.warn(
+            'Sanity CMS not available, using fallback wildlife content',
+            error
         );
         return null;
     }
@@ -106,21 +107,6 @@ export default async function Wildlife() {
             });
 
         return [...new Set(coordinateLocations)];
-    };
-
-    // Calculate wildlife-specific statistics with coordinate-based counting
-    const getCountryFromLocation = (location) => {
-        const lower = location.toLowerCase();
-        if (lower.includes('whistler') || lower.includes('jasper'))
-            return 'Canada';
-        if (lower.includes('scotland')) return 'Scotland/UK';
-        if (
-            lower.includes('belgium') ||
-            (lower.includes('zoo') && lower.includes('belg'))
-        )
-            return 'Belgium';
-        // Add more mappings as needed
-        return location.split(', ').pop(); // fallback to last part of location string
     };
 
     const uniqueCoordinateLocations =

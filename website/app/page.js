@@ -22,7 +22,7 @@ async function getHomePageData() {
         );
         return homeData;
     } catch (error) {
-        console.log('Sanity CMS not available, using static content');
+        console.warn('Sanity CMS not available, using static home content', error);
         return null;
     }
 }
@@ -58,7 +58,7 @@ export default async function Home() {
         featuredSection: {
             sectionTitle: 'My Best Work',
             sectionDescription:
-                'A carefully curated selection of my favorite captures from years of exploring the natural world',
+                'A carefully curated selection of my favourite captures from years of exploring the natural world',
             viewAllButtonText: 'View Full Portfolio',
         },
         collaborationSection: {
@@ -87,7 +87,7 @@ export default async function Home() {
             </section>
 
             {/* Hero Content Section - Unified Dark */}
-            <section className="section-padding">
+            <section className="section-padding pt-0">
                 <div className="glass-panel mx-auto max-w-5xl px-8 py-14 text-center">
                     <span className="tag-capsule mx-auto mb-8">
                         {pageData.heroTagline}
@@ -114,6 +114,10 @@ export default async function Home() {
                     </div>
                 </div>
             </section>
+
+            <div className="py-12">
+                <span className="divider-gradient" />
+            </div>
 
             {/* My Best Work Section - Unified Dark */}
             <section className="section-padding">
@@ -173,7 +177,7 @@ export default async function Home() {
 
             {/* CTA Section - Sleek with Gradient */}
             <section className="section-padding">
-                <div className="glass-panel mx-auto flex max-w-4xl flex-col gap-6 px-10 py-14 text-center">
+                <div className="glass-panel mx-auto flex max-w-5xl flex-col gap-6 px-8 py-14 text-center">
                     <h2 className="section-subtitle text-foreground">
                         {pageData.collaborationSection.ctaTitle}
                     </h2>
