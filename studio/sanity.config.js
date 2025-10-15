@@ -9,8 +9,8 @@ export default defineConfig({
     name: 'default',
     title: "Sam's Photography Portfolio",
 
-    projectId: process.env.SANITY_STUDIO_PROJECT_ID,
-    dataset: process.env.SANITY_STUDIO_DATASET,
+    projectId: process.env.SANITY_STUDIO_PROJECT_ID || '0crusld5',
+    dataset: process.env.SANITY_STUDIO_DATASET || 'production',
 
     plugins: [
         structureTool({
