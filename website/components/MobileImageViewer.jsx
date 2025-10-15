@@ -13,13 +13,7 @@ export default function MobileImageViewer({ image, alt }) {
                 src={imageUrl}
                 alt={alt}
                 className="w-full h-auto object-contain"
-        <div className="w-full">
-                {/* Simple full-width, high-quality image */}
-                <img
-                    src={imageUrl}
-                    alt={alt}
-                    className="w-full h-auto object-contain"
-                />
-            </div>
-            );
+            />
+        </div>
+    );
 }
