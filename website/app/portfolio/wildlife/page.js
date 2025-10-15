@@ -325,36 +325,35 @@ export default async function Wildlife() {
                                     species.length > 0 && (
                                         <div
                                             key={category}
-                                            className="glass-panel px-8 py-10 text-left"
+                                            className="group rounded-[32px] border border-border/40 bg-surface/55 p-8 backdrop-blur-xl shadow-[var(--shadow-soft)] transition-transform duration-300 ease-out hover:-translate-y-1"
+                                            style={{
+                                                background:
+                                                    'linear-gradient(185deg, color-mix(in srgb, var(--secondary) 12%, transparent) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 60%)',
+                                            }}
                                         >
-                                            <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.28em] text-muted-foreground">
-                                                {category}
-                                            </h3>
-                                            <ul className="space-y-2">
-                                                {species
-                                                    .slice(0, 4)
-                                                    .map(
-                                                        (
-                                                            speciesName,
-                                                            index
-                                                        ) => (
-                                                            <li
-                                                                key={`${category}-${speciesName}-${index}`}
-                                                                className="text-sm uppercase tracking-[0.24em] text-foreground/80"
-                                                            >
-                                                                {speciesName
-                                                                    .split(
-                                                                        '('
-                                                                    )[0]
-                                                                    .trim()}
-                                                            </li>
-                                                        )
-                                                    )}
+                                            <div className="flex items-center gap-4">
+                                                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary/15 text-sm font-semibold text-secondary">
+                                                    {String(category[0] ?? '')
+                                                        .toUpperCase()}
+                                                </span>
+                                                <h3 className="text-base font-semibold tracking-tight text-foreground">
+                                                    {category}
+                                                </h3>
+                                            </div>
+                                            <ul className="mt-6 space-y-3 text-sm leading-relaxed text-muted-foreground/85">
+                                                {species.slice(0, 4).map((speciesName, index) => (
+                                                    <li
+                                                        key={`${category}-${speciesName}-${index}`}
+                                                        className="flex items-center gap-2"
+                                                    >
+                                                        <span className="h-1.5 w-1.5 rounded-full bg-secondary/60" />
+                                                        <span>{speciesName.split('(')[0].trim()}</span>
+                                                    </li>
+                                                ))}
                                             </ul>
                                             {species.length > 4 && (
-                                                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-                                                    +{species.length - 4} more
-                                                    species
+                                                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.24em] text-secondary/80">
+                                                    +{species.length - 4} more species
                                                 </p>
                                             )}
                                         </div>
