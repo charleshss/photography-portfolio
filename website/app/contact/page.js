@@ -13,12 +13,14 @@ function urlFor(source) {
 async function getContactData() {
     try {
         const contactData = await client.fetch(
-            `*[_type == "contactPageNew" && _id == "contactPageNew"][0]{
+            `*[_type == "contactPage" && _id == "contactPage"][0]{
         title,
         heroImage,
         heroTitle,
         heroSubtitle,
         contactImage,
+        contactCapsule,
+        contactFormTitle,
         introText,
         email,
         instagramUsername,
@@ -182,10 +184,10 @@ export default async function Contact() {
                             <div className="flex flex-col gap-10 order-2 lg:order-1">
                                 <div className="space-y-4">
                                     <span className="tag-capsule about-tag inline-flex">
-                                        Ready When You Are
+                                        {contactData.contactCapsule || 'Ready when you are!'}
                                     </span>
                                     <h2 className="section-subtitle text-foreground">
-                                        Let’s plan something incredible
+                                        {contactData.contactFormTitle || `Let’s plan something incredible`}
                                     </h2>
                                     {contactData.introText && (
                                         <p className="body-large text-muted-foreground leading-relaxed">

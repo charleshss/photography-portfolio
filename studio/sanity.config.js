@@ -1,9 +1,9 @@
-import {defineConfig} from 'sanity'
-import {structureTool} from 'sanity/structure'
-import {visionTool} from '@sanity/vision'
-import {googleMapsInput} from '@sanity/google-maps-input'
-import {schemaTypes} from './schemas'
-import {generateLocationNameAction} from './actions/generateLocationName'
+import { defineConfig } from 'sanity'
+import { structureTool } from 'sanity/structure'
+import { visionTool } from '@sanity/vision'
+import { googleMapsInput } from '@sanity/google-maps-input'
+import { schemaTypes } from './schemas'
+import { generateLocationNameAction } from './actions/generateLocationName'
 
 export default defineConfig({
     name: 'default',
@@ -24,7 +24,7 @@ export default defineConfig({
                             .child(
                                 S.documentTypeList('photo')
                                     .title('All Photos')
-                                    .defaultOrdering([{field: '_createdAt', direction: 'desc'}]),
+                                    .defaultOrdering([{ field: '_createdAt', direction: 'desc' }]),
                             ),
                         S.divider(),
                         S.listItem()
@@ -106,8 +106,8 @@ export default defineConfig({
                                             .title('📞 Contact Page')
                                             .child(
                                                 S.document()
-                                                    .schemaType('contactPageNew')
-                                                    .documentId('contactPageNew'),
+                                                    .schemaType('contactPage')
+                                                    .documentId('contactPage'),
                                             ),
                                     ]),
                             ),

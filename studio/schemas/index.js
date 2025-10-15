@@ -6,7 +6,7 @@ import portfolioPage from './portfolioPage'
 import landscapePage from './landscapePage'
 import wildlifePage from './wildlifePage'
 import aboutPage from './aboutPage'
-import contactPageNew from './contactPageNew'
+import contactPage from './contactPage'
 
 // Ordered for better UX: images first, then pages
 export const schemaTypes = [
@@ -18,5 +18,5 @@ export const schemaTypes = [
     landscapePage,
     wildlifePage,
     aboutPage,
-    contactPageNew,
+    contactPage,
 ]

@@ -1,5 +1,5 @@
 export default {
-    name: 'contactPageNew',
+    name: 'contactPage',
     title: 'Contact Page Settings',
     type: 'document',
     fields: [
@@ -60,6 +60,28 @@ export default {
             },
             validation: (Rule) =>
                 Rule.required().error('A profile photo helps visitors connect with you'),
+        },
+        {
+            name: 'contactCapsule',
+            title: 'Contact Form Capsule *',
+            type: 'string',
+            description:
+                'Required — Capsule text that appears above the contact form headline. Make it friendly and inviting.',
+            placeholder: "Let's Connect",
+            initialValue: "Let's Connect",
+            validation: (Rule) =>
+                Rule.required().min(2).max(60).error('Capsule text should be 2-60 characters'),
+        },
+        {
+            name: 'contactFormTitle',
+            title: 'Contract Form Tittle *',
+            type: 'string',
+            description:
+                'Required — Title text for the contact form. Make it welcoming and encourage visitors to reach out.',
+            placeholder: "Send me a message",
+            initialValue: "Send me a message",
+            validation: (Rule) =>
+                Rule.required().min(5).max(80).error('Form Tittle should be 5-80 characters'),
         },
         {
             name: 'introText',
