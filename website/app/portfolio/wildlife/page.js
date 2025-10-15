@@ -48,7 +48,7 @@ export default async function Wildlife() {
     const fallbackContent = {
         heroTitle: 'Wildlife Photography',
         heroDescription:
-            'Capturing the raw beauty, personality, and behavior of wildlife in their natural habitats. Each image tells a story of survival, adaptation, and the delicate balance of nature.',
+            'Capturing the raw beauty, personality, and behaviour of wildlife in their natural habitats. Each image tells a story of survival, adaptation, and the delicate balance of nature.',
         galleryTitle: 'Wildlife Collection',
         galleryDescription:
             'Each photograph represents hours of fieldwork, research, and patient observation. These images showcase the incredible diversity of wildlife across different habitats and continents.',
@@ -325,36 +325,35 @@ export default async function Wildlife() {
                                     species.length > 0 && (
                                         <div
                                             key={category}
-                                            className="glass-panel px-8 py-10 text-left"
+                                            className="group rounded-[32px] border border-border/40 bg-surface/55 p-8 backdrop-blur-xl shadow-[var(--shadow-soft)] transition-transform duration-300 ease-out hover:-translate-y-1"
+                                            style={{
+                                                background:
+                                                    'linear-gradient(185deg, color-mix(in srgb, var(--secondary) 12%, transparent) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 60%)',
+                                            }}
                                         >
-                                            <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.28em] text-muted-foreground">
-                                                {category}
-                                            </h3>
-                                            <ul className="space-y-2">
-                                                {species
-                                                    .slice(0, 4)
-                                                    .map(
-                                                        (
-                                                            speciesName,
-                                                            index
-                                                        ) => (
-                                                            <li
-                                                                key={`${category}-${speciesName}-${index}`}
-                                                                className="text-sm uppercase tracking-[0.24em] text-foreground/80"
-                                                            >
-                                                                {speciesName
-                                                                    .split(
-                                                                        '('
-                                                                    )[0]
-                                                                    .trim()}
-                                                            </li>
-                                                        )
-                                                    )}
+                                            <div className="flex items-center gap-4">
+                                                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary/15 text-sm font-semibold text-secondary">
+                                                    {String(category[0] ?? '')
+                                                        .toUpperCase()}
+                                                </span>
+                                                <h3 className="text-base font-semibold tracking-tight text-foreground">
+                                                    {category}
+                                                </h3>
+                                            </div>
+                                            <ul className="mt-6 space-y-3 text-sm leading-relaxed text-muted-foreground/85">
+                                                {species.slice(0, 4).map((speciesName, index) => (
+                                                    <li
+                                                        key={`${category}-${speciesName}-${index}`}
+                                                        className="flex items-center gap-2"
+                                                    >
+                                                        <span className="h-1.5 w-1.5 rounded-full bg-secondary/60" />
+                                                        <span>{speciesName.split('(')[0].trim()}</span>
+                                                    </li>
+                                                ))}
                                             </ul>
                                             {species.length > 4 && (
-                                                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-                                                    +{species.length - 4} more
-                                                    species
+                                                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.24em] text-secondary/80">
+                                                    +{species.length - 4} more species
                                                 </p>
                                             )}
                                         </div>
@@ -363,17 +362,21 @@ export default async function Wildlife() {
                         </div>
 
                         {/* All Species List */}
-                        <div className="space-y-6">
+                        <div className="space-y-8">
                             <h3 className="text-center text-sm font-semibold uppercase tracking-[0.32em] text-muted-foreground">
                                 {pageContent.allSpeciesTitle}
                             </h3>
-                            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                 {wildlifeSpecies.map((species, index) => (
                                     <div
                                         key={`species-${species}-${index}`}
-                                        className="glass-panel px-6 py-4 text-center"
+                                        className="group rounded-[28px] border border-border/35 bg-surface/60 px-5 py-4 text-center backdrop-blur-xl shadow-[var(--shadow-soft)] transition-transform duration-300 ease-out hover:-translate-y-1"
+                                        style={{
+                                            background:
+                                                'linear-gradient(160deg, color-mix(in srgb, var(--secondary) 10%, transparent) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 65%)',
+                                        }}
                                     >
-                                        <span className="text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground">
+                                        <span className="inline-flex items-center justify-center rounded-full bg-secondary/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary group-hover:bg-secondary/25">
                                             {species}
                                         </span>
                                     </div>
@@ -396,13 +399,13 @@ export default async function Wildlife() {
                     <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                         <Link
                             href={pageContent.ctaPrimaryButtonLink}
-                            className="inline-flex items-center justify-center rounded-full bg-background px-8 py-4 text-lg font-semibold text-foreground transition hover:bg-gray-100"
+                            className="cta-button"
                         >
                             {pageContent.ctaPrimaryButtonText}
                         </Link>
                         <Link
                             href={pageContent.ctaSecondaryButtonLink}
-                            className="inline-flex items-center justify-center rounded-full border-2 border-white px-8 py-4 text-lg font-semibold text-white transition hover:bg-background hover:text-foreground"
+                            className="cta-button-outline"
                         >
                             {pageContent.ctaSecondaryButtonText}
                         </Link>

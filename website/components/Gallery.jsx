@@ -58,14 +58,14 @@ export default function Gallery({
     showCount = false,
     gridCols = 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
     masonry = false,
-    backgroundColor = 'bg-white',
+    backgroundColor = 'bg-transparent',
     context = 'portfolio', // 'wildlife', 'landscapes', 'home', or 'portfolio'
 }) {
     const resolvedCount =
         typeof totalCount === 'number' ? totalCount : images?.length || 0;
 
     return (
-        <section className={`${backgroundColor} section-padding`}>
+        <section className={`section-padding ${backgroundColor}`}>
             <div className="mx-auto max-w-7xl">
                 {/* Header */}
                 <div className="mb-12 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
@@ -88,10 +88,7 @@ export default function Gallery({
                     </div>
 
                     {viewAllLink && (
-                        <Link
-                            href={viewAllLink}
-                            className="inline-flex items-center rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-700"
-                        >
+                        <Link href={viewAllLink} className="cta-button-outline">
                             {viewAllText}
                         </Link>
                     )}
@@ -176,10 +173,7 @@ export default function Gallery({
                 {/* Mobile View All (if you hid it above) */}
                 {!masonry && viewAllLink && (
                     <div className="mt-10 text-center sm:hidden">
-                        <Link
-                            href={viewAllLink}
-                            className="inline-flex items-center rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-700"
-                        >
+                        <Link href={viewAllLink} className="cta-button">
                             {viewAllText}
                         </Link>
                     </div>
