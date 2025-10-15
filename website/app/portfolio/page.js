@@ -95,7 +95,7 @@ export default async function Portfolio() {
         landscapeDescription:
             'Capturing the raw beauty and drama of natural landscapes, from towering mountains to serene lakes and everything in between.',
         wildlifeDescription:
-            "Intimate portraits of wildlife in their natural habitats, showcasing the personality and behavior of nature's most fascinating creatures.",
+            "Intimate portraits of wildlife in their natural habitats, showcasing the personality and behaviour of nature's most fascinating creatures.",
         ctaTitle: "Let's Capture Something Amazing Together",
         ctaDescription:
             "Interested in commissioning a photography session or purchasing prints? I'd love to discuss your vision and bring it to life.",

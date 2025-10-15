@@ -48,7 +48,7 @@ export default async function Wildlife() {
     const fallbackContent = {
         heroTitle: 'Wildlife Photography',
         heroDescription:
-            'Capturing the raw beauty, personality, and behavior of wildlife in their natural habitats. Each image tells a story of survival, adaptation, and the delicate balance of nature.',
+            'Capturing the raw beauty, personality, and behaviour of wildlife in their natural habitats. Each image tells a story of survival, adaptation, and the delicate balance of nature.',
         galleryTitle: 'Wildlife Collection',
         galleryDescription:
             'Each photograph represents hours of fieldwork, research, and patient observation. These images showcase the incredible diversity of wildlife across different habitats and continents.',
@@ -362,17 +362,21 @@ export default async function Wildlife() {
                         </div>
 
                         {/* All Species List */}
-                        <div className="space-y-6">
+                        <div className="space-y-8">
                             <h3 className="text-center text-sm font-semibold uppercase tracking-[0.32em] text-muted-foreground">
                                 {pageContent.allSpeciesTitle}
                             </h3>
-                            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                 {wildlifeSpecies.map((species, index) => (
                                     <div
                                         key={`species-${species}-${index}`}
-                                        className="glass-panel px-6 py-4 text-center"
+                                        className="group rounded-[28px] border border-border/35 bg-surface/60 px-5 py-4 text-center backdrop-blur-xl shadow-[var(--shadow-soft)] transition-transform duration-300 ease-out hover:-translate-y-1"
+                                        style={{
+                                            background:
+                                                'linear-gradient(160deg, color-mix(in srgb, var(--secondary) 10%, transparent) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 65%)',
+                                        }}
                                     >
-                                        <span className="text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground">
+                                        <span className="inline-flex items-center justify-center rounded-full bg-secondary/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary group-hover:bg-secondary/25">
                                             {species}
                                         </span>
                                     </div>
@@ -395,13 +399,13 @@ export default async function Wildlife() {
                     <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                         <Link
                             href={pageContent.ctaPrimaryButtonLink}
-                            className="inline-flex items-center justify-center rounded-full bg-background px-8 py-4 text-lg font-semibold text-foreground transition hover:bg-gray-100"
+                            className="cta-button"
                         >
                             {pageContent.ctaPrimaryButtonText}
                         </Link>
                         <Link
                             href={pageContent.ctaSecondaryButtonLink}
-                            className="inline-flex items-center justify-center rounded-full border-2 border-white px-8 py-4 text-lg font-semibold text-white transition hover:bg-background hover:text-foreground"
+                            className="cta-button-outline"
                         >
                             {pageContent.ctaSecondaryButtonText}
                         </Link>
