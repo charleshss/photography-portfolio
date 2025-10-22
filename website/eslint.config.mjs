@@ -6,10 +6,10 @@ import { FlatCompat } from '@eslint/eslintrc';
 
 const britishWordPattern = "(?<!-)\\b(?:favorite|behavior|center)\\b";
 
-const compat = new FlatCompat({
-    baseDirectory: import.meta.dirname,
-    resolvePluginsRelativeTo: import.meta.dirname,
-});
+const nextCoreWebVitalsRules = {
+    ...nextPlugin.configs.recommended.rules,
+    ...nextPlugin.configs['core-web-vitals'].rules,
+};
 
 export default [
     {
@@ -19,11 +19,17 @@ export default [
             'out/**',
             'build/**',
             'next-env.d.ts',
-            'eslint.config.mjs',
         ],
     },
     js.configs.recommended,
     ...compat.extends('next/core-web-vitals'),
+    {
+        name: 'next/core-web-vitals',
+        plugins: {
+            '@next/next': nextPlugin,
+        },
+        rules: nextCoreWebVitalsRules,
+    },
     {
         files: ['**/*.{js,jsx,ts,tsx}'],
         languageOptions: {
