@@ -84,6 +84,12 @@ export default {
                     title: 'Location Name',
                     type: 'string',
                 },
+                {
+                    name: 'country',
+                    title: 'Country',
+                    type: 'string',
+                    description: 'Automatically extracted from Google Maps',
+                },
             ],
             components: {
                 input: UnifiedLocationInput,
@@ -164,13 +170,26 @@ export default {
                 Rule.custom(async (featured, context) => {
                     if (!featured) return true // If not featured, no validation needed
 
-                    const { getClient } = context
+                    const { getClient, document } = context
+                    const currentId = document._id
+                    if (!currentId) return true
+
+                    // Get the base ID without the 'drafts.' prefix
+                    const baseId = currentId.replace(/^drafts\./, '')
+
+                    // Check if this photo was already featured before this edit
+                    const wasFeaturedBefore = document._originalDocument?.featured
+                    if (wasFeaturedBefore === true) {
+                        return true // Already featured, allow the edit
+                    }
+
                     const client = getClient({ apiVersion: '2024-01-01' })
 
-                    // Count current featured photos (excluding this document)
-                    const query = `count(*[_type == "photo" && featured == true && _id != $currentId])`
+                    // Count current featured photos, excluding both draft and published versions of this document
+                    const query = `count(*[_type == "photo" && featured == true && !(_id in [$draftId, $publishedId])])`
                     const currentFeaturedCount = await client.fetch(query, {
-                        currentId: context.document._id || 'new',
+                        draftId: `drafts.${baseId}`,
+                        publishedId: baseId,
                     })
 
                     if (currentFeaturedCount >= 3) {

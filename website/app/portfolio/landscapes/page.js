@@ -97,12 +97,20 @@ export default async function Landscapes() {
 
     const landscapeImages = landscapeImagesRaw || [];
 
-    // Get unique locations for landscape photos
+    // Get unique locations and countries for landscape photos
     const landscapeLocations = [
         ...new Set(
             landscapeImages
                 .filter((img) => img.locationData?.locationName)
                 .map((img) => img.locationData.locationName)
+        ),
+    ];
+
+    const landscapeCountries = [
+        ...new Set(
+            landscapeImages
+                .filter((img) => img.locationData?.country)
+                .map((img) => img.locationData.country)
         ),
     ];
 
@@ -157,11 +165,32 @@ export default async function Landscapes() {
             uniqueCoordinateLocations.length > 0
                 ? uniqueCoordinateLocations.length
                 : landscapeLocations.length,
-        countries: [
-            ...new Set(landscapeLocations.map((loc) => loc.split(', ').pop())),
-        ].length,
+        countries: landscapeCountries.length,
         yearsActive: yearsSpan,
     };
+
+    // Group locations by country for the locations section (using stored country field)
+    const locationsByCountry = landscapeImages
+        .filter((img) => img.locationData?.country && img.locationData?.locationName)
+        .reduce((acc, img) => {
+            const country = img.locationData.country;
+            const location = img.locationData.locationName;
+
+            if (!acc[country]) {
+                acc[country] = new Set();
+            }
+            acc[country].add(location);
+
+            return acc;
+        }, {});
+
+    // Convert Sets to sorted arrays
+    const countriesWithLocations = Object.entries(locationsByCountry)
+        .map(([country, locationsSet]) => ({
+            country,
+            locations: Array.from(locationsSet).sort(),
+        }))
+        .sort((a, b) => a.country.localeCompare(b.country));
 
     return (
         <main className="min-h-screen">
@@ -238,6 +267,64 @@ export default async function Landscapes() {
                 context="landscapes"
                 backgroundColor="bg-transparent"
             />
+
+            {/* Locations Section - Grouped by Country */}
+            {countriesWithLocations.length > 0 && (
+                <section className="section-padding">
+                    <div className="mx-auto max-w-7xl space-y-12">
+                        <div className="text-center space-y-4">
+                            {pageContent.locationsTitle && (
+                                <h2 className="section-subtitle text-foreground">
+                                    {pageContent.locationsTitle}
+                                </h2>
+                            )}
+                            {pageContent.locationsDescription && (
+                                <p className="body-large mx-auto max-w-3xl text-muted-foreground leading-relaxed">
+                                    {pageContent.locationsDescription}
+                                </p>
+                            )}
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                            {countriesWithLocations.map(({ country, locations }) => (
+                                <div
+                                    key={country}
+                                    className="group rounded-[32px] border border-border/40 bg-surface/55 p-8 backdrop-blur-xl shadow-[var(--shadow-soft)] transition-transform duration-300 ease-out hover:-translate-y-1"
+                                    style={{
+                                        background:
+                                            'linear-gradient(185deg, color-mix(in srgb, var(--primary) 12%, transparent) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 60%)',
+                                    }}
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/15 text-sm font-semibold text-primary">
+                                            {String(country[0] ?? '').toUpperCase()}
+                                        </span>
+                                        <h3 className="text-base font-semibold tracking-tight text-foreground">
+                                            {country}
+                                        </h3>
+                                    </div>
+                                    <ul className="mt-6 space-y-3 text-sm leading-relaxed text-muted-foreground/85">
+                                        {locations.slice(0, 4).map((locationName, index) => (
+                                            <li
+                                                key={`${country}-${locationName}-${index}`}
+                                                className="flex items-center gap-2"
+                                            >
+                                                <span className="h-1.5 w-1.5 rounded-full bg-primary/60" />
+                                                <span>{locationName}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    {locations.length > 4 && (
+                                        <p className="mt-5 text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">
+                                            +{locations.length - 4} more locations
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* Equipment Highlights */}
             {equipmentHighlights.length > 0 && (

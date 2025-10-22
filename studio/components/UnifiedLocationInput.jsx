@@ -22,6 +22,7 @@ export function UnifiedLocationInput(props) {
     const currentValue = props.value || {}
     const coordinates = currentValue.coordinates
     const locationName = currentValue.locationName
+    const country = currentValue.country
 
     // Set client-side rendering flag
     useEffect(() => {
@@ -31,13 +32,18 @@ export function UnifiedLocationInput(props) {
     // Update location data in Sanity
     const updateLocation = useCallback(
         (newLocationData) => {
-            props.onChange(
-                PatchEvent.from([
-                    setIfMissing({}),
-                    set(newLocationData.coordinates, ['coordinates']),
-                    set(newLocationData.locationName, ['locationName']),
-                ]),
-            )
+            const patches = [
+                setIfMissing({}),
+                set(newLocationData.coordinates, ['coordinates']),
+                set(newLocationData.locationName, ['locationName']),
+            ]
+
+            // Only set country if it's provided
+            if (newLocationData.country) {
+                patches.push(set(newLocationData.country, ['country']))
+            }
+
+            props.onChange(PatchEvent.from(patches))
         },
         [props],
     )
@@ -144,9 +150,36 @@ export function UnifiedLocationInput(props) {
         [updateLocation],
     )
 
+    // Helper function to extract country from address components using geocoder
+    const extractCountryFromCoordinates = useCallback((coordinates) => {
+        return new Promise((resolve) => {
+            if (!window.google?.maps?.Geocoder) {
+                resolve(null)
+                return
+            }
+
+            const geocoder = new window.google.maps.Geocoder()
+            geocoder.geocode({location: coordinates}, (results, status) => {
+                if (status === 'OK' && results?.length > 0) {
+                    // Find country component in any result
+                    for (const result of results) {
+                        const countryComponent = result.address_components?.find((component) =>
+                            component.types?.includes('country'),
+                        )
+                        if (countryComponent) {
+                            resolve(countryComponent.long_name)
+                            return
+                        }
+                    }
+                }
+                resolve(null)
+            })
+        })
+    }, [])
+
     // Handle suggestion selection
     const handleSuggestionSelect = useCallback(
-        (prediction) => {
+        async (prediction) => {
             if (!window.google?.maps?.places?.PlacesService) return
 
             // Use Places Service to get detailed information about the selected place
@@ -157,9 +190,9 @@ export function UnifiedLocationInput(props) {
             service.getDetails(
                 {
                     placeId: prediction.place_id,
-                    fields: ['geometry', 'name', 'formatted_address'],
+                    fields: ['geometry', 'name', 'formatted_address', 'address_components'],
                 },
-                (place, status) => {
+                async (place, status) => {
                     if (
                         status === window.google.maps.places.PlacesServiceStatus.OK &&
                         place.geometry
@@ -174,9 +207,22 @@ export function UnifiedLocationInput(props) {
                             prediction.structured_formatting?.main_text ||
                             prediction.description.split(',')[0]
 
+                        // Extract country from address components
+                        let country = null
+                        const countryComponent = place.address_components?.find((component) =>
+                            component.types?.includes('country'),
+                        )
+                        if (countryComponent) {
+                            country = countryComponent.long_name
+                        } else {
+                            // Fallback: use geocoder with coordinates
+                            country = await extractCountryFromCoordinates(newCoordinates)
+                        }
+
                         updateLocation({
                             coordinates: newCoordinates,
                             locationName: newLocationName,
+                            country: country,
                         })
 
                         // Set flag to prevent autocomplete from triggering
@@ -195,7 +241,7 @@ export function UnifiedLocationInput(props) {
                 },
             )
         },
-        [updateLocation, updateMapLocation],
+        [updateLocation, updateMapLocation, extractCountryFromCoordinates],
     )
 
     // Debounced autocomplete effect
@@ -256,15 +302,20 @@ export function UnifiedLocationInput(props) {
                         }
 
                         // Add click listener for new markers
-                        mapInstanceRef.current.addListener('click', (event) => {
+                        mapInstanceRef.current.addListener('click', async (event) => {
                             const newCoordinates = {
                                 lat: event.latLng.lat(),
                                 lng: event.latLng.lng(),
                             }
                             updateMapLocation(newCoordinates, locationName || 'Photo location')
+
+                            // Extract country from coordinates
+                            const country = await extractCountryFromCoordinates(newCoordinates)
+
                             updateLocation({
                                 coordinates: newCoordinates,
                                 locationName: locationName,
+                                country: country,
                             })
                         })
                     } catch (error) {
@@ -283,6 +334,7 @@ export function UnifiedLocationInput(props) {
         updateMapLocation,
         loadGoogleMapsAPI,
         mapsError,
+        extractCountryFromCoordinates,
     ])
 
     // Generate location name from coordinates
@@ -480,10 +532,15 @@ export function UnifiedLocationInput(props) {
 
                         const fallbackName = buildComponentName() || 'Unknown location'
 
+                        // Extract country from address components
+                        const countryComponent = components.find((c) => c.types?.includes('country'))
+                        const extractedCountry = countryComponent?.long_name || null
+
                         const finish = (finalName) => {
                             updateLocation({
                                 coordinates: coordinates,
                                 locationName: finalName,
+                                country: extractedCountry,
                             })
                             setIsGenerating(false)
                         }
@@ -733,6 +790,11 @@ export function UnifiedLocationInput(props) {
                         {locationName && (
                             <Text size={1}>
                                 <strong>Name:</strong> {locationName}
+                            </Text>
+                        )}
+                        {country && (
+                            <Text size={1}>
+                                <strong>Country:</strong> {country}
                             </Text>
                         )}
                         {coordinates && (

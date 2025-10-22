@@ -19,7 +19,6 @@ async function getWildlifePageData() {
                 galleryDescription,
                 speciesSectionTitle,
                 speciesSectionDescription,
-                allSpeciesTitle,
                 ctaTitle,
                 ctaDescription,
                 ctaPrimaryButtonText,
@@ -55,7 +54,6 @@ export default async function Wildlife() {
         speciesSectionTitle: 'Species Documented',
         speciesSectionDescription:
             'From apex predators to gentle giants, each species represents a unique photography challenge and conservation story',
-        allSpeciesTitle: 'All Species Photographed',
         ctaTitle: 'Wildlife Photography Expeditions',
         ctaDescription:
             'Join me on wildlife photography expeditions or commission specialised wildlife documentation for research or conservation projects.',
@@ -359,29 +357,6 @@ export default async function Wildlife() {
                                         </div>
                                     )
                             )}
-                        </div>
-
-                        {/* All Species List */}
-                        <div className="space-y-8">
-                            <h3 className="text-center text-sm font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                                {pageContent.allSpeciesTitle}
-                            </h3>
-                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                                {wildlifeSpecies.map((species, index) => (
-                                    <div
-                                        key={`species-${species}-${index}`}
-                                        className="group rounded-[28px] border border-border/35 bg-surface/60 px-5 py-4 text-center backdrop-blur-xl shadow-[var(--shadow-soft)] transition-transform duration-300 ease-out hover:-translate-y-1"
-                                        style={{
-                                            background:
-                                                'linear-gradient(160deg, color-mix(in srgb, var(--secondary) 10%, transparent) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 65%)',
-                                        }}
-                                    >
-                                        <span className="inline-flex items-center justify-center rounded-full bg-secondary/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-secondary group-hover:bg-secondary/25">
-                                            {species}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
                         </div>
                     </div>
                 </section>

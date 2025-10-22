@@ -93,16 +93,6 @@ export default {
                     .error('Species section description should be 10-300 characters'),
         },
         {
-            name: 'allSpeciesTitle',
-            title: 'All Species Title *',
-            type: 'string',
-            description: 'Required — heading for the list of all species photographed',
-            placeholder: 'All Species Photographed',
-            initialValue: 'All Species Photographed',
-            validation: (Rule) =>
-                Rule.required().min(3).max(120).error('All species title must be 3-120 characters'),
-        },
-        {
             name: 'ctaTitle',
             title: 'CTA Title *',
             type: 'string',
