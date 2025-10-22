@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import nextPlugin from '@next/eslint-plugin-next';
 import reactPlugin from 'eslint-plugin-react';
 import globals from 'globals';
+import { FlatCompat } from '@eslint/eslintrc';
 
 const britishWordPattern = "(?<!-)\\b(?:favorite|behavior|center)\\b";
 
@@ -21,6 +22,7 @@ export default [
         ],
     },
     js.configs.recommended,
+    ...compat.extends('next/core-web-vitals'),
     {
         name: 'next/core-web-vitals',
         plugins: {
