@@ -18,7 +18,6 @@ export default [
             'out/**',
             'build/**',
             'next-env.d.ts',
-            'eslint.config.mjs',
         ],
     },
     js.configs.recommended,
