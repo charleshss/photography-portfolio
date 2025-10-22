@@ -2,14 +2,14 @@ import js from '@eslint/js';
 import nextPlugin from '@next/eslint-plugin-next';
 import reactPlugin from 'eslint-plugin-react';
 import globals from 'globals';
+import { FlatCompat } from '@eslint/eslintrc';
 
 const britishWordPattern = "(?<!-)\\b(?:favorite|behavior|center)\\b";
-const coreWebVitalsRules = {
-    ...nextPlugin.configs['core-web-vitals'].rules,
-};
 
-delete coreWebVitalsRules['react-hooks/rules-of-hooks'];
-delete coreWebVitalsRules['react-hooks/exhaustive-deps'];
+const compat = new FlatCompat({
+    baseDirectory: import.meta.dirname,
+    resolvePluginsRelativeTo: import.meta.dirname,
+});
 
 export default [
     {
@@ -23,8 +23,8 @@ export default [
         ],
     },
     js.configs.recommended,
+    ...compat.extends('next/core-web-vitals'),
     {
-        name: '@next/next/core-web-vitals',
         files: ['**/*.{js,jsx,ts,tsx}'],
         languageOptions: {
             parserOptions: {
@@ -49,7 +49,8 @@ export default [
             },
         },
         rules: {
-            ...coreWebVitalsRules,
+            'react-hooks/rules-of-hooks': 'off',
+            'react-hooks/exhaustive-deps': 'off',
             'react/jsx-uses-vars': 'warn',
             'react/jsx-uses-react': 'off',
             'react/react-in-jsx-scope': 'off',
