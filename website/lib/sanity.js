@@ -279,7 +279,8 @@ export async function getPortfolioStats() {
     "heroCount": count(*[_type == "photo" && heroCarousel == true]),
     "locations": array::unique(*[_type == "photo" && defined(locationData.locationName)].locationData.locationName),
     "species": array::unique(*[_type == "photo" && defined(species)].species[]->.name),
-    "coordinateLocations": *[_type == "photo" && defined(locationData.coordinates.lat) && defined(locationData.coordinates.lng)].locationData.coordinates
+    "coordinateLocations": *[_type == "photo" && defined(locationData.coordinates.lat) && defined(locationData.coordinates.lng)].locationData.coordinates,
+    "countries": array::unique(*[_type == "photo" && defined(locationData.country)].locationData.country)
   }`);
 
     // Helper function to group coordinates by ~100m precision for unique location counting
@@ -297,42 +298,9 @@ export async function getPortfolioStats() {
         return uniqueCoords;
     };
 
-    // Helper function to extract countries from location names
-    const getCountriesFromLocations = (locations) => {
-        if (!locations || locations.length === 0) return [];
-
-        return [
-            ...new Set(
-                locations.map((location) => {
-                    const lower = location.toLowerCase();
-                    // Custom country mapping for better accuracy
-                    if (
-                        lower.includes('whistler') ||
-                        lower.includes('jasper') ||
-                        lower.includes('banff')
-                    )
-                        return 'Canada';
-                    if (lower.includes('scotland') || lower.includes('uk'))
-                        return 'United Kingdom';
-                    if (lower.includes('belgium')) return 'Belgium';
-                    if (lower.includes('norway')) return 'Norway';
-                    if (lower.includes('iceland')) return 'Iceland';
-                    if (lower.includes('france')) return 'France';
-                    if (lower.includes('switzerland')) return 'Switzerland';
-                    if (lower.includes('italy')) return 'Italy';
-                    if (lower.includes('germany')) return 'Germany';
-                    if (lower.includes('austria')) return 'Austria';
-                    // Fallback to last part of location string (often country or region)
-                    return location.split(', ').pop();
-                })
-            ),
-        ];
-    };
-
     const uniqueCoordinateLocations = getUniqueCoordinateLocations(
         stats.coordinateLocations
     );
-    const countries = getCountriesFromLocations(stats.locations);
 
     return {
         ...stats,
@@ -341,7 +309,8 @@ export async function getPortfolioStats() {
                 ? uniqueCoordinateLocations.length
                 : stats.locations?.length || 0,
         speciesCount: stats.species?.length || 0,
-        countryCount: countries.length,
+        countryCount: stats.countries?.length || 0,
+        countries: stats.countries || [], // Return the country list for use in other pages
     };
 }
 

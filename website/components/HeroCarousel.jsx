@@ -88,8 +88,7 @@ export default function HeroCarousel() {
                 <div className="text-center text-white">
                     <h1 className="text-4xl font-bold mb-4">No Hero Images</h1>
                     <p>
-                        Upload some photos and mark them as "Hero Carousel" in
-                        Sanity Studio
+                        No images are currently available to display in the hero carousel.
                     </p>
                 </div>
             </div>
@@ -136,11 +135,10 @@ export default function HeroCarousel() {
                                         <button
                                             key={index}
                                             onClick={() => api?.scrollTo(index)}
-                                            className={`pointer-events-auto rounded-full transition-all duration-300 ease-out hover:scale-110 ${
-                                                index === current - 1
+                                            className={`pointer-events-auto rounded-full transition-all duration-300 ease-out hover:scale-110 ${index === current - 1
                                                     ? 'h-2.5 w-8 bg-white shadow-lg'
                                                     : 'h-2 w-2 bg-white/50 hover:bg-white/70'
-                                            }`}
+                                                }`}
                                             aria-label={`Go to slide ${index + 1}`}
                                         />
                                     ))}

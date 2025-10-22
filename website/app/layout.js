@@ -7,7 +7,7 @@ import { DeviceProvider } from '@/contexts/DeviceContext';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-    title: "Sam's Photography Portfolio",
+    title: "Samuel's Photography Portfolio",
     description: 'Professional wildlife and landscape photography',
 };
 

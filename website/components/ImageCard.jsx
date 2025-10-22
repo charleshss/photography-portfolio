@@ -44,6 +44,18 @@ export default function ImageCard({
         ? image.resolvedImageUrl || image.src || imageUrl
         : imageUrl;
 
+    const imageDimensions = image.image?.asset?.metadata?.dimensions;
+    const preferredMasonryWidth = 1600;
+    const masonryWidth = imageDimensions?.width
+        ? Math.min(imageDimensions.width, preferredMasonryWidth)
+        : preferredMasonryWidth;
+    const masonryHeight =
+        imageDimensions?.width && imageDimensions?.height
+            ? Math.round(
+                  masonryWidth * (imageDimensions.height / imageDimensions.width)
+              )
+            : Math.round(masonryWidth * 0.75);
+
     // High-res image URL for modal - preserve original aspect ratio
     const highResImageUrl = image.image
         ? urlFor(image.image).width(2048).quality(95).url() // Only specify width, let height scale naturally
@@ -92,11 +104,16 @@ export default function ImageCard({
         >
             {/* Image */}
             {masonry ? (
-                <img
+                <Image
                     src={resolvedMasonrySrc}
                     alt={altText}
+                    width={masonryWidth}
+                    height={masonryHeight}
+                    sizes="(min-width:1280px) 25vw, (min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                    placeholder={image.blurDataURL ? 'blur' : 'empty'}
+                    blurDataURL={image.blurDataURL}
+                    priority={false}
                     className="block h-full w-full object-contain"
-                    loading="lazy"
                     style={{
                         backfaceVisibility: 'hidden',
                         WebkitBackfaceVisibility: 'hidden',

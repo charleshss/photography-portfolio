@@ -354,6 +354,8 @@ export default function ZoomableImage({ image, alt }) {
                     }
                 }}
             >
+                {/* Using the native img element for fine-grained zoom/pan transforms */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                     ref={imageRef}
                     src={scale > 2 ? highResUrl : imageUrl}
